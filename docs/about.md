@@ -62,6 +62,10 @@ Pelican Lab 以鹈鹕测试展区为首页：用同一条提示词，观察不�
 
 > 这里说明哪些知识被修正、依据是什么，以及哪些内容仍保留历史资料口径。复核日期只覆盖列出的范围；网页能访问、文章结构完整或刚刚发布，都不等于其中每一个事实已重新验证。
 
+### 2026-10-26：鹈鹕测试区分 DeepSeek 历史版本
+
+首批收录的 `deepseek-v4.1-flash / max` 显示名与筛选标识更新为 [`deepseek-v4.1-flash-0731`](/?model=deepseek-v4.1-flash-0731&effort=max)，与 2026-10-17 收录的 `deepseek-v4.1-flash-1017` 区分。`0731` 与 `1017` 一样是模型版本标识，不表示测试时间；作品内容、收录日期、原始字节与封面均未改动。
+
 ### 2026-10-24：鹈鹕测试新增 Qoder Cantus 与 Sonus 作品
 
 [鹈鹕测试](/?model=qoder-cantus,qoder-sonus&effort=xhigh) 新增 `qoder-cantus / xhigh` 与 `qoder-sonus / xhigh`，现有 35 个作品、28 个模型。原始 HTML 按字节保留并可下载；两份作品均为内联 SVG，隔离预览不依赖外网。测试时间未知，收录日期不作为测试时间。

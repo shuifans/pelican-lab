@@ -43,15 +43,15 @@
   "results": [
     {
       "id": "batch-001-deepseek-v4.1-flash-max-9f550ed09c",
-      "modelId": "deepseek-v4.1-flash",
+      "modelId": "deepseek-v4.1-flash-0731",
       "reasoningEffort": "max",
-      "modelLabel": "deepseek-v4.1-flash",
+      "modelLabel": "deepseek-v4.1-flash-0731",
       "challengeId": "pelican-bicycle",
       "promptVersion": "v1",
       "effortSource": "filename",
       "batchId": "batch-001",
       "runId": "9f550ed09c",
-      "sourceFilename": "pelican-bicycle-deepseek-v4.1-flash-max.html",
+      "sourceFilename": "pelican-bicycle-deepseek-v4.1-flash-0731-max.html",
       "artifactPath": "/playground/pelican/assets/batch-001/batch-001-deepseek-v4.1-flash-max-9f550ed09c.html.txt",
       "thumbnailPath": "/playground/pelican/assets/batch-001/batch-001-deepseek-v4.1-flash-max-9f550ed09c.webp",
       "sha256": "9f550ed09c96faf4d95c002fc0d56bea01c0bcb5f1c8039ee93286dd042037f7",
