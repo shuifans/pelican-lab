@@ -32,3 +32,5 @@
 第八批于 2026-10-24 收录 `deepseek-v4-pro-0813 / max`、`kimi-k2.8-preview / max`、`kimi-k3.1-pro / max`、`qwenwork-pro / high`、`qwenwork-standard / high` 与 `qwenwork-ultimate / high`。除 `qwenwork-standard` 的参考视口为 1280 × 1028 外，其余均为 1280 × 800；加高用于完整展示页面自身的内容区域。六份原作没有外链脚本或样式，直接使用原始归档预览。
 
 第九批于 2026-10-24 收录 `qoder-cantus / xhigh` 与 `qoder-sonus / xhigh`。`qoder-cantus` 的参考视口为 1280 × 800；`qoder-sonus` 为 1280 × 1068，用于完整展示包含页头、控制栏与页脚的整页内容。两份原作没有外链脚本或样式，直接使用原始归档预览。
+
+第十批于 2026-10-27 收录 `gpt6.1-terra / max`，参考视口为 1280 × 889，用于完整展示页面自身的内容区域。原作没有外链脚本或样式，直接使用原始归档预览。

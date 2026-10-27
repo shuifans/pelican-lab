@@ -38,6 +38,10 @@
     {
       "id": "batch-009",
       "label": "第九批"
+    },
+    {
+      "id": "batch-010",
+      "label": "第十批"
     }
   ],
   "results": [
@@ -1092,6 +1096,37 @@
         "browser": "Chromium (Google Chrome)",
         "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
         "capturedOn": "2026-10-24"
+      }
+    },
+    {
+      "id": "batch-010-gpt6.1-terra-max-8a6cb769cb",
+      "modelId": "gpt6.1-terra",
+      "reasoningEffort": "max",
+      "modelLabel": "gpt6.1-terra",
+      "challengeId": "pelican-bicycle",
+      "promptVersion": "v1",
+      "effortSource": "filename",
+      "batchId": "batch-010",
+      "runId": "8a6cb769cb",
+      "sourceFilename": "pelican-bicycle-gpt6.1-terra-max.html",
+      "artifactPath": "/playground/pelican/assets/batch-010/batch-010-gpt6.1-terra-max-8a6cb769cb.html.txt",
+      "thumbnailPath": "/playground/pelican/assets/batch-010/batch-010-gpt6.1-terra-max-8a6cb769cb.webp",
+      "sha256": "8a6cb769cbd7f9d834e021521d80679af15619e4bfbb52a08ccca0990e4e5db3",
+      "importedAt": "2026-10-27T15:09:34.825Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 889
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 889
+        },
+        "browser": "Chromium (Google Chrome)",
+        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
+        "capturedOn": "2026-10-27",
+        "note": "原始页面在 800 px 视口中需要纵向滚动；采用 889 px 完整展示，原始 HTML 未作修改。"
       }
     }
   ]
