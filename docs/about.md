@@ -70,13 +70,13 @@ Pelican Lab 以鹈鹕测试展区为首页：用同一条提示词，观察不�
 
 首批收录的 `deepseek-v4.1-flash / max` 显示名与筛选标识更新为 [`deepseek-v4.1-flash-0731`](/?model=deepseek-v4.1-flash-0731&effort=max)，与 2026-10-17 收录的 `deepseek-v4.1-flash-1017` 区分。`0731` 与 `1017` 一样是模型版本标识，不表示测试时间；作品内容、收录日期、原始字节与封面均未改动。
 
-### 2026-10-24：鹈鹕测试新增 Qoder Cantus 与 Sonus 作品
+### 2026-10-24：鹈鹕测试新增 Qaudex Cantus 与 Sonus 作品
 
-[鹈鹕测试](/?model=qoder-cantus,qoder-sonus&effort=xhigh) 新增 `qoder-cantus / xhigh` 与 `qoder-sonus / xhigh`，现有 35 个作品、28 个模型。原始 HTML 按字节保留并可下载；两份作品均为内联 SVG，隔离预览不依赖外网。测试时间未知，收录日期不作为测试时间。
+[鹈鹕测试](/?model=qaudex-cantus,qaudex-sonus&effort=xhigh) 新增 `qaudex-cantus / xhigh` 与 `qaudex-sonus / xhigh`，现有 35 个作品、28 个模型。原始 HTML 按字节保留并可下载；两份作品均为内联 SVG，隔离预览不依赖外网。测试时间未知，收录日期不作为测试时间。
 
-### 2026-10-24：鹈鹕测试新增 Kimi、DeepSeek 与 QwenWork 作品
+### 2026-10-24：鹈鹕测试新增 Kimi、DeepSeek 与 Tokenswitch 作品
 
-[鹈鹕测试](/?model=deepseek-v4-pro-0813,kimi-k2.8-preview,kimi-k3.1-pro,qwenwork-pro,qwenwork-standard,qwenwork-ultimate&effort=high,max) 新增 `deepseek-v4-pro-0813 / max`、`kimi-k2.8-preview / max`、`kimi-k3.1-pro / max`、`qwenwork-pro / high`、`qwenwork-standard / high` 与 `qwenwork-ultimate / high`，现有 33 个作品、26 个模型。原始 HTML 按字节保留并可下载；六份作品均为内联 SVG，隔离预览不依赖外网。测试时间未知，收录日期不作为测试时间。
+[鹈鹕测试](/?model=deepseek-v4-pro-0813,kimi-k2.8-preview,kimi-k3.1-pro,tokenswitch-pro,tokenswitch-standard,tokenswitch-ultimate&effort=high,max) 新增 `deepseek-v4-pro-0813 / max`、`kimi-k2.8-preview / max`、`kimi-k3.1-pro / max`、`tokenswitch-pro / high`、`tokenswitch-standard / high` 与 `tokenswitch-ultimate / high`，现有 33 个作品、26 个模型。原始 HTML 按字节保留并可下载；六份作品均为内联 SVG，隔离预览不依赖外网。测试时间未知，收录日期不作为测试时间。
 
 ### 2026-10-23：鹈鹕测试成为首页，知识体系迁至 /knowledge/
 
@@ -86,9 +86,9 @@ Pelican Lab 以鹈鹕测试展区为首页：用同一条提示词，观察不�
 
 [鹈鹕测试](/playground/pelican/?model=mimo-v2.6-pro,minimax-m3.1-flash,step5-preview&effort=default,high) 新增 `mimo-v2.6-pro / default`、`step5-preview / high` 与 `minimax-m3.1-flash / default`，现有 27 个作品、20 个模型。原始 HTML 按字节保留并可下载；三份作品均为内联 SVG，隔离预览不依赖外网。`default` 按测试记录收录，不表示推理强度。测试时间未知，收录日期不作为测试时间。
 
-### 2026-10-19：鹈鹕测试新增 Qoder 作品
+### 2026-10-19：鹈鹕测试新增 Qaudex 作品
 
-[鹈鹕测试](/playground/pelican/?model=qoder-efficient-1019,qoder-fast-1019,qoder-ultimate-1019&effort=default,xhigh) 新增 `qoder-fast-1019 / default`、`qoder-efficient-1019 / default` 与 `qoder-ultimate-1019 / xhigh`，现有 24 个作品、17 个模型。原始 HTML 按字节保留并可下载；三份作品均为内联 SVG，隔离预览不依赖外网。`default` 按测试记录收录，不表示推理强度。测试时间未知，收录日期不作为测试时间。
+[鹈鹕测试](/playground/pelican/?model=qaudex-efficient-1019,qaudex-fast-1019,qaudex-ultimate-1019&effort=default,xhigh) 新增 `qaudex-fast-1019 / default`、`qaudex-efficient-1019 / default` 与 `qaudex-ultimate-1019 / xhigh`，现有 24 个作品、17 个模型。原始 HTML 按字节保留并可下载；三份作品均为内联 SVG，隔离预览不依赖外网。`default` 按测试记录收录，不表示推理强度。测试时间未知，收录日期不作为测试时间。
 
 ### 2026-10-17：鹈鹕测试新增 DeepSeek 作品
 
