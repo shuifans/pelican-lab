@@ -34,3 +34,5 @@
 第九批于 2026-10-24 收录 `qaudex-cantus / xhigh` 与 `qaudex-sonus / xhigh`。`qaudex-cantus` 的参考视口为 1280 × 800；`qaudex-sonus` 为 1280 × 1068，用于完整展示包含页头、控制栏与页脚的整页内容。两份原作没有外链脚本或样式，直接使用原始归档预览。
 
 第十批于 2026-10-27 收录 `gpt6.1-terra / max`，参考视口为 1280 × 889，用于完整展示页面自身的内容区域。原作没有外链脚本或样式，直接使用原始归档预览。
+
+第十一批于 2026-11-02 收录 `claude-haiku5.5 / default`、`claude-opus5.5 / default` 与 `claude-sonnet5.5 / default`，参考视口均为 1280 × 800。三份原作没有外链脚本或样式，页面在该视口内完整展示，直接使用原始归档预览。源文件未带 effort 段，导入副本补上 `default`，HTML 字节不变。`default` 不表示推理强度。

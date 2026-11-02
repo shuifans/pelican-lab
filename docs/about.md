@@ -62,6 +62,10 @@ Pelican Lab 以鹈鹕测试展区为首页：用同一条提示词，观察不�
 
 > 这里说明哪些知识被修正、依据是什么，以及哪些内容仍保留历史资料口径。复核日期只覆盖列出的范围；网页能访问、文章结构完整或刚刚发布，都不等于其中每一个事实已重新验证。
 
+### 2026-11-02：鹈鹕测试新增 Claude Haiku 5.5、Opus 5.5 与 Sonnet 5.5 作品
+
+[鹈鹕测试](/?model=claude-haiku5.5,claude-opus5.5,claude-sonnet5.5&effort=default) 新增 `claude-haiku5.5 / default`、`claude-opus5.5 / default` 与 `claude-sonnet5.5 / default`，现有 39 个作品、32 个模型。原始 HTML 按字节保留并可下载；三份作品均为内联 SVG，隔离预览不依赖外网。`default` 按测试记录收录，不表示推理强度。测试时间未知，收录日期不作为测试时间。
+
 ### 2026-10-27：鹈鹕测试新增 GPT-6.1 Terra 作品
 
 [鹈鹕测试](/?model=gpt6.1-terra&effort=max) 新增 `gpt6.1-terra / max`，现有 36 个作品、29 个模型。原始 HTML 按字节保留并可下载；作品为内联 SVG，隔离预览不依赖外网。测试时间未知，收录日期不作为测试时间。

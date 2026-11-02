@@ -42,6 +42,10 @@
     {
       "id": "batch-010",
       "label": "第十批"
+    },
+    {
+      "id": "batch-011",
+      "label": "第十一批"
     }
   ],
   "results": [
@@ -1127,6 +1131,96 @@
         "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
         "capturedOn": "2026-10-27",
         "note": "原始页面在 800 px 视口中需要纵向滚动；采用 889 px 完整展示，原始 HTML 未作修改。"
+      }
+    },
+    {
+      "id": "batch-011-claude-haiku5.5-default-5878a6df9f",
+      "modelId": "claude-haiku5.5",
+      "reasoningEffort": "default",
+      "modelLabel": "claude-haiku5.5",
+      "challengeId": "pelican-bicycle",
+      "promptVersion": "v1",
+      "effortSource": "filename",
+      "batchId": "batch-011",
+      "runId": "5878a6df9f",
+      "sourceFilename": "pelican-bicycle-claude-haiku5.5-default.html",
+      "artifactPath": "/playground/pelican/assets/batch-011/batch-011-claude-haiku5.5-default-5878a6df9f.html.txt",
+      "thumbnailPath": "/playground/pelican/assets/batch-011/batch-011-claude-haiku5.5-default-5878a6df9f.webp",
+      "sha256": "5878a6df9f87fda66ea65dc62cef270546a4e7b8a7fb3e08a9997bab50b4625a",
+      "importedAt": "2026-11-02T13:50:35.641Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "browser": "Chromium (Google Chrome)",
+        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
+        "capturedOn": "2026-11-02"
+      }
+    },
+    {
+      "id": "batch-011-claude-opus5.5-default-e1264191a4",
+      "modelId": "claude-opus5.5",
+      "reasoningEffort": "default",
+      "modelLabel": "claude-opus5.5",
+      "challengeId": "pelican-bicycle",
+      "promptVersion": "v1",
+      "effortSource": "filename",
+      "batchId": "batch-011",
+      "runId": "e1264191a4",
+      "sourceFilename": "pelican-bicycle-claude-opus5.5-default.html",
+      "artifactPath": "/playground/pelican/assets/batch-011/batch-011-claude-opus5.5-default-e1264191a4.html.txt",
+      "thumbnailPath": "/playground/pelican/assets/batch-011/batch-011-claude-opus5.5-default-e1264191a4.webp",
+      "sha256": "e1264191a42f4a5b7b411bae4066146469ca10968b735c6b076b875536163b5d",
+      "importedAt": "2026-11-02T13:50:35.641Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "browser": "Chromium (Google Chrome)",
+        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
+        "capturedOn": "2026-11-02"
+      }
+    },
+    {
+      "id": "batch-011-claude-sonnet5.5-default-59bc0b28f8",
+      "modelId": "claude-sonnet5.5",
+      "reasoningEffort": "default",
+      "modelLabel": "claude-sonnet5.5",
+      "challengeId": "pelican-bicycle",
+      "promptVersion": "v1",
+      "effortSource": "filename",
+      "batchId": "batch-011",
+      "runId": "59bc0b28f8",
+      "sourceFilename": "pelican-bicycle-claude-sonnet5.5-default.html",
+      "artifactPath": "/playground/pelican/assets/batch-011/batch-011-claude-sonnet5.5-default-59bc0b28f8.html.txt",
+      "thumbnailPath": "/playground/pelican/assets/batch-011/batch-011-claude-sonnet5.5-default-59bc0b28f8.webp",
+      "sha256": "59bc0b28f863b46c52f60edeee2ba87f3dcb733f7765c0f9e05ea1223198a79c",
+      "importedAt": "2026-11-02T13:50:35.641Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "browser": "Chromium (Google Chrome)",
+        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
+        "capturedOn": "2026-11-02"
       }
     }
   ]
