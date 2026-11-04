@@ -46,6 +46,10 @@
     {
       "id": "batch-011",
       "label": "第十一批"
+    },
+    {
+      "id": "batch-012",
+      "label": "第十二批"
     }
   ],
   "results": [
@@ -1221,6 +1225,36 @@
         "browser": "Chromium (Google Chrome)",
         "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
         "capturedOn": "2026-11-02"
+      }
+    },
+    {
+      "id": "batch-012-hy4-high-25d1343e78",
+      "modelId": "hy4",
+      "reasoningEffort": "high",
+      "modelLabel": "hy4",
+      "challengeId": "pelican-bicycle",
+      "promptVersion": "v1",
+      "effortSource": "filename",
+      "batchId": "batch-012",
+      "runId": "25d1343e78",
+      "sourceFilename": "pelican-bicycle-hy4-high.html",
+      "artifactPath": "/playground/pelican/assets/batch-012/batch-012-hy4-high-25d1343e78.html.txt",
+      "thumbnailPath": "/playground/pelican/assets/batch-012/batch-012-hy4-high-25d1343e78.webp",
+      "sha256": "25d1343e78b408bbb01de3bbe57410a94dd140f108e40941a3cf813f24e0cfa0",
+      "importedAt": "2026-11-04T09:42:57.557Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "browser": "Chromium (Google Chrome)",
+        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
+        "capturedOn": "2026-11-04"
       }
     }
   ]
