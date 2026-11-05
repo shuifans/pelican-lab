@@ -84,7 +84,7 @@ Pelican Lab 以鹈鹕测试展区为首页：用同一条提示词，观察不�
 
 ### 2026-11-05：鹈鹕测试新增 QwenWork Pro、Ultra、Standard 与 DeepSeek V4.1 Flash 作品
 
-[鹈鹕测试](/?model=qwenwork-deepseek-v4.1-flash,qwenwork-pro,qwenwork-standard,qwenwork-ultra&effort=default) 新增 `qwenwork-pro / default`、`qwenwork-ultra / default`、`qwenwork-standard / default` 与 `qwenwork-deepseek-v4.1-flash / default`，现有 41 个作品、34 个模型。原始 HTML 按字节保留并可下载；四份作品均为内联 SVG，隔离预览不依赖外网。`default` 按测试记录收录，不表示推理强度。测试时间未知，收录日期不作为测试时间。
+[鹈鹕测试](/?model=qwenwork-deepseek-v4.1-flash,qwenwork-pro-20261105,qwenwork-standard-20261105,qwenwork-ultra-20261105&effort=default) 新增 `qwenwork-pro-20261105 / default`、`qwenwork-ultra-20261105 / default`、`qwenwork-standard-20261105 / default` 与 `qwenwork-deepseek-v4.1-flash / default`，现有 41 个作品、34 个模型。原始 HTML 按字节保留并可下载；四份作品均为内联 SVG，隔离预览不依赖外网。`default` 按测试记录收录，不表示推理强度。测试时间未知，收录日期不作为测试时间。
 
 ### 2026-10-24：鹈鹕测试新增 Kimi 与 DeepSeek 作品
 
