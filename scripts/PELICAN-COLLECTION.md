@@ -29,7 +29,7 @@
 
 第七批于 2026-10-20 收录 `mimo-v2.6-pro / default`、`step5-preview / high` 与 `minimax-m3.1-flash / default`，参考视口均为 1280 × 800。三份原作没有外链脚本或样式，页面在该视口内完整展示，直接使用原始归档预览。`mimo-v2.6-pro` 与 `minimax-m3.1-flash` 的源文件名末段属于模型名，导入副本补上 `default`，HTML 字节不变。源文件 `pelican-bicycle-mimimax-m3.1-flash.html` 按模型名 `minimax-m3.1-flash` 收录。`default` 不表示推理强度。
 
-第八批于 2026-10-24 收录 `deepseek-v4-pro-0813 / max`、`kimi-k2.8-preview / max`、`kimi-k3.1-pro / max`、`tokenswitch-pro / high`、`tokenswitch-standard / high` 与 `tokenswitch-ultra / high`。除 `tokenswitch-standard` 的参考视口为 1280 × 1028 外，其余均为 1280 × 800；加高用于完整展示页面自身的内容区域。六份原作没有外链脚本或样式，直接使用原始归档预览。
+第八批于 2026-10-24 收录 `deepseek-v4-pro-0813 / max`、`kimi-k2.8-preview / max` 与 `kimi-k3.1-pro / max`，参考视口均为 1280 × 800。三份原作没有外链脚本或样式，直接使用原始归档预览。
 
 第九批于 2026-10-24 收录 `qaudex-cantus / xhigh` 与 `qaudex-sonus / xhigh`。`qaudex-cantus` 的参考视口为 1280 × 800；`qaudex-sonus` 为 1280 × 1068，用于完整展示包含页头、控制栏与页脚的整页内容。两份原作没有外链脚本或样式，直接使用原始归档预览。
 
@@ -38,3 +38,5 @@
 第十一批于 2026-11-02 收录 `claude-haiku5.5 / default`、`claude-opus5.5 / default` 与 `claude-sonnet5.5 / default`，参考视口均为 1280 × 800。三份原作没有外链脚本或样式，页面在该视口内完整展示，直接使用原始归档预览。源文件未带 effort 段，导入副本补上 `default`，HTML 字节不变。`default` 不表示推理强度。
 
 第十二批于 2026-11-04 收录 `hy4 / high`，参考视口为 1280 × 800。原作没有外链脚本或样式，页面在该视口内完整展示，直接使用原始归档预览。
+
+第十三批于 2026-11-05 收录 `qwenwork-pro / default`、`qwenwork-ultra / default`、`qwenwork-standard / default` 与 `qwenwork-deepseek-v4.1-flash / default`。`qwenwork-ultra` 的参考视口为 1280 × 1042，用于完整展示包含页头、控制栏与页脚的整页内容；其余为 1280 × 800。四份原作没有外链脚本或样式，直接使用原始归档预览。源文件未带 effort 段，导入副本补上 `default`，HTML 字节不变。`default` 不表示推理强度。

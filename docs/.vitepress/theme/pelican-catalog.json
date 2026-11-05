@@ -50,6 +50,10 @@
     {
       "id": "batch-012",
       "label": "第十二批"
+    },
+    {
+      "id": "batch-013",
+      "label": "第十三批"
     }
   ],
   "results": [
@@ -957,96 +961,6 @@
       }
     },
     {
-      "id": "batch-008-tokenswitch-pro-high-54fdd1f7f2",
-      "modelId": "tokenswitch-pro",
-      "reasoningEffort": "high",
-      "modelLabel": "tokenswitch-pro",
-      "challengeId": "pelican-bicycle",
-      "promptVersion": "v1",
-      "effortSource": "filename",
-      "batchId": "batch-008",
-      "runId": "54fdd1f7f2",
-      "sourceFilename": "pelican-bicycle-tokenswitch-pro-high.html",
-      "artifactPath": "/playground/pelican/assets/batch-008/batch-008-tokenswitch-pro-high-54fdd1f7f2.html.txt",
-      "thumbnailPath": "/playground/pelican/assets/batch-008/batch-008-tokenswitch-pro-high-54fdd1f7f2.webp",
-      "sha256": "54fdd1f7f278514fc1297a0ec99e6a6ee9af7416457192937b257cd0a8c7e3fd",
-      "importedAt": "2026-10-24T02:46:05.248Z",
-      "testedAt": null,
-      "previewViewport": {
-        "width": 1280,
-        "height": 800
-      },
-      "capture": {
-        "viewport": {
-          "width": 1280,
-          "height": 800
-        },
-        "browser": "Chromium (Google Chrome)",
-        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
-        "capturedOn": "2026-10-24"
-      }
-    },
-    {
-      "id": "batch-008-tokenswitch-standard-high-5352a1206c",
-      "modelId": "tokenswitch-standard",
-      "reasoningEffort": "high",
-      "modelLabel": "tokenswitch-standard",
-      "challengeId": "pelican-bicycle",
-      "promptVersion": "v1",
-      "effortSource": "filename",
-      "batchId": "batch-008",
-      "runId": "5352a1206c",
-      "sourceFilename": "pelican-bicycle-tokenswitch-standard-high.html",
-      "artifactPath": "/playground/pelican/assets/batch-008/batch-008-tokenswitch-standard-high-5352a1206c.html.txt",
-      "thumbnailPath": "/playground/pelican/assets/batch-008/batch-008-tokenswitch-standard-high-5352a1206c.webp",
-      "sha256": "5352a1206c10c71b99dc5f9a0d4eaa43510e4d9b985fcea6a5db058ffb7e7ee3",
-      "importedAt": "2026-10-24T02:46:05.248Z",
-      "testedAt": null,
-      "previewViewport": {
-        "width": 1280,
-        "height": 1028
-      },
-      "capture": {
-        "viewport": {
-          "width": 1280,
-          "height": 1028
-        },
-        "browser": "Chromium (Google Chrome)",
-        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
-        "capturedOn": "2026-10-24"
-      }
-    },
-    {
-      "id": "batch-008-tokenswitch-ultra-high-1bd174652b",
-      "modelId": "tokenswitch-ultra",
-      "reasoningEffort": "high",
-      "modelLabel": "tokenswitch-ultra",
-      "challengeId": "pelican-bicycle",
-      "promptVersion": "v1",
-      "effortSource": "filename",
-      "batchId": "batch-008",
-      "runId": "1bd174652b",
-      "sourceFilename": "pelican-bicycle-tokenswitch-ultra-high.html",
-      "artifactPath": "/playground/pelican/assets/batch-008/batch-008-tokenswitch-ultra-high-1bd174652b.html.txt",
-      "thumbnailPath": "/playground/pelican/assets/batch-008/batch-008-tokenswitch-ultra-high-1bd174652b.webp",
-      "sha256": "1bd174652b100234f19a0a37e8318008e055355de6f04a1a82765fb648ad1eac",
-      "importedAt": "2026-10-24T02:46:05.248Z",
-      "testedAt": null,
-      "previewViewport": {
-        "width": 1280,
-        "height": 800
-      },
-      "capture": {
-        "viewport": {
-          "width": 1280,
-          "height": 800
-        },
-        "browser": "Chromium (Google Chrome)",
-        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
-        "capturedOn": "2026-10-24"
-      }
-    },
-    {
       "id": "batch-009-qaudex-cantus-xhigh-8467b2b3fb",
       "modelId": "qaudex-cantus",
       "reasoningEffort": "xhigh",
@@ -1255,6 +1169,126 @@
         "browser": "Chromium (Google Chrome)",
         "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
         "capturedOn": "2026-11-04"
+      }
+    },
+    {
+      "id": "batch-013-qwenwork-deepseek-v4.1-flash-default-6334e7f801",
+      "modelId": "qwenwork-deepseek-v4.1-flash",
+      "reasoningEffort": "default",
+      "modelLabel": "qwenwork-deepseek-v4.1-flash",
+      "challengeId": "pelican-bicycle",
+      "promptVersion": "v1",
+      "effortSource": "filename",
+      "batchId": "batch-013",
+      "runId": "6334e7f801",
+      "sourceFilename": "pelican-bicycle-qwenwork-deepseek-v4.1-flash-default.html",
+      "artifactPath": "/playground/pelican/assets/batch-013/batch-013-qwenwork-deepseek-v4.1-flash-default-6334e7f801.html.txt",
+      "thumbnailPath": "/playground/pelican/assets/batch-013/batch-013-qwenwork-deepseek-v4.1-flash-default-6334e7f801.webp",
+      "sha256": "6334e7f80188fbfe52dae321bab82d1cae86804f0ac9dde7784c2e84ca0550ef",
+      "importedAt": "2026-11-05T00:46:23.363Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "browser": "Chromium (Google Chrome)",
+        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
+        "capturedOn": "2026-11-05"
+      }
+    },
+    {
+      "id": "batch-013-qwenwork-pro-default-edec7b6b6a",
+      "modelId": "qwenwork-pro",
+      "reasoningEffort": "default",
+      "modelLabel": "qwenwork-pro",
+      "challengeId": "pelican-bicycle",
+      "promptVersion": "v1",
+      "effortSource": "filename",
+      "batchId": "batch-013",
+      "runId": "edec7b6b6a",
+      "sourceFilename": "pelican-bicycle-qwenwork-pro-default.html",
+      "artifactPath": "/playground/pelican/assets/batch-013/batch-013-qwenwork-pro-default-edec7b6b6a.html.txt",
+      "thumbnailPath": "/playground/pelican/assets/batch-013/batch-013-qwenwork-pro-default-edec7b6b6a.webp",
+      "sha256": "edec7b6b6abab7a586ed849bc7442adc56d58a02d08a717dd0763034fcf5c5cc",
+      "importedAt": "2026-11-05T00:46:23.363Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "browser": "Chromium (Google Chrome)",
+        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
+        "capturedOn": "2026-11-05"
+      }
+    },
+    {
+      "id": "batch-013-qwenwork-standard-default-d7c625ec3a",
+      "modelId": "qwenwork-standard",
+      "reasoningEffort": "default",
+      "modelLabel": "qwenwork-standard",
+      "challengeId": "pelican-bicycle",
+      "promptVersion": "v1",
+      "effortSource": "filename",
+      "batchId": "batch-013",
+      "runId": "d7c625ec3a",
+      "sourceFilename": "pelican-bicycle-qwenwork-standard-default.html",
+      "artifactPath": "/playground/pelican/assets/batch-013/batch-013-qwenwork-standard-default-d7c625ec3a.html.txt",
+      "thumbnailPath": "/playground/pelican/assets/batch-013/batch-013-qwenwork-standard-default-d7c625ec3a.webp",
+      "sha256": "d7c625ec3a3a74bca69216d02e10fa80fc41a2820ed73d6757e56190bfb9d668",
+      "importedAt": "2026-11-05T00:46:23.363Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "browser": "Chromium (Google Chrome)",
+        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
+        "capturedOn": "2026-11-05"
+      }
+    },
+    {
+      "id": "batch-013-qwenwork-ultra-default-b68d7e9905",
+      "modelId": "qwenwork-ultra",
+      "reasoningEffort": "default",
+      "modelLabel": "qwenwork-ultra",
+      "challengeId": "pelican-bicycle",
+      "promptVersion": "v1",
+      "effortSource": "filename",
+      "batchId": "batch-013",
+      "runId": "b68d7e9905",
+      "sourceFilename": "pelican-bicycle-qwenwork-ultra-default.html",
+      "artifactPath": "/playground/pelican/assets/batch-013/batch-013-qwenwork-ultra-default-b68d7e9905.html.txt",
+      "thumbnailPath": "/playground/pelican/assets/batch-013/batch-013-qwenwork-ultra-default-b68d7e9905.webp",
+      "sha256": "b68d7e99050ad0ae7b889c712e0532aa00612648c1f5d614a8e5011011d005cc",
+      "importedAt": "2026-11-05T00:46:23.363Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 1042
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 1042
+        },
+        "browser": "Chromium (Google Chrome)",
+        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
+        "capturedOn": "2026-11-05"
       }
     }
   ]
