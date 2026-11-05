@@ -84,7 +84,7 @@ Pelican Lab 以鹈鹕测试展区为首页：用同一条提示词，观察不�
 
 ### 2026-10-24：鹈鹕测试新增 Kimi、DeepSeek 与 Tokenswitch 作品
 
-[鹈鹕测试](/?model=deepseek-v4-pro-0813,kimi-k2.8-preview,kimi-k3.1-pro,tokenswitch-pro,tokenswitch-standard,tokenswitch-ultimate&effort=high,max) 新增 `deepseek-v4-pro-0813 / max`、`kimi-k2.8-preview / max`、`kimi-k3.1-pro / max`、`tokenswitch-pro / high`、`tokenswitch-standard / high` 与 `tokenswitch-ultimate / high`，现有 33 个作品、26 个模型。原始 HTML 按字节保留并可下载；六份作品均为内联 SVG，隔离预览不依赖外网。测试时间未知，收录日期不作为测试时间。
+[鹈鹕测试](/?model=deepseek-v4-pro-0813,kimi-k2.8-preview,kimi-k3.1-pro,tokenswitch-pro,tokenswitch-standard,tokenswitch-ultra&effort=high,max) 新增 `deepseek-v4-pro-0813 / max`、`kimi-k2.8-preview / max`、`kimi-k3.1-pro / max`、`tokenswitch-pro / high`、`tokenswitch-standard / high` 与 `tokenswitch-ultra / high`，现有 33 个作品、26 个模型。原始 HTML 按字节保留并可下载；六份作品均为内联 SVG，隔离预览不依赖外网。测试时间未知，收录日期不作为测试时间。
 
 ### 2026-10-23：鹈鹕测试成为首页，知识体系迁至 /knowledge/
 

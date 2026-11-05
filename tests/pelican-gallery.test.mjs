@@ -26,7 +26,7 @@ test('filename parser preserves model suffixes and rejects missing or unsupporte
   assert.deepEqual(parsePelicanFilename('pelican-bicycle-kimi-k3.1-pro-max.html'), { modelId: 'kimi-k3.1-pro', reasoningEffort: 'max' })
   assert.deepEqual(parsePelicanFilename('pelican-bicycle-tokenswitch-pro-high.html'), { modelId: 'tokenswitch-pro', reasoningEffort: 'high' })
   assert.deepEqual(parsePelicanFilename('pelican-bicycle-tokenswitch-standard-high.html'), { modelId: 'tokenswitch-standard', reasoningEffort: 'high' })
-  assert.deepEqual(parsePelicanFilename('pelican-bicycle-tokenswitch-ultimate-high.html'), { modelId: 'tokenswitch-ultimate', reasoningEffort: 'high' })
+  assert.deepEqual(parsePelicanFilename('pelican-bicycle-tokenswitch-ultra-high.html'), { modelId: 'tokenswitch-ultra', reasoningEffort: 'high' })
   assert.deepEqual(parsePelicanFilename('pelican-bicycle-qaudex-cantus-xhigh.html'), { modelId: 'qaudex-cantus', reasoningEffort: 'xhigh' })
   assert.deepEqual(parsePelicanFilename('pelican-bicycle-qaudex-sonus-xhigh.html'), { modelId: 'qaudex-sonus', reasoningEffort: 'xhigh' })
   assert.deepEqual(parsePelicanFilename('pelican-bicycle-gpt6.1-terra-max.html'), { modelId: 'gpt6.1-terra', reasoningEffort: 'max' })
