@@ -54,6 +54,10 @@
     {
       "id": "batch-013",
       "label": "第十三批"
+    },
+    {
+      "id": "batch-014",
+      "label": "第十四批"
     }
   ],
   "results": [
@@ -1289,6 +1293,36 @@
         "browser": "Chromium (Google Chrome)",
         "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
         "capturedOn": "2026-11-05"
+      }
+    },
+    {
+      "id": "batch-014-qoduck-xhigh-844cde2be8",
+      "modelId": "qoduck",
+      "reasoningEffort": "xhigh",
+      "modelLabel": "qoduck",
+      "challengeId": "pelican-bicycle",
+      "promptVersion": "v1",
+      "effortSource": "filename",
+      "batchId": "batch-014",
+      "runId": "844cde2be8",
+      "sourceFilename": "pelican-bicycle-qoduck-xhigh.html",
+      "artifactPath": "/playground/pelican/assets/batch-014/batch-014-qoduck-xhigh-844cde2be8.html.txt",
+      "thumbnailPath": "/playground/pelican/assets/batch-014/batch-014-qoduck-xhigh-844cde2be8.webp",
+      "sha256": "844cde2be80c30dbf25eddf1dac3ab7de192137bd54681c6a5d76b5af38f611d",
+      "importedAt": "2026-11-07T17:25:29.024Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "browser": "Chromium (Google Chrome)",
+        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
+        "capturedOn": "2026-11-08"
       }
     }
   ]
