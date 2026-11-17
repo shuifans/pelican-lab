@@ -62,6 +62,10 @@
     {
       "id": "batch-015",
       "label": "第十五批"
+    },
+    {
+      "id": "batch-016",
+      "label": "第十六批"
     }
   ],
   "results": [
@@ -1383,6 +1387,36 @@
         "viewport": {
           "width": 1280,
           "height": 898
+        },
+        "browser": "Chromium (Google Chrome)",
+        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
+        "capturedOn": "2026-11-17"
+      }
+    },
+    {
+      "id": "batch-016-qwen4-max-low-4c464752ea",
+      "modelId": "qwen4-max",
+      "reasoningEffort": "low",
+      "modelLabel": "qwen4-max",
+      "challengeId": "pelican-bicycle",
+      "promptVersion": "v1",
+      "effortSource": "filename",
+      "batchId": "batch-016",
+      "runId": "4c464752ea",
+      "sourceFilename": "pelican-bicycle-qwen4-max-low.html",
+      "artifactPath": "/playground/pelican/assets/batch-016/batch-016-qwen4-max-low-4c464752ea.html.txt",
+      "thumbnailPath": "/playground/pelican/assets/batch-016/batch-016-qwen4-max-low-4c464752ea.webp",
+      "sha256": "4c464752ea9ac80e5ec6e69b545b80f837e9b9a2a3dea613e2cd8fb7b667576d",
+      "importedAt": "2026-11-17T02:59:20.703Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 865
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 865
         },
         "browser": "Chromium (Google Chrome)",
         "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
