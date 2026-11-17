@@ -66,6 +66,10 @@
     {
       "id": "batch-016",
       "label": "第十六批"
+    },
+    {
+      "id": "batch-017",
+      "label": "第十七批"
     }
   ],
   "results": [
@@ -1417,6 +1421,36 @@
         "viewport": {
           "width": 1280,
           "height": 865
+        },
+        "browser": "Chromium (Google Chrome)",
+        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
+        "capturedOn": "2026-11-17"
+      }
+    },
+    {
+      "id": "batch-017-cantus-1117-xhigh-2fea6b0c21",
+      "modelId": "cantus-1117",
+      "reasoningEffort": "xhigh",
+      "modelLabel": "cantus-1117",
+      "challengeId": "pelican-bicycle",
+      "promptVersion": "v1",
+      "effortSource": "filename",
+      "batchId": "batch-017",
+      "runId": "2fea6b0c21",
+      "sourceFilename": "pelican-bicycle-cantus-1117-xhigh.html",
+      "artifactPath": "/playground/pelican/assets/batch-017/batch-017-cantus-1117-xhigh-2fea6b0c21.html.txt",
+      "thumbnailPath": "/playground/pelican/assets/batch-017/batch-017-cantus-1117-xhigh-2fea6b0c21.webp",
+      "sha256": "2fea6b0c21c149d6f4ef6aae12a7ffa453b06f017fbf5ffdc854ce1a93d41979",
+      "importedAt": "2026-11-17T13:39:18.731Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
         },
         "browser": "Chromium (Google Chrome)",
         "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
