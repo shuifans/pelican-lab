@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>鹈鹕骑行记 · Pelican Ride</title>
+<style>
+  :root{
+    --deep:#0a222e;
+    --deep2:#0e2f3d;
+    --surface:#123a4a;
+    --overlay:#17465a;
+    --sand:#f4e3c2;
+    --sand-dim:#c9b58f;
+    --coral:#ff5a3c;
+    --amber:#ffb347;
+    --teal:#19b3a6;
+    --sky:#6fd3e8;
+    --ink:#eef7f5;
+    --ink-dim:#9dbcc2;
+    --danger:#ff4d6d;
+    --ok:#3ddc97;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei",system-ui,sans-serif;
+    background:
+      radial-gradient(1100px 500px at 85% -10%, rgba(255,90,60,.14), transparent 60%),
+      radial-gradient(900px 600px at -10% 30%, rgba(25,179,166,.16), transparent 60%),
+      radial-gradient(700px 500px at 60% 110%, rgba(255,179,71,.10), transparent 60%),
+      linear-gradient(180deg,var(--deep) 0%,var(--deep2) 55%,#0b2836 100%);
+    color:var(--ink);
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+  }
+  ::-webkit-scrollbar{width:11px;height:11px}
+  ::-webkit-scrollbar-track{background:var(--deep)}
+  ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--teal),var(--coral));border-radius:6px;border:2px solid var(--deep)}
+  ::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,var(--sky),var(--amber))}
+  *{scrollbar-width:thin;scrollbar-color:var(--teal) var(--deep)}
+
+  .wrap{position:relative;z-index:1;max-width:1240px;margin:0 auto;padding:34px 22px 60px}
+
+  header{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:22px}
+  .brand h1{
+    font-size:clamp(30px,4.6vw,52px);font-weight:900;letter-spacing:.04em;line-height:1.08;
+    background:linear-gradient(92deg,var(--sand) 10%,var(--amber) 45%,var(--coral) 80%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .brand p{margin-top:8px;color:var(--ink-dim);font-size:14px;letter-spacing:.14em}
+  .brand p b{color:var(--teal);font-weight:600}
+  .badge{
+    display:inline-flex;align-items:center;gap:9px;padding:9px 16px;border-radius:999px;
+    border:1px solid rgba(25,179,166,.45);background:rgba(25,179,166,.10);
+    color:var(--sky);font-size:13px;letter-spacing:.08em;white-space:nowrap;
+  }
+  .badge .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 10px var(--ok);animation:pulse 1.8s ease-in-out infinite}
+  @keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.6);opacity:.5}}
+
+  .stage{
+    position:relative;border-radius:22px;overflow:hidden;
+    border:1px solid rgba(111,211,232,.22);
+    box-shadow:0 30px 80px -30px rgba(0,0,0,.75), 0 0 0 6px rgba(18,58,74,.5), 0 0 60px -18px rgba(255,90,60,.35);
+    background:#081b25;
+  }
+  .stage svg{display:block;width:100%;height:auto}
+  .stage .plate{
+    position:absolute;left:18px;top:16px;display:flex;align-items:center;gap:10px;
+    padding:8px 14px;border-radius:12px;font-size:12.5px;letter-spacing:.12em;
+    background:rgba(8,27,37,.55);backdrop-filter:blur(6px);
+    border:1px solid rgba(244,227,194,.25);color:var(--sand);
+  }
+  .plate em{font-style:normal;color:var(--amber)}
+  .hint{
+    position:absolute;right:18px;bottom:14px;font-size:12px;color:rgba(238,247,245,.75);
+    background:rgba(8,27,37,.5);padding:6px 12px;border-radius:10px;letter-spacing:.06em;
+    border:1px solid rgba(111,211,232,.18);
+  }
+
+  .console{
+    margin-top:24px;border-radius:20px;padding:22px 22px 20px;
+    background:linear-gradient(160deg,var(--surface),var(--overlay));
+    border:1px solid rgba(244,227,194,.16);
+    box-shadow:0 20px 50px -25px rgba(0,0,0,.7);
+  }
+  .console h2{
+    font-size:15px;letter-spacing:.28em;color:var(--amber);font-weight:700;
+    display:flex;align-items:center;gap:12px;margin-bottom:18px;
+  }
+  .console h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(255,179,71,.5),transparent)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px}
+  .ctl{
+    background:rgba(8,27,37,.45);border:1px solid rgba(111,211,232,.14);
+    border-radius:14px;padding:13px 15px 14px;transition:border-color .2s, transform .2s;
+  }
+  .ctl:hover{border-color:rgba(255,179,71,.45);transform:translateY(-2px)}
+  .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:var(--ink-dim);letter-spacing:.08em;margin-bottom:10px}
+  .ctl label output{color:var(--sand);font-weight:700;font-size:13px;font-variant-numeric:tabular-nums}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:3px;outline:none;
+    background:linear-gradient(90deg,var(--teal),var(--amber),var(--coral));cursor:pointer}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:19px;height:19px;border-radius:50%;
+    background:var(--sand);border:3px solid var(--coral);box-shadow:0 2px 8px rgba(0,0,0,.5);transition:transform .15s}
+  input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
+  input[type=range]::-moz-range-thumb{width:15px;height:15px;border-radius:50%;background:var(--sand);border:3px solid var(--coral);cursor:pointer}
+  select{
+    width:100%;padding:9px 12px;border-radius:10px;font-size:14px;color:var(--ink);cursor:pointer;
+    background:var(--deep2);border:1px solid rgba(111,211,232,.3);outline:none;
+  }
+  select:focus{border-color:var(--amber)}
+  input[type=color]{
+    -webkit-appearance:none;appearance:none;width:100%;height:38px;border:none;border-radius:10px;cursor:pointer;background:none;padding:0;
+  }
+  input[type=color]::-webkit-color-swatch-wrapper{padding:0}
+  input[type=color]::-webkit-color-swatch{border-radius:10px;border:2px solid rgba(244,227,194,.35)}
+  input[type=color]::-moz-color-swatch{border-radius:10px;border:2px solid rgba(244,227,194,.35)}
+  .switch{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .switch span{font-size:13px;color:var(--ink-dim);letter-spacing:.08em}
+  .toggle{position:relative;width:52px;height:28px;flex:none;cursor:pointer}
+  .toggle input{opacity:0;width:0;height:0;position:absolute}
+  .toggle .track{position:absolute;inset:0;border-radius:999px;background:#22404e;border:1px solid rgba(111,211,232,.25);transition:.25s}
+  .toggle .track::after{content:"";position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:50%;background:var(--ink-dim);transition:.25s}
+  .toggle input:checked + .track{background:linear-gradient(90deg,var(--teal),#0f8f84);border-color:var(--teal)}
+  .toggle input:checked + .track::after{transform:translateX(24px);background:var(--sand);box-shadow:0 0 10px rgba(61,220,151,.7)}
+
+  .actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:18px}
+  button{
+    font-family:inherit;font-size:14px;font-weight:700;letter-spacing:.1em;cursor:pointer;
+    padding:11px 20px;border-radius:12px;border:1px solid transparent;transition:transform .15s, box-shadow .2s, filter .2s;
+  }
+  button:hover{transform:translateY(-2px);filter:brightness(1.1)}
+  button:active{transform:translateY(0) scale(.97)}
+  .btn-primary{background:linear-gradient(92deg,var(--coral),#ff8a3c);color:#fff;box-shadow:0 8px 22px -8px rgba(255,90,60,.7)}
+  .btn-teal{background:linear-gradient(92deg,var(--teal),#0f8f84);color:#04241f;box-shadow:0 8px 22px -8px rgba(25,179,166,.6)}
+  .btn-ghost{background:rgba(8,27,37,.5);color:var(--sand);border-color:rgba(244,227,194,.3)}
+  .btn-amber{background:linear-gradient(92deg,var(--amber),#ffd06e);color:#3a2405;box-shadow:0 8px 22px -8px rgba(255,179,71,.55)}
+
+  footer{margin-top:26px;text-align:center;color:var(--ink-dim);font-size:12.5px;letter-spacing:.14em}
+  footer b{color:var(--teal)}
+
+  #toast{
+    position:fixed;left:50%;bottom:30px;transform:translate(-50%,80px);z-index:50;
+    padding:12px 24px;border-radius:14px;font-size:14px;letter-spacing:.08em;
+    background:linear-gradient(92deg,var(--teal),#0f8f84);color:#04241f;font-weight:700;
+    box-shadow:0 14px 40px -10px rgba(25,179,166,.8);opacity:0;transition:.35s cubic-bezier(.2,.9,.3,1.2);
+    pointer-events:none;
+  }
+  #toast.show{transform:translate(-50%,0);opacity:1}
+
+  @media (max-width:640px){
+    .wrap{padding:20px 12px 44px}
+    .hint{display:none}
+    .stage .plate{font-size:11px;padding:6px 10px}
+    .actions button{flex:1 1 44%}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <h1>鹈鹕骑行记</h1>
+      <p>PELICAN RIDE · <b>纯 SVG</b> 逐帧骨骼动画 · 海岸公路巡航</p>
+    </div>
+    <div class="badge"><span class="dot"></span>实时渲染 · requestAnimationFrame</div>
+  </header>
+
+  <div class="stage">
+    <svg id="scene" viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="鹈鹕骑自行车的动画场景">
+      <defs>
+        <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop id="sky0" offset="0" stop-color="#2b2d5c"/>
+          <stop id="sky1" offset=".55" stop-color="#b3486f"/>
+          <stop id="sky2" offset="1" stop-color="#ff9e5e"/>
+        </linearGradient>
+        <linearGradient id="seaGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop id="sea0" offset="0" stop-color="#7a4b7f"/>
+          <stop id="sea1" offset="1" stop-color="#4b3f78"/>
+        </linearGradient>
+        <linearGradient id="sandGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop id="sand0" offset="0" stop-color="#d8a86e"/>
+          <stop id="sand1" offset="1" stop-color="#b9854f"/>
+        </linearGradient>
+        <radialGradient id="sunGlow" cx=".5" cy=".5" r=".5">
+          <stop id="halo0" offset="0" stop-color="#ffcf7d" stop-opacity=".85"/>
+          <stop id="halo1" offset="1" stop-color="#ffcf7d" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#fdf6e8"/>
+          <stop offset="1" stop-color="#e8d9bd"/>
+        </linearGradient>
+      </defs>
+
+      <g id="world">
+        <rect x="-400" y="-200" width="2000" height="900" fill="url(#skyGrad)"/>
+        <g id="stars"></g>
+
+        <circle id="sunHalo" cx="950" cy="300" r="150" fill="url(#sunGlow)"/>
+        <circle id="sun" cx="950" cy="300" r="62" fill="#ff7e47"/>
+        <g id="moon" style="display:none">
+          <circle cx="950" cy="130" r="46" fill="#f2ecd8"/>
+          <circle cx="936" cy="120" r="9" fill="#d9d2ba"/>
+          <circle cx="962" cy="142" r="6" fill="#d9d2ba"/>
+          <circle cx="948" cy="152" r="4" fill="#d9d2ba"/>
+        </g>
+
+        <g id="clouds"></g>
+        <g id="birds"></g>
+
+        <rect x="-400" y="440" width="2000" height="122" fill="url(#seaGrad)"/>
+        <ellipse id="reflect" cx="950" cy="480" rx="90" ry="34" fill="#ff9e5e" opacity=".3"/>
+        <path id="wave1" fill="none" stroke="#ffd9c2" stroke-width="4" stroke-linecap="round" opacity=".5"/>
+        <path id="wave2" fill="none" stroke="#ffd9c2" stroke-width="3" stroke-linecap="round" opacity=".3"/>
+
+        <g id="pier" opacity=".55">
+          <rect x="1010" y="428" width="220" height="9" fill="#2a2438"/>
+          <rect x="1024" y="437" width="7" height="34" fill="#2a2438"/>
+          <rect x="1064" y="437" width="7" height="34" fill="#2a2438"/>
+          <rect x="1104" y="437" width="7" height="34" fill="#2a2438"/>
+          <rect x="1144" y="437" width="7" height="34" fill="#2a2438"/>
+          <rect x="1184" y="437" width="7" height="34" fill="#2a2438"/>
+          <rect x="1090" y="404" width="46" height="24" fill="#2a2438"/>
+          <path d="M1086 404 L1113 388 L1140 404 Z" fill="#2a2438"/>
+        </g>
+
+        <rect x="-400" y="560" width="2000" height="200" fill="url(#sandGrad)"/>
+        <rect id="roadEdge" x="-400" y="556" width="2000" height="6" fill="#8a5f36"/>
+        <g id="planks"></g>
+
+        <g id="speedlines" stroke="#fdf6e8" stroke-linecap="round"></g>
+
+        <g id="rig">
+          <ellipse id="shadow" cx="565" cy="568" rx="235" ry="13" fill="#1c1428" opacity=".28"/>
+
+          <g id="bike">
+            <g transform="translate(430 480)">
+              <circle r="80" fill="none" stroke="#22303c" stroke-width="13"/>
+              <circle r="68" fill="none" stroke="#f4e3c2" stroke-width="4" opacity=".9"/>
+              <g id="spokesR" stroke="#c9d8dc" stroke-width="3"></g>
+              <circle r="10" fill="#22303c"/>
+            </g>
+            <g transform="translate(700 480)">
+              <circle r="80" fill="none" stroke="#22303c" stroke-width="13"/>
+              <circle r="68" fill="none" stroke="#f4e3c2" stroke-width="4" opacity=".9"/>
+              <g id="spokesF" stroke="#c9d8dc" stroke-width="3"></g>
+              <circle r="10" fill="#22303c"/>
+            </g>
+
+            <g id="frame" fill="none" stroke="#ff5a3c" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M430 480 L522 345"/>
+              <path d="M430 480 L560 492"/>
+              <path d="M560 492 L522 345"/>
+              <path d="M560 492 L666 350"/>
+              <path d="M522 345 L666 350"/>
+              <path d="M666 350 L700 480"/>
+            </g>
+            <path id="fenderR" d="M352 452 A88 88 0 0 1 508 452" fill="none" stroke="#ff5a3c" stroke-width="8" stroke-linecap="round"/>
+            <path id="fenderF" d="M622 452 A88 88 0 0 1 778 452" fill="none" stroke="#ff5a3c" stroke-width="8" stroke-linecap="round"/>
+
+            <line x1="560" y1="468" x2="430" y2="470" stroke="#22303c" stroke-width="4"/>
+            <line x1="560" y1="516" x2="430" y2="490" stroke="#22303c" stroke-width="4"/>
+            <circle cx="560" cy="492" r="24" fill="none" stroke="#22303c" stroke-width="7"/>
+            <circle cx="560" cy="492" r="6" fill="#22303c"/>
+
+            <line id="crankArmFar" x1="560" y1="492" x2="560" y2="452" stroke="#3a4a56" stroke-width="8" stroke-linecap="round"/>
+            <line id="crankArmNear" x1="560" y1="492" x2="560" y2="532" stroke="#22303c" stroke-width="8" stroke-linecap="round"/>
+            <rect id="pedalFar" x="545" y="447" width="30" height="10" rx="4" fill="#3a4a56"/>
+            <rect id="pedalNear" x="545" y="527" width="30" height="10" rx="4" fill="#22303c"/>
+
+            <path d="M522 345 L518 332" stroke="#22303c" stroke-width="9" stroke-linecap="round"/>
+            <path d="M492 330 Q518 320 544 330 Q518 342 492 330 Z" fill="#22303c"/>
+            <path d="M666 350 L660 330 Q658 318 644 320 L630 324" fill="none" stroke="#22303c" stroke-width="9" stroke-linecap="round"/>
+            <circle cx="630" cy="324" r="7" fill="#22303c"/>
+            <circle cx="676" cy="342" r="9" fill="#ffb347" stroke="#22303c" stroke-width="3"/>
+          </g>
+
+          <path id="legFar" fill="none" stroke="#d98a2b" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+          <path id="footFar" fill="#d98a2b"/>
+
+          <g id="pelican">
+            <g id="tail" fill="#e8d9bd">
+              <path d="M415 268 L362 236 L398 282 Z"/>
+              <path d="M412 282 L352 268 L400 296 Z"/>
+              <path d="M414 294 L360 300 L406 308 Z"/>
+            </g>
+            <ellipse cx="495" cy="290" rx="93" ry="62" fill="url(#bodyGrad)"/>
+            <ellipse cx="478" cy="312" rx="62" ry="34" fill="#dcc9a4" opacity=".5"/>
+
+            <g id="wing">
+              <path d="M508 258 Q560 250 606 288 Q636 312 640 326 Q616 330 588 316 Q540 330 506 310 Q490 284 508 258 Z" fill="#efe2c6"/>
+              <path d="M520 296 Q560 300 596 318" fill="none" stroke="#d8c49c" stroke-width="4" stroke-linecap="round"/>
+              <path d="M516 280 Q556 282 600 306" fill="none" stroke="#d8c49c" stroke-width="4" stroke-linecap="round"/>
+            </g>
+
+            <path d="M560 268 C606 254 596 200 628 172" fill="none" stroke="#fdf6e8" stroke-width="27" stroke-linecap="round"/>
+            <path id="scarf" fill="none" stroke="#ff5a3c" stroke-width="13" stroke-linecap="round"/>
+            <path id="scarfTail" fill="none" stroke="#e04428" stroke-width="8" stroke-linecap="round"/>
+            <circle cx="600" cy="232" r="11" fill="#e04428"/>
+
+            <circle cx="640" cy="162" r="27" fill="#fdf6e8"/>
+            <path d="M630 138 Q636 124 646 134 Q640 128 642 140 Z" fill="#e8d9bd"/>
+            <path id="beakTop" d="M656 152 L792 176 L658 170 Z" fill="#ffb347"/>
+            <path id="pouch" d="M658 168 Q718 216 788 178 L660 174 Z" fill="#f2913d"/>
+            <line x1="660" y1="164" x2="786" y2="177" stroke="#d97a26" stroke-width="2.5"/>
+            <g id="eye">
+              <circle cx="648" cy="151" r="7" fill="#fff"/>
+              <circle cx="650" cy="151" r="3.6" fill="#1c2831"/>
+              <circle cx="651.5" cy="149.5" r="1.2" fill="#fff"/>
+            </g>
+          </g>
+
+          <path id="legNear" fill="none" stroke="#f2a13d" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+          <path id="footNear" fill="#f2a13d"/>
+        </g>
+      </g>
+    </svg>
+    <div class="plate">SCENE 01 · <em>海岸公路</em> · 黄昏巡航</div>
+    <div class="hint">空格键 暂停 / 继续</div>
+  </div>
+
+  <section class="console">
+    <h2>骑 行 控 制 台</h2>
+    <div class="grid">
+      <div class="ctl">
+        <label>骑行速度 <output id="oSpeed">1.00×</output></label>
+        <input type="range" id="cSpeed" min="0" max="2.5" step="0.05" value="1">
+      </div>
+      <div class="ctl">
+        <label>海风强度 <output id="oWind">0.80</output></label>
+        <input type="range" id="cWind" min="0" max="2" step="0.05" value="0.8">
+      </div>
+      <div class="ctl">
+        <label>颠簸幅度 <output id="oBob">1.00</output></label>
+        <input type="range" id="cBob" min="0" max="2" step="0.05" value="1">
+      </div>
+      <div class="ctl">
+        <label>镜头缩放 <output id="oZoom">1.00×</output></label>
+        <input type="range" id="cZoom" min="0.75" max="1.35" step="0.01" value="1">
+      </div>
+      <div class="ctl">
+        <label>时段氛围</label>
+        <select id="cTime">
+          <option value="day">☀️ 白天 · 碧海蓝天</option>
+          <option value="sunset" selected>🌇 黄昏 · 落霞巡航</option>
+          <option value="night">🌙 夜晚 · 星月海岸</option>
+        </select>
+      </div>
+      <div class="ctl">
+        <label>车架涂装</label>
+        <input type="color" id="cColor" value="#ff5a3c">
+      </div>
+      <div class="ctl">
+        <label>速度线特效</label>
+        <div class="switch">
+          <span>高速时显示风痕</span>
+          <label class="toggle"><input type="checkbox" id="cLines" checked><span class="track"></span></label>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn-primary" id="btnPause">⏸ 暂停</button>
+      <button class="btn-amber" id="btnRandom">🎲 随机风格</button>
+      <button class="btn-ghost" id="btnReset">↺ 重置</button>
+      <button class="btn-teal" id="btnDownload">⬇ 下载 SVG</button>
+      <button class="btn-teal" id="btnCopy">⧉ 复制 SVG</button>
+    </div>
+  </section>
+
+  <footer>SVG · 双连杆腿部 IK · 曲柄踏频同步 · <b>零外部依赖</b></footer>
+</div>
+<div id="toast"></div>
+
+<script>
+(function(){
+  "use strict";
+  const $ = id => document.getElementById(id);
+  const NS = "http://www.w3.org/2000/svg";
+  const scene = $("scene");
+
+  const state = {
+    speed: 1, wind: 0.8, bob: 1, zoom: 1,
+    time: "sunset", color: "#ff5a3c", lines: true,
+    running: true, t: 0, dist: 0, crank: 0
+  };
+  const DEFAULTS = JSON.parse(JSON.stringify(state));
+
+  /* ---------- build procedural scenery ---------- */
+  const stars = $("stars");
+  for (let i = 0; i < 70; i++) {
+    const c = document.createElementNS(NS, "circle");
+    c.setAttribute("cx", (Math.random() * 1200).toFixed(1));
+    c.setAttribute("cy", (Math.random() * 380).toFixed(1));
+    c.setAttribute("r", (Math.random() * 1.6 + 0.5).toFixed(2));
+    c.setAttribute("fill", "#fdf6e8");
+    c.dataset.tw = (Math.random() * 6.28).toFixed(2);
+    stars.appendChild(c);
+  }
+
+  const clouds = $("clouds");
+  const cloudData = [];
+  [[140, 90, 1.1], [520, 60, 0.8], [880, 150, 1.3], [1080, 70, 0.7]].forEach(([x, y, s], i) => {
+    const g = document.createElementNS(NS, "g");
+    [[0,0,58,22],[42,-12,44,18],[-44,-6,40,16],[12,8,66,18]].forEach(([cx,cy,rx,ry]) => {
+      const e = document.createElementNS(NS, "ellipse");
+      e.setAttribute("cx", cx); e.setAttribute("cy", cy);
+      e.setAttribute("rx", rx); e.setAttribute("ry", ry);
+      g.appendChild(e);
+    });
+    clouds.appendChild(g);
+    cloudData.push({ g, x, y, s, drift: 0.6 + i * 0.25 });
+  });
+
+  const birds = $("birds");
+  const birdData = [];
+  [[200, 180, 1], [340, 140, 0.7], [1050, 220, 0.85]].forEach(([x, y, s], i) => {
+    const p = document.createElementNS(NS, "path");
+    p.setAttribute("d", "M0 0 Q7 -9 14 0 Q21 -9 28 0");
+    p.setAttribute("fill", "none");
+    p.setAttribute("stroke-width", "3");
+    p.setAttribute("stroke-linecap", "round");
+    birds.appendChild(p);
+    birdData.push({ p, x, y, s, ph: i * 2.1 });
+  });
+
+  function wavePath(y, amp, wl) {
+    let d = "M-400 " + y;
+    for (let x = -400; x <= 2000; x += 20)
+      d += " L" + x + " " + (y + Math.sin(x / wl * 6.283) * amp).toFixed(1);
+    return d;
+  }
+  $("wave1").setAttribute("d", wavePath(468, 6, 170));
+  $("wave2").setAttribute("d", wavePath(512, 5, 130));
+
+  const planks = $("planks");
+  for (let x = -400; x <= 2100; x += 90) {
+    const l = document.createElementNS(NS, "line");
+    l.setAttribute("x1", x); l.setAttribute("y1", 566);
+    l.setAttribute("x2", x - 26); l.setAttribute("y2", 675);
+    l.setAttribute("stroke-width", "4");
+    l.setAttribute("class", "plank");
+    planks.appendChild(l);
+  }
+  const plankEls = planks.querySelectorAll(".plank");
+
+  [["spokesR"], ["spokesF"]].forEach(([id]) => {
+    const g = $(id);
+    for (let i = 0; i < 8; i++) {
+      const a = i * Math.PI / 4;
+      const l = document.createElementNS(NS, "line");
+      l.setAttribute("x1", 0); l.setAttribute("y1", 0);
+      l.setAttribute("x2", (Math.cos(a) * 66).toFixed(1));
+      l.setAttribute("y2", (Math.sin(a) * 66).toFixed(1));
+      g.appendChild(l);
+    }
+  });
+
+  const speedG = $("speedlines");
+  const lineData = [];
+  for (let i = 0; i < 9; i++) {
+    const l = document.createElementNS(NS, "line");
+    const y = 190 + Math.random() * 340;
+    const len = 60 + Math.random() * 90;
+    l.setAttribute("y1", y); l.setAttribute("y2", y);
+    l.setAttribute("stroke-width", (2 + Math.random() * 2.5).toFixed(1));
+    speedG.appendChild(l);
+    lineData.push({ l, y, len, seed: Math.random() * 1500, v: 0.8 + Math.random() * 0.5 });
+  }
+
+  /* ---------- palettes ---------- */
+  const PALETTES = {
+    day: {
+      sky: ["#5db9e0", "#a8ddf0", "#fff3d6"], sea: ["#2aa8a0", "#177e89"],
+      sand: ["#e8c98f", "#d4ab6a"], edge: "#a87f4a", plank: "#bd9257",
+      cloud: "#ffffff", cloudOp: .92, wave: "#eafff8",
+      sun: { x: 950, y: 110, r: 52, fill: "#ffd93b", halo: .55 }, haloColor: "#ffe9a0",
+      stars: 0, moon: false, reflect: .18, reflectFill: "#ffd93b",
+      bird: "#2a5a68", pier: "#2a6a72", plate: "白天 · 碧海蓝天"
+    },
+    sunset: {
+      sky: ["#2b2d5c", "#b3486f", "#ff9e5e"], sea: ["#7a4b7f", "#4b3f78"],
+      sand: ["#d8a86e", "#b9854f"], edge: "#8a5f36", plank: "#a06f3e",
+      cloud: "#ffd9c2", cloudOp: .8, wave: "#ffd9c2",
+      sun: { x: 950, y: 300, r: 62, fill: "#ff7e47", halo: 1 }, haloColor: "#ffcf7d",
+      stars: .12, moon: false, reflect: .3, reflectFill: "#ff9e5e",
+      bird: "#3a2c4e", pier: "#2a2438", plate: "黄昏 · 落霞巡航"
+    },
+    night: {
+      sky: ["#050b23", "#10233f", "#1b3a52"], sea: ["#0e2c46", "#0a2036"],
+      sand: ["#4a5a6e", "#37455a"], edge: "#2a3648", plank: "#2e3c50",
+      cloud: "#24405c", cloudOp: .65, wave: "#7fb8d8",
+      sun: { x: 950, y: 130, r: 46, fill: "#f2ecd8", halo: .25 }, haloColor: "#bcd8ee",
+      stars: 1, moon: true, reflect: .22, reflectFill: "#cfe4f2",
+      bird: "#7fa0b8", pier: "#101c2c", plate: "夜晚 · 星月海岸"
+    }
+  };
+
+  function applyPalette() {
+    const p = PALETTES[state.time];
+    $("sky0").setAttribute("stop-color", p.sky[0]);
+    $("sky1").setAttribute("stop-color", p.sky[1]);
+    $("sky2").setAttribute("stop-color", p.sky[2]);
+    $("sea0").setAttribute("stop-color", p.sea[0]);
+    $("sea1").setAttribute("stop-color", p.sea[1]);
+    $("sand0").setAttribute("stop-color", p.sand[0]);
+    $("sand1").setAttribute("stop-color", p.sand[1]);
+    $("roadEdge").setAttribute("fill", p.edge);
+    plankEls.forEach(l => l.setAttribute("stroke", p.plank));
+    cloudData.forEach(c => { c.g.setAttribute("fill", p.cloud); c.g.setAttribute("opacity", p.cloudOp); });
+    $("wave1").setAttribute("stroke", p.wave);
+    $("wave2").setAttribute("stroke", p.wave);
+    stars.setAttribute("opacity", p.stars);
+    $("sun").style.display = p.moon ? "none" : "";
+    $("moon").style.display = p.moon ? "" : "none";
+    $("sun").setAttribute("cx", p.sun.x); $("sun").setAttribute("cy", p.sun.y);
+    $("sun").setAttribute("r", p.sun.r); $("sun").setAttribute("fill", p.sun.fill);
+    $("sunHalo").setAttribute("cx", p.sun.x); $("sunHalo").setAttribute("cy", p.sun.y);
+    $("sunHalo").setAttribute("opacity", p.halo);
+    $("halo0").setAttribute("stop-color", p.haloColor);
+    $("halo1").setAttribute("stop-color", p.haloColor);
+    $("reflect").setAttribute("opacity", p.reflect);
+    $("reflect").setAttribute("fill", p.reflectFill);
+    $("reflect").setAttribute("cx", p.sun.x);
+    birdData.forEach(b => b.p.setAttribute("stroke", p.bird));
+    $("pier").querySelectorAll("rect,path").forEach(el => el.setAttribute("fill", p.pier));
+    document.querySelector(".plate").innerHTML = "SCENE 01 · <em>海岸公路</em> · " + p.plate;
+  }
+
+  function applyColor() {
+    $("frame").setAttribute("stroke", state.color);
+    $("fenderR").setAttribute("stroke", state.color);
+    $("fenderF").setAttribute("stroke", state.color);
+  }
+
+  /* ---------- leg IK ---------- */
+  const L1 = 112, L2 = 112;
+  function solveLeg(hx, hy, fx, fy) {
+    let dx = fx - hx, dy = fy - hy;
+    let d = Math.hypot(dx, dy);
+    d = Math.max(4, Math.min(d, L1 + L2 - 2));
+    const ux = dx / (Math.hypot(dx, dy) || 1), uy = dy / (Math.hypot(dx, dy) || 1);
+    const a = d / 2;
+    const h = Math.sqrt(Math.max(0, L1 * L1 - a * a));
+    const kx = hx + ux * a + uy * h;
+    const ky = hy + uy * a - ux * h;
+    return [kx, ky];
+  }
+  function legPath(hx, hy, fx, fy) {
+    const [kx, ky] = solveLeg(hx, hy, fx, fy);
+    return "M" + hx.toFixed(1) + " " + hy.toFixed(1) +
+           " L" + kx.toFixed(1) + " " + ky.toFixed(1) +
+           " L" + fx.toFixed(1) + " " + fy.toFixed(1);
+  }
+  function footD(fx, fy) {
+    return "M" + (fx - 15) + " " + (fy - 4) + " L" + (fx + 19) + " " + (fy - 4) +
+           " L" + (fx + 27) + " " + (fy + 3) + " L" + (fx - 11) + " " + (fy + 4) + " Z";
+  }
+
+  /* ---------- animation loop ---------- */
+  const pelican = $("pelican"), wing = $("wing"), eye = $("eye"), pouch = $("pouch");
+  const scarf = $("scarf"), scarfTail = $("scarfTail"), shadow = $("shadow");
+  const spokesR = $("spokesR"), spokesF = $("spokesF");
+  const crankNear = $("crankArmNear"), crankFar = $("crankArmFar");
+  const pedalNear = $("pedalNear"), pedalFar = $("pedalFar");
+  const legNear = $("legNear"), legFar = $("legFar");
+  const footNear = $("footNear"), footFar = $("footFar");
+  const world = $("world");
+  const CX = 560, CY = 492, CRANK = 40, WHEEL_R = 80;
+
+  let last = performance.now();
+  function frame(now) {
+    const dt = Math.min(0.05, (now - last) / 1000);
+    last = now;
+    if (state.running) {
+      state.t += dt;
+      state.dist += state.speed * 260 * dt;
+      state.crank += state.speed * 4.4 * dt;
+    }
+    const t = state.t;
+
+    const wheelDeg = (state.dist / WHEEL_R) * 57.2958;
+    spokesR.setAttribute("transform", "rotate(" + (wheelDeg % 360).toFixed(2) + ")");
+    spokesF.setAttribute("transform", "rotate(" + (wheelDeg % 360).toFixed(2) + ")");
+
+    const ca = state.crank;
+    const p1x = CX + Math.cos(ca) * CRANK, p1y = CY + Math.sin(ca) * CRANK;
+    const p2x = CX - Math.cos(ca) * CRANK, p2y = CY - Math.sin(ca) * CRANK;
+    crankNear.setAttribute("x2", p1x); crankNear.setAttribute("y2", p1y);
+    crankFar.setAttribute("x2", p2x); crankFar.setAttribute("y2", p2y);
+    pedalNear.setAttribute("x", p1x - 15); pedalNear.setAttribute("y", p1y - 5);
+    pedalFar.setAttribute("x", p2x - 15); pedalFar.setAttribute("y", p2y - 5);
+
+    const bobY = Math.sin(ca * 2) * 3.2 * state.bob + Math.sin(t * 1.7) * 1.4 * state.bob;
+    const bobX = Math.sin(ca) * 1.2 * state.bob;
+    pelican.setAttribute("transform", "translate(" + bobX.toFixed(2) + " " + bobY.toFixed(2) + ")");
+    shadow.setAttribute("rx", 235 - bobY * 2.5);
+    shadow.setAttribute("opacity", (0.28 - bobY * 0.008).toFixed(3));
+
+    legNear.setAttribute("d", legPath(548 + bobX, 328 + bobY, p1x, p1y - 4));
+    legFar.setAttribute("d", legPath(536 + bobX, 330 + bobY, p2x, p2y - 4));
+    footNear.setAttribute("d", footD(p1x, p1y - 5));
+    footFar.setAttribute("d", footD(p2x, p2y - 5));
+
+    wing.setAttribute("transform", "rotate(" + (Math.sin(ca * 2 + 1) * 2.4 * state.bob).toFixed(2) + " 520 270)");
+
+    const blink = (t % 4.3) > 4.12 ? 0.12 : 1;
+    eye.setAttribute("transform", "translate(648 151) scale(1 " + blink + ") translate(-648 -151)");
+    const pw = 1 + Math.sin(ca * 2 + 0.6) * 0.05 * state.bob;
+    pouch.setAttribute("transform", "translate(700 176) scale(1 " + pw.toFixed(3) + ") translate(-700 -176)");
+
+    const windAmp = 3 + state.wind * 9;
+    let d1 = "M600 232", d2 = "M600 236";
+    for (let i = 1; i <= 5; i++) {
+      const x = 600 - i * 34;
+      const y = 232 - i * 5 + Math.sin(t * (5 + state.wind * 3) + i * 1.15) * windAmp * (i / 3);
+      d1 += " L" + x.toFixed(1) + " " + y.toFixed(1);
+      d2 += " L" + (x - 6).toFixed(1) + " " + (y + 8 + Math.sin(t * 6 + i) * 3).toFixed(1);
+    }
+    scarf.setAttribute("d", d1);
+    scarfTail.setAttribute("d", d2);
+
+    const scroll = state.dist % 90;
+    planks.setAttribute("transform", "translate(" + (-scroll).toFixed(1) + " 0)");
+    $("wave1").setAttribute("transform", "translate(" + (-(state.dist * 0.35 % 170)).toFixed(1) + " 0)");
+    $("wave2").setAttribute("transform", "translate(" + (-(state.dist * 0.22 % 130)).toFixed(1) + " 0)");
+
+    cloudData.forEach(c => {
+      if (state.running) c.x -= (6 + state.wind * 26) * c.drift * dt;
+      if (c.x < -320) c.x = 1520;
+      c.g.setAttribute("transform", "translate(" + c.x.toFixed(1) + " " + c.y + ") scale(" + c.s + ")");
+    });
+    birdData.forEach(b => {
+      if (state.running) b.x -= (18 + state.wind * 20) * dt;
+      if (b.x < -60) b.x = 1260;
+      const flap = 0.55 + Math.abs(Math.sin(t * 5 + b.ph)) * 0.7;
+      b.p.setAttribute("transform", "translate(" + b.x.toFixed(1) + " " + (b.y + Math.sin(t * 1.3 + b.ph) * 8).toFixed(1) + ") scale(" + b.s + " " + (b.s * flap).toFixed(3) + ")");
+    });
+
+    const showLines = state.lines && state.speed > 0.35;
+    lineData.forEach(o => {
+      const x = 1250 - ((t * 900 * o.v * state.speed + o.seed) % 1600);
+      o.l.setAttribute("x1", x.toFixed(1));
+      o.l.setAttribute("x2", (x + o.len * state.speed).toFixed(1));
+      o.l.setAttribute("opacity", showLines ? Math.min(0.5, state.speed * 0.22).toFixed(2) : 0);
+    });
+
+    if (state.time === "night") {
+      const kids = stars.children;
+      for (let i = 0; i < kids.length; i += 3)
+        kids[i].setAttribute("opacity", (0.4 + Math.abs(Math.sin(t * 1.5 + +kids[i].dataset.tw)) * 0.6).toFixed(2));
+    }
+
+    requestAnimationFrame(frame);
+  }
+
+  /* ---------- controls ---------- */
+  function bindRange(id, out, key, fmt) {
+    $(id).addEventListener("input", e => {
+      state[key] = +e.target.value;
+      $(out).textContent = fmt(state[key]);
+      if (key === "zoom")
+        world.setAttribute("transform", "translate(600 380) scale(" + state.zoom + ") translate(-600 -380)");
+    });
+  }
+  bindRange("cSpeed", "oSpeed", "speed", v => v.toFixed(2) + "×");
+  bindRange("cWind", "oWind", "wind", v => v.toFixed(2));
+  bindRange("cBob", "oBob", "bob", v => v.toFixed(2));
+  bindRange("cZoom", "oZoom", "zoom", v => v.toFixed(2) + "×");
+
+  $("cTime").addEventListener("change", e => { state.time = e.target.value; applyPalette(); });
+  $("cColor").addEventListener("input", e => { state.color = e.target.value; applyColor(); });
+  $("cLines").addEventListener("change", e => { state.lines = e.target.checked; });
+
+  const btnPause = $("btnPause");
+  function setRunning(r) {
+    state.running = r;
+    btnPause.textContent = r ? "⏸ 暂停" : "▶ 继续";
+  }
+  btnPause.addEventListener("click", () => setRunning(!state.running));
+  window.addEventListener("keydown", e => {
+    if (e.code === "Space" && !/INPUT|SELECT|BUTTON|TEXTAREA/.test(document.activeElement.tagName)) {
+      e.preventDefault();
+      setRunning(!state.running);
+    }
+  });
+
+  function syncUI() {
+    $("cSpeed").value = state.speed; $("oSpeed").textContent = state.speed.toFixed(2) + "×";
+    $("cWind").value = state.wind; $("oWind").textContent = state.wind.toFixed(2);
+    $("cBob").value = state.bob; $("oBob").textContent = state.bob.toFixed(2);
+    $("cZoom").value = state.zoom; $("oZoom").textContent = state.zoom.toFixed(2) + "×";
+    $("cTime").value = state.time;
+    $("cColor").value = state.color;
+    $("cLines").checked = state.lines;
+    world.setAttribute("transform", "translate(600 380) scale(" + state.zoom + ") translate(-600 -380)");
+    applyPalette();
+    applyColor();
+  }
+
+  $("btnReset").addEventListener("click", () => {
+    Object.assign(state, JSON.parse(JSON.stringify(DEFAULTS)));
+    setRunning(true);
+    syncUI();
+    toast("已重置为默认巡航状态");
+  });
+
+  $("btnRandom").addEventListener("click", () => {
+    const hues = [8, 28, 152, 190, 215, 268, 318];
+    const h = hues[Math.floor(Math.random() * hues.length)] + Math.random() * 16 - 8;
+    state.color = hslToHex(h, 82, 58);
+    state.time = ["day", "sunset", "night"][Math.floor(Math.random() * 3)];
+    state.speed = +(0.6 + Math.random() * 1.5).toFixed(2);
+    state.wind = +(0.2 + Math.random() * 1.6).toFixed(2);
+    state.bob = +(0.4 + Math.random() * 1.4).toFixed(2);
+    syncUI();
+    toast("🎲 已随机生成新风格");
+  });
+
+  function hslToHex(h, s, l) {
+    s /= 100; l /= 100;
+    const k = n => (n + h / 30) % 12;
+    const a = s * Math.min(l, 1 - l);
+    const f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+    const to = x => Math.round(x * 255).toString(16).padStart(2, "0");
+    return "#" + to(f(0)) + to(f(8)) + to(f(4));
+  }
+
+  function serializeSVG() {
+    const clone = scene.cloneNode(true);
+    clone.setAttribute("width", "1200");
+    clone.setAttribute("height", "675");
+    clone.removeAttribute("role");
+    clone.removeAttribute("aria-label");
+    return '<?xml version="1.0" encoding="UTF-8"?>\n' + new XMLSerializer().serializeToString(clone);
+  }
+
+  $("btnDownload").addEventListener("click", () => {
+    const blob = new Blob([serializeSVG()], { type: "image/svg+xml;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "pelican-ride-" + state.time + ".svg";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    toast("⬇ 已导出当前画面 SVG");
+  });
+
+  $("btnCopy").addEventListener("click", async () => {
+    const text = serializeSVG();
+    try {
+      await navigator.clipboard.writeText(text);
+      toast("⧉ SVG 源码已复制到剪贴板");
+    } catch (err) {
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      ta.remove();
+      toast("⧉ SVG 源码已复制到剪贴板");
+    }
+  });
+
+  let toastTimer;
+  function toast(msg) {
+    const el = $("toast");
+    el.textContent = msg;
+    el.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove("show"), 2200);
+  }
+
+  applyPalette();
+  applyColor();
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

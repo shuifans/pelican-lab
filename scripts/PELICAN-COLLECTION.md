@@ -42,3 +42,5 @@
 第十三批于 2026-11-05 收录 `qwenwork-pro-20261105 / default`、`qwenwork-ultra-20261105 / default`、`qwenwork-standard-20261105 / default` 与 `qwenwork-deepseek-v4.1-flash / default`。`qwenwork-ultra-20261105` 的参考视口为 1280 × 1042，用于完整展示包含页头、控制栏与页脚的整页内容；其余为 1280 × 800。四份原作没有外链脚本或样式，直接使用原始归档预览。源文件未带 effort 段，导入副本补上 `default`；除 `qwenwork-deepseek-v4.1-flash` 外的三个模型标识追加 `-20261105` 日期后缀，HTML 字节不变。`default` 不表示推理强度。
 
 第十四批于 2026-11-08 收录 `qoduck / xhigh`，参考视口为 1280 × 800。原作没有外链脚本或样式，页面在该视口内完整展示，直接使用原始归档预览。
+
+第十五批于 2026-11-17 收录 `qwen4-max / high` 与 `qwen4-max / xhigh`。`qwen4-max-high` 的参考视口为 1280 × 1298，用于完整展示页头、场景、骑行控制台与页脚；`qwen4-max-xhigh` 为 1280 × 898，整页在视口内展示，右侧控制台按原作自身设计在面板内滚动。两份原作没有外链脚本或样式，直接使用原始归档预览。

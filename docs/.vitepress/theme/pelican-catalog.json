@@ -58,6 +58,10 @@
     {
       "id": "batch-014",
       "label": "第十四批"
+    },
+    {
+      "id": "batch-015",
+      "label": "第十五批"
     }
   ],
   "results": [
@@ -1323,6 +1327,66 @@
         "browser": "Chromium (Google Chrome)",
         "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
         "capturedOn": "2026-11-08"
+      }
+    },
+    {
+      "id": "batch-015-qwen4-max-high-78d57958a4",
+      "modelId": "qwen4-max",
+      "reasoningEffort": "high",
+      "modelLabel": "qwen4-max",
+      "challengeId": "pelican-bicycle",
+      "promptVersion": "v1",
+      "effortSource": "filename",
+      "batchId": "batch-015",
+      "runId": "78d57958a4",
+      "sourceFilename": "pelican-bicycle-qwen4-max-high.html",
+      "artifactPath": "/playground/pelican/assets/batch-015/batch-015-qwen4-max-high-78d57958a4.html.txt",
+      "thumbnailPath": "/playground/pelican/assets/batch-015/batch-015-qwen4-max-high-78d57958a4.webp",
+      "sha256": "78d57958a44088ac64d463f7a794157fa8c8d3e85b574b76a4ff45c1f73a0644",
+      "importedAt": "2026-11-17T01:54:30.341Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 1298
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 1298
+        },
+        "browser": "Chromium (Google Chrome)",
+        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
+        "capturedOn": "2026-11-17"
+      }
+    },
+    {
+      "id": "batch-015-qwen4-max-xhigh-7b5520d00f",
+      "modelId": "qwen4-max",
+      "reasoningEffort": "xhigh",
+      "modelLabel": "qwen4-max",
+      "challengeId": "pelican-bicycle",
+      "promptVersion": "v1",
+      "effortSource": "filename",
+      "batchId": "batch-015",
+      "runId": "7b5520d00f",
+      "sourceFilename": "pelican-bicycle-qwen4-max-xhigh.html",
+      "artifactPath": "/playground/pelican/assets/batch-015/batch-015-qwen4-max-xhigh-7b5520d00f.html.txt",
+      "thumbnailPath": "/playground/pelican/assets/batch-015/batch-015-qwen4-max-xhigh-7b5520d00f.webp",
+      "sha256": "7b5520d00f88d2a751bb9637c6d239045343923f4a6e7b6e37f6f845a4b51bd2",
+      "importedAt": "2026-11-17T01:54:30.341Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 898
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 898
+        },
+        "browser": "Chromium (Google Chrome)",
+        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
+        "capturedOn": "2026-11-17"
       }
     }
   ]
