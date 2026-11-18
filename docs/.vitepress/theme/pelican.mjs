@@ -54,10 +54,11 @@ export function previewDocument(html) {
   return `<!doctype html><head>${meta}</head>${html}`
 }
 
-export async function fetchOriginal(path, { signal } = {}) {
+export async function fetchOriginal(path, { signal, kind = 'svg' } = {}) {
   const response = await fetch(path, { signal, credentials: 'omit' })
   if (!response.ok) throw new Error('原始作品暂时无法加载')
   const html = await response.text()
-  if (!/<svg\b/i.test(html) || !/<html\b/i.test(html)) throw new Error('作品文件格式不正确')
+  if (!/<html\b/i.test(html)) throw new Error('作品文件格式不正确')
+  if (kind === 'svg' && !/<svg\b/i.test(html)) throw new Error('作品文件格式不正确')
   return html
 }

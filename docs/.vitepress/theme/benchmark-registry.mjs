@@ -16,7 +16,7 @@ export const BENCHMARKS = [
     type: 'Three.js 3D 场景',
     route: '/benchmarks/pelican-3d/',
     summary: '同一道 3D 场景题：程序化建模、协调的骑行动作、灯光与真实交互。',
-    status: '尚未收录',
+    status: '收录中',
     catalog: 'pelican-3d-catalog.json',
   },
 ]

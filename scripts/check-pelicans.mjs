@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto'
-import { existsSync, readFileSync } from 'node:fs'
+import { readFileSync } from 'node:fs'
 import { PELICAN_PROMPT, parsePelicanFilename } from '../docs/.vitepress/theme/pelican.mjs'
 import { BENCHMARKS } from '../docs/.vitepress/theme/benchmark-registry.mjs'
 
@@ -43,7 +43,9 @@ for (const result of catalog3d.results) {
   }
   const source = readFileSync(new URL('../docs/public' + result.artifactPath, import.meta.url))
   if (createHash('sha256').update(source).digest('hex') !== result.sha256) throw new Error(`3D 原始文件被改动：${result.id}`)
-  if (!existsSync(new URL('../docs/public' + result.thumbnailPath, import.meta.url))) throw new Error(`缺少 3D 封面：${result.id}`)
+  const image = readFileSync(new URL('../docs/public' + result.thumbnailPath, import.meta.url))
+  if (image.toString('ascii', 8, 12) !== 'WEBP' || !result.capture) throw new Error(`缺少真实 3D 封面及截图记录：${result.id}`)
+  if (result.previewKind !== 'webgl') throw new Error(`3D 预览类型不正确：${result.id}`)
 }
 
 const catalogs = { 'pelican-catalog.json': catalog, 'pelican-3d-catalog.json': catalog3d }

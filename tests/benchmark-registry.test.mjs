@@ -30,12 +30,25 @@ test('2D dataset keeps the original prompt and recorded results unchanged', () =
   assert.ok(catalog2d.batches.length > 0)
 })
 
-test('3D dataset preserves the prompt verbatim and starts without fabricated results', () => {
+test('3D dataset preserves the prompt verbatim and records the published runs', () => {
   assert.equal(catalog3d.challengeId, 'pelican-bicycle-3d')
   assert.equal(catalog3d.promptVersion, 'v1')
   assert.equal(catalog3d.prompt, EXACT_3D_PROMPT)
-  assert.deepEqual(catalog3d.batches, [])
-  assert.deepEqual(catalog3d.results, [])
+  assert.equal(catalog3d.batches.length, 1)
+  assert.equal(catalog3d.results.length, 2)
+  assert.deepEqual(catalog3d.results.map(result => `${result.modelId}/${result.reasoningEffort}`).sort(), [
+    'gpt6.2-astra/xhigh',
+    'gpt6.2-sol/xhigh',
+  ])
+  assert.equal(new Set(catalog3d.results.map(result => result.id)).size, 2)
+  for (const result of catalog3d.results) {
+    assert.match(result.artifactPath, /^\/playground\/pelican-3d\/assets\/batch-001\//)
+    assert.ok(result.artifactPath.endsWith('.html.txt'))
+    assert.ok(result.thumbnailPath.endsWith('.webp'))
+    assert.equal(result.previewKind, 'webgl')
+    assert.ok(result.capture?.viewport)
+    assert.equal(result.sha256.length, 64)
+  }
 })
 
 test('gallery consumes a dataset prop instead of a hardcoded catalog and pages pass their own data', () => {
@@ -45,5 +58,6 @@ test('gallery consumes a dataset prop instead of a hardcoded catalog and pages p
   const page2d = readFileSync('docs/benchmarks/pelican-2d/index.md', 'utf8')
   assert.match(page2d, /:dataset="catalog"/)
   const page3d = readFileSync('docs/benchmarks/pelican-3d/index.md', 'utf8')
-  assert.match(page3d, /:prompt="catalog\.prompt"/)
+  assert.match(page3d, /:dataset="catalog"/)
+  assert.match(page3d, /kind="webgl"/)
 })

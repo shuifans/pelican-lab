@@ -23,10 +23,11 @@ type Dataset = {
   results: Result[]
   batches: { id: string; label: string }[]
 }
-const props = defineProps<{ dataset: Dataset; title?: string; eyebrow?: string }>()
+const props = defineProps<{ dataset: Dataset; title?: string; eyebrow?: string; kind?: 'svg' | 'webgl' }>()
 const catalog = props.dataset
 const heading = computed(() => props.title || '鹈鹕骑车 2D')
 const kicker = computed(() => props.eyebrow || 'PELICAN LAB')
+const previewKind = computed(() => props.kind || 'svg')
 const models = ref<string[]>([])
 const efforts = ref<string[]>([])
 const sort = ref('model')
@@ -60,7 +61,7 @@ const modelCount = (id: string) => filterResults(catalog.results, { models: [id]
 const effortCount = (effort: string) => filterResults(catalog.results, { models: models.value, efforts: [effort] }).length
 const toggle = (values: string[], value: string) => values.includes(value) ? values.filter(item => item !== value) : [...values, value]
 
-function isCardPlaying(id: string) { return pageVisible.value && !detail.value && visibleIds.value.has(id) }
+function isCardPlaying(id: string) { return previewKind.value === 'svg' && pageVisible.value && !detail.value && visibleIds.value.has(id) }
 function applyFilters(next: { models?: string[]; efforts?: string[]; sort?: string }) {
   if (next.models) models.value = next.models
   if (next.efforts) efforts.value = next.efforts
@@ -233,13 +234,13 @@ onBeforeUnmount(() => {
     </div>
     <section v-else class="empty-state"><h2>没有符合条件的作品</h2><p>试试其他模型或 effort，新的作品也会持续加入。</p><button class="primary-button" type="button" @click="clearFilters">查看全部作品</button></section>
 
-    <footer class="collection-footer"><p>同一条提示词，各自的想象力。</p><p>模型与 effort 按收录文件标注；同名档位不代表相同计算预算。<br />最近收录 {{ lastImported }} <span>·</span> 动画自动播放，点击作品即可放大查看。</p></footer>
+    <footer class="collection-footer"><p>同一条提示词，各自的想象力。</p><p>模型与 effort 按收录文件标注；同名档位不代表相同计算预算。<br />最近收录 {{ lastImported }} <span>·</span> {{ previewKind === 'webgl' ? '3D 作品使用静态封面，点击作品后在详情中运行场景。' : '动画自动播放，点击作品即可放大查看。' }}</p></footer>
     <p v-if="announcement" class="gallery-notice" role="status">{{ announcement }}</p>
 
     <dialog ref="dialog" class="pelican-dialog" aria-labelledby="detail-title" @close="onClose" @click="($event.target === dialog) && closeDetail()">
       <div v-if="detail" class="detail-content">
         <header class="detail-heading"><div><p class="eyebrow">PELICAN LAB <span>·</span> {{ detailIndex + 1 }} / {{ shown.length }}</p><h2 id="detail-title">{{ detail.modelLabel }} <span class="effort-tag">{{ detail.reasoningEffort }}</span></h2></div><button class="quiet-button" type="button" autofocus @click="closeDetail">关闭</button></header>
-        <div class="detail-stage"><PelicanPreview v-if="pageVisible" :key="detail.id" :source="detail.previewArtifactPath || detail.artifactPath" :viewport="detail.previewViewport" :title="`${detail.modelLabel} ${detail.reasoningEffort} 完整原始作品`" :fit="fitWindow" /></div>
+        <div class="detail-stage"><PelicanPreview v-if="pageVisible" :key="detail.id" :source="detail.previewArtifactPath || detail.artifactPath" :viewport="detail.previewViewport" :kind="previewKind" :title="`${detail.modelLabel} ${detail.reasoningEffort} 完整原始作品`" :fit="fitWindow" /></div>
         <div class="detail-toolbar"><div><button class="quiet-button" type="button" :aria-pressed="fitWindow" @click="fitWindow = !fitWindow">{{ fitWindow ? '恢复完整画面' : '适应窗口' }}</button></div><div><button class="quiet-button" type="button" :disabled="detailIndex <= 0" @click="stepDetail(-1)">上一个</button><button class="quiet-button" type="button" :disabled="detailIndex >= shown.length - 1" @click="stepDetail(1)">下一个</button></div></div>
         <div class="detail-info"><p>{{ catalog.prompt }}</p><div><span>{{ batchLabel(detail.batchId) }} <span>·</span> {{ detail.promptVersion }} <span>·</span> 收录于 {{ detail.importedAt.slice(0, 10) }}</span><div class="detail-actions"><button type="button" @click="copyPrompt">{{ copyLabel }}</button><button type="button" @click="sameModel">只看该模型</button><button type="button" :disabled="downloadBusy" @click="downloadOriginal">{{ downloadBusy ? '准备下载…' : '下载原始 HTML' }}</button></div></div></div>
       </div>

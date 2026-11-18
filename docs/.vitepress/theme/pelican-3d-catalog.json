@@ -2,6 +2,74 @@
   "challengeId": "pelican-bicycle-3d",
   "promptVersion": "v1",
   "prompt": "使用 Three.js 创建一个精致、可交互的 3D 网页场景：一只鹈鹕正在骑自行车。\n鹈鹕、自行车、环境、动画、灯光、摄像机和交互均通过程序实现。\n鹈鹕需要真实地骑自行车，并具有协调的腿部、脚踏、车轮和身体运动。\n不要使用 SVG、2D Canvas、外部 3D 模型或预渲染动画。\n最终输出一个可以直接在现代浏览器中运行的完整 HTML 文件。",
-  "batches": [],
-  "results": []
+  "batches": [
+    {
+      "id": "batch-001",
+      "label": "首批 3D"
+    }
+  ],
+  "results": [
+    {
+      "id": "batch-001-gpt6.2-sol-xhigh-4ec9b3e99f",
+      "modelId": "gpt6.2-sol",
+      "modelLabel": "gpt6.2-sol",
+      "reasoningEffort": "xhigh",
+      "challengeId": "pelican-bicycle-3d",
+      "promptVersion": "v1",
+      "effortSource": "manual",
+      "batchId": "batch-001",
+      "runId": "4ec9b3e99f",
+      "sourceFilename": "pelican-bicycle-3d-gpt6.2-sol-xhigh.html",
+      "artifactPath": "/playground/pelican-3d/assets/batch-001/batch-001-gpt6.2-sol-xhigh-4ec9b3e99f.html.txt",
+      "thumbnailPath": "/playground/pelican-3d/assets/batch-001/batch-001-gpt6.2-sol-xhigh-4ec9b3e99f.webp",
+      "sha256": "4ec9b3e99f12c7ab1ab4b0f002ee5c52bf1bd09e820f7203f76b5059e11d182d",
+      "importedAt": "2026-11-18T05:26:40.646Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "browser": "Chrome headless",
+        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
+        "capturedOn": "2026-11-18"
+      },
+      "previewKind": "webgl"
+    },
+    {
+      "id": "batch-001-gpt6.2-astra-xhigh-73be3b1016",
+      "modelId": "gpt6.2-astra",
+      "modelLabel": "gpt6.2-astra",
+      "reasoningEffort": "xhigh",
+      "challengeId": "pelican-bicycle-3d",
+      "promptVersion": "v1",
+      "effortSource": "manual",
+      "batchId": "batch-001",
+      "runId": "73be3b1016",
+      "sourceFilename": "pelican-bicycle-3d-gpt6.2-astra-xhigh.html",
+      "artifactPath": "/playground/pelican-3d/assets/batch-001/batch-001-gpt6.2-astra-xhigh-73be3b1016.html.txt",
+      "thumbnailPath": "/playground/pelican-3d/assets/batch-001/batch-001-gpt6.2-astra-xhigh-73be3b1016.webp",
+      "sha256": "73be3b101696d6580da3800792eecbef70af4ae27849169a2ccc1210b947a9cf",
+      "importedAt": "2026-11-18T05:26:40.648Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "browser": "Chrome headless",
+        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
+        "capturedOn": "2026-11-18"
+      },
+      "previewKind": "webgl"
+    }
+  ]
 }

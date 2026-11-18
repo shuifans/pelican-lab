@@ -2,7 +2,7 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync, existsSync } from 'node:fs'
 import { createHash } from 'node:crypto'
-import { PELICAN_PROMPT, parsePelicanFilename, filterResults, readFilters, writeFilters, previewDocument } from '../docs/.vitepress/theme/pelican.mjs'
+import { PELICAN_PROMPT, parsePelicanFilename, filterResults, readFilters, writeFilters, previewDocument, fetchOriginal } from '../docs/.vitepress/theme/pelican.mjs'
 
 const sample = [
   { id: 'a', modelId: 'gpt6-sol', reasoningEffort: 'xhigh', importedAt: '2026-09-26T01:00:00Z' },
@@ -102,6 +102,13 @@ test('preview policy precedes executable content while original output remains i
   const component = readFileSync('docs/.vitepress/theme/components/PelicanPreview.vue', 'utf8')
   assert.match(component, /sandbox="allow-scripts"/)
   assert.doesNotMatch(component, /allow-same-origin|v-html/)
+})
+
+test('webgl preview accepts a self-contained HTML scene without SVG while 2D still requires SVG', async () => {
+  const html = '<!doctype html><html><body><canvas></canvas></body></html>'
+  const url = `data:text/html,${encodeURIComponent(html)}`
+  await assert.doesNotReject(fetchOriginal(url, { kind: 'webgl' }))
+  await assert.rejects(fetchOriginal(url))
 })
 
 test('published catalog preserves every original hash, prompt, unique run and real cover', () => {

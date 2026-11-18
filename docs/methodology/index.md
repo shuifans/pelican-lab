@@ -16,7 +16,7 @@ import BenchmarkLog from '../.vitepress/theme/components/BenchmarkLog.vue'
 ## 测试集
 
 - [鹈鹕骑车 2D](/benchmarks/pelican-2d/)：同一条提示词，生成 SVG 鹈鹕骑车 2D 动画。
-- [鹈鹕骑车 3D](/benchmarks/pelican-3d/)：使用 Three.js 程序化创建可交互的鹈鹕骑车 3D 场景；正式结果尚未收录。
+- [鹈鹕骑车 3D](/benchmarks/pelican-3d/)：使用 Three.js 程序化创建可交互的鹈鹕骑车 3D 场景；已收录首批作品。
 
 每个测试集保存自己的提示词与版本。题目原文逐字保留，不替模型补充要求。
 
@@ -38,7 +38,7 @@ import BenchmarkLog from '../.vitepress/theme/components/BenchmarkLog.vue'
 
 原始 HTML 保持字节不变。页面预览运行在隔离的 iframe 中，预览副本可以为离线化调整依赖，但原始下载始终指向归档原文。
 
-3D 作品首次收录时，列表只使用真实截图；详情页按需运行单个 WebGL 场景，关闭后卸载。预览受限时会明确提示，原文仍可下载；不会因为预览失败改写作品。
+3D 作品在列表中只使用真实截图；详情页按需运行单个 WebGL 场景，关闭后卸载。预览受限时会明确提示，原文仍可下载；不会因为预览失败改写作品。
 
 ## 收录记录
 
