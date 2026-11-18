@@ -1,14 +1,4 @@
 import { defineConfig } from 'vitepress'
-import { createRequire } from 'node:module'
-import { fileURLToPath } from 'node:url'
-import { pageKey, verifiedDate } from './reading-guides.mjs'
-import { knowledgeSidebar } from './site-navigation.mjs'
-import { sectionPager } from './theme/knowledge.mjs'
-import { directoryMarkdown, directoryPager } from './directory-markdown.mjs'
-
-const require = createRequire(import.meta.url)
-const component = (name: string) => fileURLToPath(new URL(`./theme/components/${name}.vue`, import.meta.url))
-const miniSearchEntry = require.resolve('minisearch', { paths: [require.resolve('vitepress/package.json')] })
 
 // GitHub Pages 项目站点部署时需要设置仓库名作为 base。
 // 本地开发默认 '/'；CI 构建时通过环境变量注入，例如 /pelican-lab/
@@ -16,40 +6,13 @@ const base = (process.env.VITEPRESS_BASE || '/').replace(/([^/])$/, '$1/')
 
 export default defineConfig({
   title: 'Pelican Lab',
-  description:
-    '同一道提示词下的模型 SVG 动画作品展区；同时收录云计算、人工智能、软件研发、游戏行业与技术编年史知识体系。',
+  description: '同一道提示词下的模型作品测试集：鹈鹕骑车 2D、鹈鹕骑车 3D 与后续 benchmark。',
   lang: 'zh-CN',
   appearance: true,
   base,
   cleanUrls: true,
   lastUpdated: true,
   ignoreDeadLinks: false,
-
-  transformPageData(pageData) {
-    const path = `/${pageKey(pageData.relativePath)}`
-    Object.assign(pageData.frontmatter, sectionPager(knowledgeSidebar, path), directoryPager(path))
-    if (pageData.frontmatter.directory) {
-      pageData.frontmatter.outline = false
-      pageData.frontmatter.aside = false
-    }
-    pageData.frontmatter.lastVerified = verifiedDate(pageData.frontmatter.lastVerified)
-    pageData.frontmatter.lastReviewed = verifiedDate(pageData.frontmatter.lastReviewed)
-  },
-
-  vite: {
-    resolve: {
-      alias: [
-        { find: /^\.\/components\/VPLocalNav\.vue$/, replacement: component('ReadingControls') },
-        { find: /^\.\/VPDocAsideOutline\.vue$/, replacement: component('KnowledgeAside') },
-        { find: /^\.\/VPSidebarGroup\.vue$/, replacement: component('KnowledgeTree') },
-        { find: /^\.\/VPDocOutlineItem\.vue$/, replacement: component('KnowledgeOutline') },
-        { find: /^\.\/VPLocalSearchBox\.vue$/, replacement: component('KnowledgeSearch') },
-        { find: /^\.\/VPNavBarHamburger\.vue$/, replacement: component('KnowledgeMenuButton') },
-        // Use the exact MiniSearch version that wrote VitePress's local index.
-        { find: /^minisearch$/, replacement: miniSearchEntry.replace('/cjs/index.cjs', '/es/index.js') },
-      ],
-    },
-  },
 
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: `${base}favicon.svg?v=pelican` }],
@@ -60,32 +23,29 @@ export default defineConfig({
       'meta',
       {
         property: 'og:description',
-        content: '同一道提示词下的模型 SVG 动画作品展区；同时收录云、AI、软件研发与游戏行业知识体系',
+        content: '同一道提示词下的模型作品测试集：鹈鹕骑车 2D、鹈鹕骑车 3D 与后续 benchmark',
       },
+    ],
+    [
+      'script',
+      {},
+      "(function(){var p=location.pathname;var m=p.match(/\\/(?:knowledge|cloud|ai|software|gaming|chronicle)(?:\\/|$)/);if(!m)return;location.replace('https://shuifans.github.io/cloud-ai-knowledge'+p.slice(m.index)+location.search+location.hash)})()",
     ],
   ],
 
   markdown: {
     lineNumbers: false,
     theme: { light: 'github-light', dark: 'github-dark' },
-    config(markdown) {
-      directoryMarkdown(markdown)
-      const defaultFence = markdown.renderer.rules.fence?.bind(markdown.renderer.rules)
-      if (!defaultFence) return
-
-      markdown.renderer.rules.fence = (...args) => {
-        const [tokens, index] = args
-        const token = tokens[index]
-        if (token.info.trim() !== 'mermaid') return defaultFence(...args)
-
-        return `<Mermaid id="mermaid-${index}" graph="${encodeURIComponent(token.content)}"></Mermaid>`
-      }
-    },
   },
 
   sitemap: {
-    // 项目站点：hostname 需包含仓库路径并以 / 结尾，保证 URL 正确拼接
     hostname: 'https://shuifans.github.io/pelican-lab/',
+    transformItems(items) {
+      return items.filter(item => {
+        const url = item.url.replace(/\/$/, '')
+        return !/^(?:404|about|updates)(?:\.html)?$/.test(url) && url !== 'knowledge' && url !== 'playground/pelican'
+      })
+    },
   },
 
   themeConfig: {
@@ -96,7 +56,7 @@ export default defineConfig({
       provider: 'local',
       options: {
         translations: {
-          button: { buttonText: '搜索知识', buttonAriaLabel: '搜索知识' },
+          button: { buttonText: '搜索', buttonAriaLabel: '搜索' },
           modal: {
             displayDetails: '显示详细列表',
             resetButtonTitle: '清除查询条件',
@@ -113,15 +73,12 @@ export default defineConfig({
     },
 
     nav: [
-      { text: '首页', link: '/' },
-      {
-        text: '知识体系',
-        link: '/knowledge/',
-        activeMatch: '^/(knowledge|cloud|ai|software|gaming|chronicle|about)',
-      },
+      { text: '测试集', link: '/' },
+      { text: '记录说明', link: '/methodology/' },
+      { text: '知识体系', link: 'https://shuifans.github.io/cloud-ai-knowledge/' },
     ],
 
-    sidebar: knowledgeSidebar,
+    sidebar: false,
 
     socialLinks: [
       {
@@ -142,14 +99,13 @@ export default defineConfig({
     docFooter: { prev: '上一篇', next: '下一篇' },
 
     footer: {
-      message: 'Pelican Lab · 模型作品仅作趣味观察；知识内容优先依据官方文档与原始来源',
+      message: 'Pelican Lab · 模型作品仅作观察，不代表综合能力排名',
       copyright: 'CC BY-NC-SA 4.0',
     },
 
     darkModeSwitchLabel: '日夜模式',
     lightModeSwitchTitle: '切换到白天模式',
     darkModeSwitchTitle: '切换到夜间模式',
-    sidebarMenuLabel: '知识目录',
     returnToTopLabel: '返回顶部',
   },
 })

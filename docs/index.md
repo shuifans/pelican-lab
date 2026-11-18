@@ -3,12 +3,12 @@ layout: page
 sidebar: false
 outline: false
 readingProgress: false
-title: 同一道题，骑出不同的风景
-description: 用同一条提示词，看看不同模型与 reasoning effort 如何绘制鹈鹕骑自行车的 SVG 动画。支持作品筛选、播放与放大查看。
+title: Pelican Lab
+description: 用同一道提示词观察不同模型的作品。当前收录鹈鹕骑车 2D 动画，并规划鹈鹕骑车 3D 场景。
 ---
 
 <script setup>
-import PelicanGallery from './.vitepress/theme/components/PelicanGallery.vue'
+import BenchmarkIndex from './.vitepress/theme/components/BenchmarkIndex.vue'
 </script>
 
-<PelicanGallery />
+<BenchmarkIndex />

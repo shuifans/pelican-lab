@@ -1,34 +1,27 @@
 # Pelican Lab（pelican-lab）
 
-Pelican Lab 是一个以“同一道提示词，看看不同模型如何绘制鹈鹕骑车动画”为主展区的站点，同时保留围绕云计算、人工智能、软件研发与游戏行业构建的公开中文知识库。
+Pelican Lab 是一个模型作品测试集站点：用同一道提示词，看看不同模型如何作答。当前收录鹈鹕骑车 2D 动画，并规划鹈鹕骑车 3D 场景与后续测试集。
 
 > 站点地址：<https://shuifans.github.io/pelican-lab/>
 
+知识内容已独立为 [云与 AI 技术知识库](https://shuifans.github.io/cloud-ai-knowledge/)。
+
 ## 站点结构
 
-- 首页 `/`：鹈鹕测试展区，按模型与 reasoning effort 筛选、播放和放大查看 27 个 SVG 动画作品
-- 知识体系 `/knowledge/`：知识首页与版块入口，通过右上角「知识体系」进入；右上角同时提供「首页」返回展区
-- 云、AI、软件研发、游戏行业与技术编年史的文章地址保持不变；旧 `/playground/pelican/` 会跳转到首页并保留筛选参数
+- 首页 `/`：测试集目录，显示各测试集的作品数、模型数与收录状态
+- [鹈鹕骑车 2D](/benchmarks/pelican-2d/)：按模型与 reasoning effort 筛选、播放和放大查看作品
+- [鹈鹕骑车 3D](/benchmarks/pelican-3d/)：题目页；正式结果尚未收录
+- [记录说明](/methodology/)：收录口径、原文与预览差异、收录记录
 
-## 内容结构
+旧 `/playground/pelican/` 会跳转到鹈鹕骑车 2D 并保留筛选参数；根路径带 `model` / `effort` / `sort` 的旧链接也会转到 2D 测试集。
 
-知识体系采用“领域 → 子域 → 专题”三级目录。技术领域、游戏行业与技术编年史并列：
+## 数据与资源
 
-| 支柱 | 路径 | 主题 |
-| --- | --- | --- |
-| 云计算 | `docs/cloud/` | 基座（虚拟化/OpenStack）· 计算·存储·网络 · 数据库·大数据（含 OLAP）· 云原生 · 架构与治理 |
-| 人工智能 | `docs/ai/` | 模型与算法 · 数据与知识工程 · AI Infra（集群→训练→推理）· 应用与评测 · Agent · 工程运营与治理 |
-| 软件研发与工程实践 | `docs/software/` | 项目入门 · 编程基础 · 需求与架构 · 前端与专项开发 · 后端与数据 · 工具与 AI 协作 · 测试与安全 · 交付与维护 · 查询索引 |
-| 游戏行业 | `docs/gaming/` | 行业与组织 · 策划与研发 · 发行与运营 · 云与 AI · 调研与索引 |
-| 技术编年史 | `docs/chronicle/` | 移动互联网→直播→短视频→区块链→元宇宙→AI，及信创暗流 |
-
-文章状态：无标记 = 完整文章；提纲页使用纯文字“本文是提纲页”提示，并在导航标注“（提纲）”。仅规划的专题不创建空页、不提供空链接。完整正文与上线部署是不同状态。
-
-软件研发建设清单见 [maintenance/software-roadmap.json](./maintenance/software-roadmap.json)：9 个目录组织 16 篇项目入门、105 篇专业专题及 3 个查询索引，共 124 篇内容；配套 10 个目录页，另保留 10 个旧目录跳转页，文章地址不变。五阶段内容均已形成完整正文，完成状态指本地内容验收，不代表已经上线。
-
-AI 数据、持续交付与企业治理的建设规划及核验边界见 [maintenance/ai-expansion-2026-10-04.md](./maintenance/ai-expansion-2026-10-04.md)，包括 8 篇完整专题与官方来源记录。
-
-游戏行业建设清单见 [maintenance/gaming-roadmap.json](./maintenance/gaming-roadmap.json)：4 个业务目录与 1 个调研索引目录，包含 14 篇专题、3 个查询索引及 6 个目录页，共 23 个内容与目录页面；另保留 6 个旧目录跳转页，文章地址不变。首批覆盖组织岗位、业务流程和云与 AI 场景；未来细分专题只登记建设清单，不创建空页。
+- 测试集清单：`docs/.vitepress/theme/benchmark-registry.mjs`
+- 2D 记录：`docs/.vitepress/theme/pelican-catalog.json`
+- 3D 记录：`docs/.vitepress/theme/pelican-3d-catalog.json`（当前为空）
+- 原始作品与封面：`docs/public/playground/pelican/assets/{batchId}/{id}`
+- 原始 HTML 按字节归档，SHA-256 校验；封面为真实运行截图（WEBP）
 
 ## 本地开发
 
@@ -36,11 +29,19 @@ AI 数据、持续交付与企业治理的建设规划及核验边界见 [mainte
 npm install
 npm run docs:dev      # http://localhost:5173
 node --test tests/*.test.mjs
-npm run docs:build    # 构建（含死链检查）
+npm run docs:build    # 构建前校验作品完整性与提示词
 npm run docs:preview
 ```
 
-写作规范与 AI 协作约定见 [CLAUDE.md](./CLAUDE.md)，通用文章模板见 [templates/article-template.md](./templates/article-template.md)。按内容类型也可选用 [概念](./templates/concept-template.md)、[专题](./templates/topic-template.md)、[实践](./templates/practice-template.md)或[比较](./templates/comparison-template.md)模板。
+## 收录新批次
+
+```bash
+node scripts/import-pelicans.mjs <源目录> <批次ID> [批次名称]
+```
+
+导入脚本按文件名解析模型与 reasoning effort，先完成整批校验再写入。之后生成真实封面、补充截图记录，并运行 `npm run docs:build`。
+
+3D 正式结果尚未接入；首次收录时需要单独确认预览依赖、沙箱与原文下载方案。
 
 ## 发布
 
@@ -53,15 +54,9 @@ npm run docs:preview
 
 ## 技术栈
 
-- [VitePress](https://vitepress.dev/) 1.x（中文全文搜索内置）
-- [Mermaid](https://mermaid.js.org/)（自定义组件按需渲染，支持主题切换与点击放大）
+- [VitePress](https://vitepress.dev/) 1.x
+- Vue 组件负责筛选、隔离预览与详情
 
 ## 内容声明
 
-技术内容优先依据官方公开文档、原始论文与项目仓库；工程建议会与可核验事实分开表述，并标注适用边界。内容不包含作者履历、客户信息、内部系统或未公开数据。内容许可：CC BY-NC-SA 4.0。
-
-## V2 路线图
-
-- giscus 评论、RSS 订阅、自定义域名
-- 英文版、"最近更新"聚合页
-- 持续复核软件研发专题，维护与云、AI 内容的边界、版本适用范围及互链
+模型作品仅作趣味观察，不代表综合能力排名；不同模型同名 effort 档位不代表相同计算预算。内容许可：CC BY-NC-SA 4.0。

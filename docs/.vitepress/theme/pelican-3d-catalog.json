@@ -1,0 +1,7 @@
+{
+  "challengeId": "pelican-bicycle-3d",
+  "promptVersion": "v1",
+  "prompt": "使用 Three.js 创建一个精致、可交互的 3D 网页场景：一只鹈鹕正在骑自行车。\n鹈鹕、自行车、环境、动画、灯光、摄像机和交互均通过程序实现。\n鹈鹕需要真实地骑自行车，并具有协调的腿部、脚踏、车轮和身体运动。\n不要使用 SVG、2D Canvas、外部 3D 模型或预渲染动画。\n最终输出一个可以直接在现代浏览器中运行的完整 HTML 文件。",
+  "batches": [],
+  "results": []
+}

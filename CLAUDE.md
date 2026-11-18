@@ -1,97 +1,67 @@
-# CLAUDE.md — 本仓库的 AI 协作写作规范
+# CLAUDE.md — 本仓库的 AI 协作规范
 
-本文件是写给 AI 协作助手（Claude 等）的写作与维护规范。人类作者同样适用。
+本文件是写给 AI 协作助手的维护规范。人类维护者同样适用。
 
 ## 站点概况
 
-- 站点品牌：**Pelican Lab**，首页为鹈鹕测试展区；同时保留公开技术知识库，不使用作者履历或个人项目经历为内容背书
-- 首页 `/` 是鹈鹕测试展区，知识体系首页位于 `/knowledge/`，顶部仅在右上角提供「首页」「知识体系」两个入口
-- 技术栈：VitePress 1.x + Mermaid（自定义组件），纯中文
-- 分类体系：云、AI、软件研发、游戏行业 + 技术编年史
-  - **云计算** `docs/cloud/`：foundation（基座）/ infra（计算·存储·网络）/ data（数据库·OLAP·大数据）/ native（云原生）/ architecture（卓越架构·安全·可靠性·FinOps·迁移）
-  - **人工智能** `docs/ai/`：models（模型与算法）/ data（数据生命周期·质量·知识治理）/ infra（集群/训练/推理）/ application（应用与评测）/ agent（智能体全景·编年史·框架对比）/ operations（持续交付·联合版本·监控反馈·企业治理·风险与供应商）
-  - **编年史** `docs/chronicle/`：技术浪潮与信创演进
-  - **软件研发** `docs/software/`：guide（软件项目入门）/ foundations（编程与计算机基础）/ architecture（需求与架构）/ frontend（前端与专项开发）/ backend（后端与数据）/ toolchain（工具与 AI 协作）/ quality（测试与安全）/ delivery（交付与维护）/ reference（术语与查询索引）共 9 个目录；文章路径保留，旧目录入口跳转至合并后的目录；原专业分组仅用于内容维护，完整专题和批次见 `maintenance/software-roadmap.json`
-  - **游戏行业** `docs/gaming/`：industry（行业与组织）/ production（策划与研发）/ publishing（发行与运营）/ systems（云与 AI）四个业务目录，配套 reference（调研与索引）；既有文章路径保留，旧目录入口跳转至合并后的目录；清单见 `maintenance/gaming-roadmap.json`
-- 内容分级：完整文章（无标记）· 提纲页（纯文字“本文是提纲页”提示块 + 有意义的范围与要点）；仅规划的专题不创建空页
+- 站点品牌：**Pelican Lab**，专注模型作品测试集展示
+- 首页 `/` 是测试集目录；2D 作品位于 `/benchmarks/pelican-2d/`，3D 题目页位于 `/benchmarks/pelican-3d/`，收录口径位于 `/methodology/`
+- 顶部导航为「测试集」「记录说明」「知识体系」；知识体系指向独立的云与 AI 技术知识库
+- 技术栈：VitePress 1.x + Vue 组件；不引入后台、账号、数据库或评分系统
+- 知识正文不放在本仓库；旧知识路径由 404 页与薄跳转指向新知识站
 
 ## 常用命令
 
 ```bash
 npm run docs:dev      # 本地预览（热更新）
-npm run docs:build    # 构建（含死链检查，发布前必跑）
+npm run docs:build    # 发布前必跑：校验作品 + 构建
 npm run docs:preview  # 预览构建产物
+node --test tests/*.test.mjs
 ```
 
-## 新增文章流程
+## 数据规范
 
-1. 从 `templates/article-template.md` 或概念、专题、实践、比较模板复制，放入对应知识域目录，英文短横线文件名；按主题调整结构，不为套模板重复空话
-2. 在 `docs/.vitepress/site-navigation.mjs` 的全站目录树中注册条目；软件研发维护 `docs/.vitepress/software-sidebar.mjs`，游戏行业维护 `docs/.vitepress/gaming-sidebar.mjs`（提纲页标注"（提纲）"）
-3. 目录页只组织文章入口，不写导读、学习路径或推荐阅读顺序；软件研发和游戏行业目录由各自侧栏配置在构建时生成，不重复手写清单
-4. 在 `docs/.vitepress/reading-guides.mjs` 补充搜索摘要；游戏行业摘要维护在 `gaming-reading-guides.mjs` 并汇入；正文不注入阅读指南
-5. 跑 `node --test tests/*.test.mjs` 和 `npm run docs:build` 确认行为与链接
+- 测试集清单维护在 `docs/.vitepress/theme/benchmark-registry.mjs`，新增测试集必须有唯一 `id`、`route` 与目录文件
+- 2D 记录位于 `docs/.vitepress/theme/pelican-catalog.json`；提示词只保存在目录文件中
+- 3D 记录位于 `docs/.vitepress/theme/pelican-3d-catalog.json`，提示词逐字保留，不得改写或补充要求
+- 原始 HTML 以 `.html.txt` 归档，文件名、模型名、effort、run/batch ID、SHA-256 与资源路径不得随意修改
+- 封面必须是真实运行截图（WEBP），不得用示意图或生成图冒充作品
+- 无真实运行结果时显示空状态；不得写入示例作品、分数或“已完成”
 
-## 文章结构标准
+## 新增 2D 批次
 
-> 是什么 → 为什么 → 架构/原理（配 Mermaid 图）→ 实践与选型要点 → 常见坑 → 参考资料
-
-- 开篇必须有引语块（`>`），说明目标读者与读完的收获
-- 每篇完整文章至少 1 张 Mermaid 图，图上要有决策含义
-- 决策类内容优先用表格；经验值要写明适用边界
-- 文末"站内相关"互链，维护知识网络
-- 文末"参考资料"节的内容必须包在 `<Refs>` 组件里（主题已注册，小字号 + 灰底卡片样式，与正文视觉分离）：
-
-```markdown
-## 参考资料
-
-<Refs>
-
-- [来源标题](https://)（访问日期 YYYY-MM-DD）
-- 站内相关：[相关文章](/domain/page)
-
-</Refs>
+```bash
+node scripts/import-pelicans.mjs <源目录> <批次ID> [批次名称]
 ```
 
-## 配图规范
+导入脚本先整批校验再写入；随后生成真实封面并补充截图记录，最后运行 `npm run docs:build`。
 
-- 本站公开发布：优先使用自制图、明确许可的开放素材或获得授权的官方图；转载图必须标注来源与许可，并下载到 `docs/public/images/<域>/<文章>/`，禁止热链引用
-- 优先官方文档/博客的架构图、Wikimedia Commons；下载后校验为图片格式，超过 1.5MB 压缩（`sips -Z 1200`）
-- 每张图正文下方用斜体图注标注来源页链接；参考资料的"图片来源"小节也要登记
-- Mermaid 治理：渲染配置在 `theme/components/MermaidDiagram.vue`（mermaid 按需动态 import，不进全站预加载），图容器为纸面卡片（`theme/custom.css` 的 `.mermaid`）——浅色模式浅纸面、暗色模式深纸面，切主题时由组件内 MutationObserver 触发重渲染；SVG 必须在卡片内等比例缩放到正文宽度，完整展示后由点击放大查看细节，不得仅靠横向滚动隐藏超宽内容；全景/矩阵类图必须用 subgraph 内 `direction LR`（或 block-beta）让同层节点横排，禁止孤立节点直接挂 TB/TD 下由 dagre 逐列排 rank（会形成大空隙竖条）
-- 面包屑（`theme/components/Breadcrumbs.vue`）直接由全站目录树推导，层级为「首页 > 版块 > 目录 > 文章」。不依赖顶部导航，不手工维护第二份目录。
+## 3D 接入约定（首次收录时执行）
 
-## 写作风格
+- 原始 HTML 与预览副本分开保存；原文按字节归档并可下载
+- 依赖按每份作品锁定并在构建/预览中处理，不替模型修改实现
+- 列表只显示真实截图；详情页按需运行单个 WebGL 场景，关闭后卸载
+- 预览使用 `sandbox="allow-scripts"`，不加 `allow-same-origin`，不为 Three.js 放开任意 CDN
+- iframe `load` 不等于 Three.js 成功；需单独验证首帧、跨时刻运动和实际交互
+- 预览失败时明确提示并保留原文下载，不冒称模型失败
 
-- 使用中立、可审计的工程写法，讲清“怎么用、适用边界与常见坑”，不写作者履历或个人项目经历
-- 观点必须标明证据类型与适用边界；无法由公开来源核验的经验数字，改写为待验证假设或删除
-- 术语首次出现给一句话解释；产品名用通用名 + 括号标注典型产品（如"托管 K8s（ACK 类）"）
-- **全文不使用表情包/emoji**（表格内星级评分 ★ 除外）；状态标记用纯文字（已发布/撰写中/提纲）
+## 文案与视觉
 
-## 合规红线（发布前强制自检）
-
-1. **不出现任何客户名称**、可识别的客户项目信息
-2. **不出现内部系统名、内部工具、内部代号**
-3. **不使用未公开数据**（内部报价、容量、性能数据等），只用公开资料或量级化表述
-4. 案例一律以"某行业客户""典型场景"泛化
-5. 涉及阿里云产品处，以官方公开文档为准，不引申未公开能力
-6. **不出现作者履历、任职生态、亲历项目数量或“我参与/我经手/我见过”等个人背书**
-
-## 提纲页扩充约定
-
-提纲页正文以 `::: warning 本文是提纲页 ... :::` 开头，明确范围、核心问题、前置知识与待展开要点。扩充为完整文章时：移除该提示块、补全正文、更新目录中的状态；软件研发同步更新建设清单。目录与查询索引页负责组织入口，不为满足技术正文的配图要求重复插入知识地图。
+- 保留 Pelican Lab 现有白纸/深灰主题与海盐绿交互色；页面首先展示可操作的测试集，不做营销大页
+- 文案说明“能看到什么、能做什么”，删掉空泛口号
+- 不使用表情包/emoji；状态标记用纯文字
+- 作品结果仅作观察，不写综合能力排名或无来源的耗时、费用、分数
 
 ## 发布流程
 
-- 推送到 GitHub 仓库 `main` 分支，GitHub Actions 自动构建并部署到 Pages
-- 提交信息用中文，格式：`新增/更新/修复: <文章或模块>`
-- 本机打包 Git bundle，上传 hkserver 后推送 main，再确认 GitHub Pages 工作流与线上页面；本机不直接 push
+- 推送到 GitHub 仓库 `pelican-lab` 的 `main` 分支，GitHub Actions 自动构建并部署到 Pages
+- 提交信息用中文，格式：`新增/更新/修复: <模块>`
+- 本机打包 Git bundle，上传 hkserver 后推送 main；本机不直接 push
+- 发布前检查 `docs/public` 中是否有未登记、不应公开的文件
 
-## 导航与阅读体验维护
+## 链接兼容
 
-- `site-navigation.mjs`（软件研发引用 `software-sidebar.mjs`，游戏行业引用 `gaming-sidebar.mjs`）是知识目录名称、顺序与层级的唯一来源；首页 `/` 是鹈鹕测试展区，顶部导航只在右上角设置「首页」「知识体系」两个入口，分别指向 `/` 与 `/knowledge/`，不设置模块下拉菜单；知识侧栏和面包屑根为「知识体系 → `/knowledge/`」。鹈鹕测试不放入知识目录，展区页面不显示知识侧栏；旧 `/playground/pelican/` 跳转到首页并保留筛选参数。`KnowledgeTree.vue` 将有子条目的节点渲染为纯展开按钮，只有叶子条目是页面链接；分组的 `link` 仅用于兼容旧目录地址与推导面包屑，不作为侧栏点击行为。
-- `ReadingControls.vue` 提供目录开关：桌面左侧知识目录可向左收起并在本次浏览会话保留偏好，手机使用抽屉；右侧本页目录每次切换文章默认关闭，手动打开后桌面宽屏显示右栏、窄屏显示浮层，支持 Escape 关闭。隐藏的目录不占正文宽度，也不进入键盘焦点顺序。
-- 分类整行展开或收起，不更换正文或关闭手机抽屉；选择文章才切页。目录在当前浏览会话内记住展开状态和滚动位置，导航时仅补充展开目标路径。标题筛选显示匹配文章及所属路径，清除后恢复原目录状态。文章翻页跳过分类目录页；兼容目录页不显示右侧大纲。
-- 本站使用“版块 → 目录 → 文章”，不添加导读卡或推荐阅读顺序。`directory-markdown.mjs` 将目录标记展开为普通 Markdown 链接；文章标题后直接呈现正文，复核记录置于文末。
-- `reading-guides.mjs` 保留搜索摘要；目录、侧栏和文章翻页顺序统一，软件研发与游戏行业翻页不跨目录。知识体系首页 `/knowledge/` 以版块入口为主，站点首页 `/` 为鹈鹕测试展区。
-- `lastVerified` 仅在技术内容实际复核后更新。主题的“内容复核于”与 Git 的“页面修订于”含义不同，改布局不能刷新复核日期。
-- 搜索按文章聚合章节并优先匹配文章标题；`KnowledgeSearch.vue`、`KnowledgeOutline.vue`、`KnowledgeMenuButton.vue`、`KnowledgeTree.vue`、`ReadingControls.vue`、`KnowledgeAside.vue` 通过主题组件别名接入 VitePress。升级 VitePress 时需复测搜索、文章大纲、全站目录和手机抽屉覆盖；必须包含分类不跳页、状态保留、筛选清除、深链接、返回位置、左右目录开关和顶部主页面链接。
+- 旧 `/playground/pelican/` 跳转到 2D 并保留 query/hash
+- 根路径旧筛选链接在首页组件中转发到 2D
+- 旧知识文章路径由 `docs/404.md` 与 `/knowledge/`、`/about`、`/updates` 跳转页转到新知识站
+- 跳转页不进入搜索与 sitemap

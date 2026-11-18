@@ -1,7 +1,7 @@
 {
   "name": "pelican-lab",
-  "version": "1.0.0",
-  "description": "Pelican Lab —— 鹈鹕测试展区与云计算、人工智能、软件研发、游戏行业知识库",
+  "version": "2.0.0",
+  "description": "Pelican Lab —— 同一道提示词下的模型作品测试集：鹈鹕骑车 2D、3D 与后续 benchmark",
   "private": true,
   "type": "module",
   "scripts": {

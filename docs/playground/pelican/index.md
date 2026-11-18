@@ -1,11 +1,11 @@
 ---
-title: 鹈鹕测试已移至首页
+title: 鹈鹕测试已移至新页面
 layout: page
 sidebar: false
 outline: false
 search: false
 readingProgress: false
-redirect: /
+redirect: /benchmarks/pelican-2d/
 ---
 
 <script setup>
@@ -21,7 +21,7 @@ onMounted(() => {
 })
 </script>
 
-<div class="vp-doc" style="max-width: 760px; margin: 0 auto; padding: 48px 24px;">
-  <h1>鹈鹕测试已移至首页</h1>
-  <p>正在打开新的首页。也可以<a :href="withBase(frontmatter.redirect)">直接查看鹈鹕测试</a>。</p>
+<div class="vp-doc" style="max-width: 760px; margin: 0 auto; padding: 32px 24px;">
+  <h1>鹈鹕测试已移至新页面</h1>
+  <p>正在打开鹈鹕骑车 2D 测试集。也可以<a :href="withBase(frontmatter.redirect)">直接查看作品</a>。</p>
 </div>

@@ -1,11 +1,32 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
 import { withBase } from 'vitepress'
-import catalog from '../pelican-catalog.json'
 import { EFFORT_ORDER, filterResults, readFilters, writeFilters } from '../pelican.mjs'
 import PelicanPreview from './PelicanPreview.vue'
 
-type Result = (typeof catalog.results)[number]
+type Result = {
+  id: string
+  modelId: string
+  modelLabel: string
+  reasoningEffort: string
+  batchId: string
+  promptVersion: string
+  importedAt: string
+  artifactPath: string
+  thumbnailPath: string
+  previewArtifactPath?: string | null
+  previewViewport?: { width: number; height: number } | null
+}
+type Dataset = {
+  prompt: string
+  promptVersion: string
+  results: Result[]
+  batches: { id: string; label: string }[]
+}
+const props = defineProps<{ dataset: Dataset; title?: string; eyebrow?: string }>()
+const catalog = props.dataset
+const heading = computed(() => props.title || '鹈鹕骑车 2D')
+const kicker = computed(() => props.eyebrow || 'PELICAN LAB')
 const models = ref<string[]>([])
 const efforts = ref<string[]>([])
 const sort = ref('model')
@@ -33,7 +54,7 @@ const modelOptions = computed(() => allModels.filter(model => model.toLowerCase(
 const hasFilters = computed(() => models.value.length > 0 || efforts.value.length > 0)
 const modelLabel = computed(() => models.value.length === 1 ? models.value[0] : models.value.length ? `已选 ${models.value.length} 个模型` : '全部模型')
 const detailIndex = computed(() => detail.value ? shown.value.findIndex(result => result.id === detail.value!.id) : -1)
-const lastImported = catalog.results.map(result => result.importedAt.slice(0, 10)).sort().at(-1)
+const lastImported = catalog.results.map(result => result.importedAt.slice(0, 10)).sort().at(-1) || '暂无'
 const batchLabel = (id: string) => catalog.batches.find(batch => batch.id === id)?.label || id
 const modelCount = (id: string) => filterResults(catalog.results, { models: [id], efforts: efforts.value }).length
 const effortCount = (effort: string) => filterResults(catalog.results, { models: models.value, efforts: [effort] }).length
@@ -165,9 +186,9 @@ onBeforeUnmount(() => {
 <template>
   <main class="pelican-gallery" aria-labelledby="pelican-title">
     <header class="gallery-heading">
-      <p class="eyebrow">PELICAN LAB</p>
-      <h1 id="pelican-title">同一道题，骑出不同的风景。</h1>
-      <div class="heading-foot"><p>鹈鹕骑车 <span>·</span> {{ catalog.results.length }} 个作品 <span>·</span> {{ allModels.length }} 个模型 <span>·</span> {{ availableEfforts.length }} 档 effort</p><span class="collection-note">保持好奇，持续收录。</span></div>
+      <p class="eyebrow">{{ kicker }}</p>
+      <h1 id="pelican-title">{{ heading }}</h1>
+      <div class="heading-foot"><p>{{ catalog.results.length }} 个作品 <span>·</span> {{ allModels.length }} 个模型 <span>·</span> {{ availableEfforts.length }} 档 effort</p><span class="collection-note">同一道题，不同的风景。</span></div>
     </header>
 
     <section class="prompt-bar" aria-label="测试提示词">
@@ -210,7 +231,7 @@ onBeforeUnmount(() => {
         <div class="card-caption"><div><h2>{{ result.modelLabel }}</h2><span class="effort-tag">{{ result.reasoningEffort }}</span></div><button type="button" :aria-label="`查看 ${result.modelLabel} ${result.reasoningEffort} 的详情`" @click="openDetail(result, $event)">放大查看 <span class="vpi-arrow-right" aria-hidden="true"></span></button></div>
       </article>
     </div>
-    <section v-else class="empty-state"><h2>没有符合条件的作品</h2><p>试试其他模型或 effort，新的骑行作品也会持续加入。</p><button class="primary-button" type="button" @click="clearFilters">查看全部作品</button></section>
+    <section v-else class="empty-state"><h2>没有符合条件的作品</h2><p>试试其他模型或 effort，新的作品也会持续加入。</p><button class="primary-button" type="button" @click="clearFilters">查看全部作品</button></section>
 
     <footer class="collection-footer"><p>同一条提示词，各自的想象力。</p><p>模型与 effort 按收录文件标注；同名档位不代表相同计算预算。<br />最近收录 {{ lastImported }} <span>·</span> 动画自动播放，点击作品即可放大查看。</p></footer>
     <p v-if="announcement" class="gallery-notice" role="status">{{ announcement }}</p>
