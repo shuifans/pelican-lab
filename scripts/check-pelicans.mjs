@@ -46,6 +46,11 @@ for (const result of catalog3d.results) {
   const image = readFileSync(new URL('../docs/public' + result.thumbnailPath, import.meta.url))
   if (image.toString('ascii', 8, 12) !== 'WEBP' || !result.capture) throw new Error(`缺少真实 3D 封面及截图记录：${result.id}`)
   if (result.previewKind !== 'webgl') throw new Error(`3D 预览类型不正确：${result.id}`)
+  if (result.previewArtifactPath) {
+    if (!result.previewArtifactPath.endsWith('.preview.html.txt')) throw new Error('3D 预览副本须作为文本存储')
+    const preview = readFileSync(new URL('../docs/public' + result.previewArtifactPath, import.meta.url), 'utf8')
+    if (/<script[^>]+src\s*=/i.test(preview) || /type="importmap"/i.test(preview)) throw new Error(`3D 预览副本未离线化：${result.id}`)
+  }
 }
 
 const catalogs = { 'pelican-catalog.json': catalog, 'pelican-3d-catalog.json': catalog3d }

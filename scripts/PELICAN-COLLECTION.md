@@ -1,6 +1,6 @@
 # 追加鹈鹕作品
 
-页面入口为 `/`（旧 `/playground/pelican/` 会跳转到首页），清单在 `docs/.vitepress/theme/pelican-catalog.json`。
+2D 页面入口为 `/benchmarks/pelican-2d/`（旧 `/playground/pelican/` 会跳转到 2D 并保留参数），清单在 `docs/.vitepress/theme/pelican-catalog.json`。
 
 1. 准备原始 HTML，命名为 `pelican-bicycle-<完整模型名>-<reasoning effort>.html`。只从最后一个短横线拆分 effort，模型名可以包含 `-max`、`-flash` 等后缀。
 2. 将本次新增文件放入独立目录，执行 `node scripts/import-pelicans.mjs /新增作品目录 batch-003 第三批`。批次 ID 使用未占用的英文小写与短横线；目录不要混入已收录文件。原文按字节存为 `.html.txt`，网页只在隔离的 iframe 中运行，不直接作为同源 HTML 执行。
@@ -16,6 +16,15 @@
 > 创建一个HTML，内容是SVG绘制一个鹈鹕骑自行车的2D动画。
 
 当前导入器只收录此 v1 题目。改变提示词时，先扩展题目版本与关联数据，不能直接改写现有提示词。
+
+## 追加 3D 作品
+
+3D 测试集页面为 `/benchmarks/pelican-3d/`，清单在 `docs/.vitepress/theme/pelican-3d-catalog.json`，提示词逐字保留。
+
+1. 准备原始 HTML 与真实封面（WEBP，1280 × 800 视口截图），写一份 `manifest.json`：`batchId`、`label` 和 `items[].file / thumbnail / modelId / effort`。
+2. 执行 `node scripts/import-pelicans-3d.mjs <manifest.json>`。原文按字节归档为 `.html.txt`，封面写入同一批次目录；相同哈希不会重复收录。
+3. 作品引用 CDN 依赖时，另存预览副本 `<id>.preview.html.txt`：把锁定版本的依赖内联为单个内联 module 脚本，原始归档保持字节不变；清单记录 `previewArtifactPath` 与 `previewDependencies`。预览副本不得保留外链脚本、importmap 或字体外链。
+4. 在带 CSP 的隔离预览中逐个确认首帧、运动与交互，再运行 `node scripts/check-pelicans.mjs`、`node --test tests/*.test.mjs` 与 `npm run docs:build`。
 
 第二批于 2026-09-30 收录，真实参考视口均宽 1280 px：`gpt6.1-sol / medium` 高 840 px，`gpt6.1-sol / high、xhigh` 高 1000 px，`gpt6-astra / high` 高 1050 px。这些尺寸用于保留原始页面的完整画面。
 
@@ -50,3 +59,7 @@
 第十七批于 2026-11-17 收录 `qaudex-cantus-1117 / xhigh`，参考视口为 1280 × 800。原作没有外链脚本或样式，页面在该视口内完整展示，直接使用原始归档预览。模型标识原记为 `cantus-1117`，HTML 字节不变；`1117` 是模型版本标识，不表示测试时间。
 
 第十八批于 2026-11-18 收录 `gpt6.2-astra` 与 `gpt6.2-sol` 的 `low / medium / high / xhigh` 共 8 个作品。`gpt6.2-astra-low` 的参考视口为 1280 × 841，`gpt6.2-astra-medium` 与 `gpt6.2-sol-high` 为 1280 × 868，`gpt6.2-sol-xhigh` 为 1280 × 813，其余四个为 1280 × 800。八份原作没有外链脚本或样式，页面在对应视口内完整展示，直接使用原始归档预览。
+
+第十九批于 2026-11-18 收录 `hy4-flash / high`，参考视口为 1280 × 800。原作没有外链脚本或样式，页面在该视口内完整展示，直接使用原始归档预览。
+
+3D 第二批于 2026-11-18 收录 `hy4-flash / high`、`hy4 / high`、`qwen4-max / high` 与 `qwen4-max / xhigh`，参考视口均为 1280 × 800。四份原作都从 CDN 加载 three.js：前三份为 0.160.0，`qwen4-max / xhigh` 为 0.161.0 并引用 Google Fonts。预览副本把锁定版本的内联实现写入 `<id>.preview.html.txt`，原始归档按字节保留。
