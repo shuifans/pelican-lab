@@ -26,11 +26,6 @@ export default defineConfig({
         content: '同一道提示词下的模型作品测试集：鹈鹕骑车 2D、鹈鹕骑车 3D 与后续 benchmark',
       },
     ],
-    [
-      'script',
-      {},
-      "(function(){var p=location.pathname;var m=p.match(/\\/(?:knowledge|cloud|ai|software|gaming|chronicle)(?:\\/|$)/);if(!m)return;location.replace('https://shuifans.github.io/cloud-ai-knowledge'+p.slice(m.index)+location.search+location.hash)})()",
-    ],
   ],
 
   markdown: {
@@ -43,7 +38,7 @@ export default defineConfig({
     transformItems(items) {
       return items.filter(item => {
         const url = item.url.replace(/\/$/, '')
-        return !/^(?:404|about|updates)(?:\.html)?$/.test(url) && url !== 'knowledge' && url !== 'playground/pelican'
+        return !/^404(?:\.html)?$/.test(url) && url !== 'playground/pelican'
       })
     },
   },
@@ -75,7 +70,6 @@ export default defineConfig({
     nav: [
       { text: '测试集', link: '/' },
       { text: '记录说明', link: '/methodology/' },
-      { text: '知识体系', link: 'https://shuifans.github.io/cloud-ai-knowledge/' },
     ],
 
     sidebar: false,

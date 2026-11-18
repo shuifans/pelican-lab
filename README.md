@@ -4,8 +4,6 @@ Pelican Lab 是一个模型作品测试集站点：用同一道提示词，看�
 
 > 站点地址：<https://shuifans.github.io/pelican-lab/>
 
-知识内容已独立为 [云与 AI 技术知识库](https://shuifans.github.io/cloud-ai-knowledge/)。
-
 ## 站点结构
 
 - 首页 `/`：测试集目录，显示各测试集的作品数、模型数与收录状态

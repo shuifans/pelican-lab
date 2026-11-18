@@ -6,9 +6,9 @@
 
 - 站点品牌：**Pelican Lab**，专注模型作品测试集展示
 - 首页 `/` 是测试集目录；2D 作品位于 `/benchmarks/pelican-2d/`，3D 题目页位于 `/benchmarks/pelican-3d/`，收录口径位于 `/methodology/`
-- 顶部导航为「测试集」「记录说明」「知识体系」；知识体系指向独立的云与 AI 技术知识库
+- 顶部导航为「测试集」「记录说明」
 - 技术栈：VitePress 1.x + Vue 组件；不引入后台、账号、数据库或评分系统
-- 知识正文不放在本仓库；旧知识路径由 404 页与薄跳转指向新知识站
+- 本站只维护 benchmark 内容，不与任何知识站点交叉引用
 
 ## 常用命令
 
@@ -63,5 +63,3 @@ node scripts/import-pelicans.mjs <源目录> <批次ID> [批次名称]
 
 - 旧 `/playground/pelican/` 跳转到 2D 并保留 query/hash
 - 根路径旧筛选链接在首页组件中转发到 2D
-- 旧知识文章路径由 `docs/404.md` 与 `/knowledge/`、`/about`、`/updates` 跳转页转到新知识站
-- 跳转页不进入搜索与 sitemap

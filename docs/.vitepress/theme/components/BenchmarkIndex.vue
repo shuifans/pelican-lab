@@ -67,7 +67,7 @@ onMounted(() => {
 
     <footer class="index-footer">
       <p>同一条提示词，各自的想象力。</p>
-      <p>作品按收录文件标注模型与 effort；同名档位不代表相同计算预算。原始 HTML 按字节保留并可下载。<br />知识内容已独立为 <a href="https://shuifans.github.io/cloud-ai-knowledge/">云与 AI 技术知识库</a>。</p>
+      <p>作品按收录文件标注模型与 effort；同名档位不代表相同计算预算。原始 HTML 按字节保留并可下载。</p>
     </footer>
   </main>
 </template>

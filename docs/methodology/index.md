@@ -47,4 +47,5 @@ import BenchmarkLog from '../.vitepress/theme/components/BenchmarkLog.vue'
 ## 相关
 
 - [Pelican Lab 首页](/)
-- [云与 AI 技术知识库](https://shuifans.github.io/cloud-ai-knowledge/)
+- [鹈鹕骑车 2D](/benchmarks/pelican-2d/)
+- [鹈鹕骑车 3D](/benchmarks/pelican-3d/)
