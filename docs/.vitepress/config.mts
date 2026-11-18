@@ -47,26 +47,6 @@ export default defineConfig({
     logo: { light: '/logo.svg?v=pelican', dark: '/logo-dark.svg?v=pelican', alt: 'Pelican Lab' },
     siteTitle: 'Pelican Lab',
 
-    search: {
-      provider: 'local',
-      options: {
-        translations: {
-          button: { buttonText: '搜索', buttonAriaLabel: '搜索' },
-          modal: {
-            displayDetails: '显示详细列表',
-            resetButtonTitle: '清除查询条件',
-            backButtonTitle: '关闭搜索框',
-            noResultsText: '无法找到相关结果',
-            footer: {
-              selectText: '选择',
-              navigateText: '切换',
-              closeText: '关闭',
-            },
-          },
-        },
-      },
-    },
-
     nav: [
       { text: '鹈鹕骑车 2D', link: '/benchmarks/pelican-2d/', activeMatch: '^/benchmarks/pelican-2d/' },
       { text: '鹈鹕骑车 3D', link: '/benchmarks/pelican-3d/', activeMatch: '^/benchmarks/pelican-3d/' },
