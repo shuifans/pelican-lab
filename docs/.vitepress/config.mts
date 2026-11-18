@@ -68,8 +68,8 @@ export default defineConfig({
     },
 
     nav: [
-      { text: '测试集', link: '/' },
-      { text: '记录说明', link: '/methodology/' },
+      { text: '鹈鹕骑车 2D', link: '/benchmarks/pelican-2d/', activeMatch: '^/benchmarks/pelican-2d/' },
+      { text: '鹈鹕骑车 3D', link: '/benchmarks/pelican-3d/', activeMatch: '^/benchmarks/pelican-3d/' },
     ],
 
     sidebar: false,
