@@ -218,10 +218,13 @@ onBeforeUnmount(() => {
         <button type="button" :aria-pressed="!efforts.length" @click="applyFilters({ efforts: [] })">全部</button>
         <button v-for="effort in availableEfforts" :key="effort" type="button" :aria-pressed="efforts.includes(effort)" :title="`${effort} · ${effortCount(effort)} 个作品`" @click="applyFilters({ efforts: toggle(efforts, effort) })">{{ effort }}<small>{{ effortCount(effort) }}</small></button>
       </div></fieldset>
-      <label class="sort-control"><span class="sr-only">作品排序</span><select :value="sort" aria-label="作品排序" @change="applyFilters({ sort: ($event.target as HTMLSelectElement).value })"><option value="model">名称与 effort 升序</option><option value="recent">最近收录</option></select></label>
+      <div class="filter-actions">
+        <button class="clear-filters" type="button" :disabled="!hasFilters && sort === 'model'" @click="clearFilters">清除筛选</button>
+        <label class="sort-control"><span class="sr-only">作品排序</span><select :value="sort" aria-label="作品排序" @change="applyFilters({ sort: ($event.target as HTMLSelectElement).value })"><option value="model">名称与 effort 升序</option><option value="recent">最近收录</option></select></label>
+      </div>
     </section>
 
-    <div class="results-bar"><p role="status" aria-live="polite">显示 <strong>{{ shown.length }}</strong> / {{ catalog.results.length }} 个作品 <button v-if="hasFilters || sort !== 'model'" type="button" @click="clearFilters">清空筛选</button></p><span>趣味观察，不代表综合能力排名。</span></div>
+    <div class="results-bar"><p role="status" aria-live="polite">显示 <strong>{{ shown.length }}</strong> / {{ catalog.results.length }} 个作品</p><span>趣味观察，不代表综合能力排名。</span></div>
 
     <div v-if="shown.length" ref="grid" class="pelican-grid">
       <article v-for="(result, index) in shown" :key="result.id" class="pelican-card" :data-result-id="result.id" :aria-label="`${result.modelLabel} · ${result.reasoningEffort}`">
@@ -296,12 +299,15 @@ summary::-webkit-details-marker { display: none; }
 .effort-options small { color: var(--coast-muted); font-size: 10px; }
 .effort-options button[aria-pressed='true'] { color: #fffdf5; background: var(--coast-button); border-color: var(--coast-button); }
 .effort-options button[aria-pressed='true'] small { color: #fffdf5; }
-.sort-control { margin-left: auto; }
+.filter-actions { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+.clear-filters { flex: none; min-height: 38px; padding: 7px 14px; border: 1px solid var(--coast-line); border-radius: 99px; background: var(--coast-card); color: var(--coast-accent); font-size: 13px; white-space: nowrap; }
+.clear-filters:hover:not(:disabled) { border-color: var(--coast-accent); background: var(--coast-wash); }
+.clear-filters:disabled { color: var(--coast-muted); opacity: .55; }
+.sort-control { margin-left: 0; }
 .sort-control select { max-width: 100%; min-height: 38px; padding: 6px 24px 6px 10px; border: 1px solid var(--coast-line); border-radius: 8px; color: var(--coast-ink); background: var(--coast-card); font-size: 13px; }
 .results-bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 15px 4px; color: var(--coast-muted); font-size: 12px; }
 .results-bar p { margin: 0; }
 .results-bar strong { color: var(--coast-ink); font-weight: 550; }
-.results-bar button { margin-left: 15px; color: var(--coast-accent); text-decoration: underline; text-underline-offset: 4px; }
 .pelican-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
 .pelican-card { min-width: 0; padding: 7px; border-radius: 14px; border: 1px solid var(--coast-line); background: var(--coast-card); transition: border-color .18s; }
 .pelican-card:hover { border-color: var(--coast-accent); }
@@ -347,7 +353,7 @@ summary::-webkit-details-marker { display: none; }
   .effort-options small { display: none; }
   .pelican-gallery { padding: 26px 18px 36px; }.gallery-heading { padding: 0 2px 22px; }h1 { font-size: 32px; max-width: 12em; line-height: 1.45; margin-bottom: 12px; }.eyebrow { font-size: 10px; margin-bottom: 10px; }.heading-foot p { font-size: 12px; }.heading-foot p span { padding: 0 3px; }
   .prompt-bar { flex-wrap: wrap; gap: 8px 12px; padding: 14px 16px; }.prompt-bar .field-label { order: 0; }.prompt-bar p { order: 2; flex-basis: 100%; font-size: 14px; }.copy-button { order: 1; margin-left: auto; font-size: 12px; min-height: 36px; padding: 6px 11px; }
-  .filter-bar { padding: 14px; gap: 15px; }.model-control { flex: 1; min-width: 0; }.model-menu { flex: 1; min-width: 0; }.model-menu summary { width: 100%; gap: 8px; }.model-options { left: -44px; }.effort-control { order: 3; flex-basis: 100%; }.effort-options { gap: 5px; }.effort-options button { padding: 8px 11px; font-size: 12px; min-height: 40px; }.sort-control select { font-size: 12px; padding-right: 6px; }.results-bar { flex-wrap: wrap; gap: 6px; font-size: 11px; padding: 13px 1px; }.results-bar > span { flex-basis: 100%; }
+  .filter-bar { padding: 14px; gap: 15px; }.model-control { flex: 1; min-width: 0; }.model-menu { flex: 1; min-width: 0; }.model-menu summary { width: 100%; gap: 8px; }.model-options { left: -44px; }.effort-control { order: 3; flex-basis: 100%; }.filter-actions { order: 2; flex-basis: 100%; justify-content: space-between; margin-left: 0; }.clear-filters { min-height: 40px; }.effort-options { gap: 5px; }.effort-options button { padding: 8px 11px; font-size: 12px; min-height: 40px; }.sort-control select { font-size: 12px; padding-right: 6px; }.results-bar { flex-wrap: wrap; gap: 6px; font-size: 11px; padding: 13px 1px; }.results-bar > span { flex-basis: 100%; }
   .pelican-grid { grid-template-columns: 1fr; gap: 16px; }.card-caption { padding: 10px 7px 4px; }.card-caption h2 { font-size: 16px; }.card-caption > button { min-height: 40px; font-size: 12px; }.collection-footer { display: block; margin-top: 28px; }.collection-footer p:last-child { text-align: left; margin-top: 9px; font-size: 11px; }
   .pelican-dialog { width: 100vw; max-height: 100dvh; height: 100dvh; border: 0; border-radius: 0; }.detail-heading { padding: 13px 16px; }.detail-heading h2 { font-size: 18px; gap: 8px; }.detail-toolbar { flex-wrap: wrap; padding: 13px 16px; gap: 10px; }.detail-toolbar > div { flex: 1; justify-content: space-between; }.detail-toolbar .quiet-button, .detail-toolbar .primary-button { padding: 8px 13px; min-height: 44px; }.detail-info { padding: 3px 16px 25px; }.detail-info > div { gap: 14px; }.detail-actions { width: 100%; gap: 16px; }.detail-actions button { min-height: 44px; }
 }
