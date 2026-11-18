@@ -80,7 +80,7 @@ Pelican Lab 以鹈鹕测试展区为首页：用同一条提示词，观察不�
 
 ### 2026-10-24：鹈鹕测试新增 Qaudex Cantus 与 Sonus 作品
 
-[鹈鹕测试](/?model=qaudex-cantus,qaudex-sonus&effort=xhigh) 新增 `qaudex-cantus / xhigh` 与 `qaudex-sonus / xhigh`，现有 35 个作品、28 个模型。原始 HTML 按字节保留并可下载；两份作品均为内联 SVG，隔离预览不依赖外网。测试时间未知，收录日期不作为测试时间。
+[鹈鹕测试](/?model=qaudex-cantus-1019,qaudex-sonus-1019&effort=xhigh) 新增 `qaudex-cantus-1019 / xhigh` 与 `qaudex-sonus-1019 / xhigh`，现有 35 个作品、28 个模型。原始 HTML 按字节保留并可下载；两份作品均为内联 SVG，隔离预览不依赖外网。`1019` 是模型版本标识，不表示测试时间。测试时间未知，收录日期不作为测试时间。
 
 ### 2026-11-08：鹈鹕测试新增 QoDuck 作品
 
