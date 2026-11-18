@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>鹈鹕的海岸骑行</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f7f1df;color:#263e39;font-family:"PingFang SC",sans-serif}main{max-width:1080px;margin:auto;padding:5vh 5vw}header,footer{display:flex;align-items:center;justify-content:space-between}h1{font-family:serif;font-size:clamp(24px,4vw,47px);letter-spacing:.08em;margin:0 0 20px}svg{display:block;width:100%;border-radius:18px;background:#ffe8b7}footer{padding:16px 0;font-size:13px;letter-spacing:.12em}button{background:#29463f;color:white;border:0;border-radius:40px;padding:9px 20px;font:inherit;cursor:pointer}
+</style></head><body><main><header><h1>鹈鹕的海岸骑行</h1></header>
+<svg id="scene" viewBox="0 0 900 570" role="img" aria-labelledby="title desc"><title id="title">鹈鹕骑自行车</title><desc id="desc">夕阳下，一只系着红领巾的白鹈鹕蹬着湖绿色自行车，沿海岸向右骑行。</desc>
+<defs>
+<linearGradient id="sky" x2="0" y2="1"><stop stop-color="#f9d59e"/><stop offset="1" stop-color="#fff1ca"/></linearGradient>
+<g id="wheel" stroke="#293f39" fill="none"><circle r="67" stroke-width="10"/><circle r="60" stroke="#fbf1cc" stroke-width="4"/><g id="spokes" stroke-width="1.5"></g><circle r="5" fill="#c98049"/></g>
+<g id="grass" fill="#577760"><path d="M0 0q-3-22-19-35Q-7-15 0 0m1 0q0-30 13-47Q8-22 1 0m0 0q9-22 22-26Q10-12 1 0"/></g>
+</defs>
+<path fill="url(#sky)" d="M0 0h900v370H0z"/><circle cx="692" cy="147" r="76" fill="#f6aa61"/>
+<g fill="#fff4d7"><path d="M60 121q13-18 34-14 19-40 54-14 21-5 33 14 23 0 34 14zM600 87q10-11 25-10 15-25 39-10 21-2 28 10 14 0 23 10z"/></g>
+<path fill="#99b6a0" d="M0 302q86-59 150-28t138 8q90-56 165-15t160 5q110-60 192-21l95 31v75H0z"/>
+<path fill="#78afa5" d="M0 303h900v130H0z"/><path d="M0 326h112m32 9h88m415-16h113m25 15h72M30 360h165m530-1h148" stroke="#d5dfbe" stroke-width="4" stroke-linecap="round"/>
+<path fill="#b6bb86" d="M0 390q124-24 280-6t332-4q137-23 288-4v100H0z"/><path fill="#e8bb88" d="M0 427q250-9 900 0v143H0z"/>
+<g id="road"></g><ellipse cx="441" cy="475" rx="208" ry="10" fill="#bd986e" opacity=".5"/>
+<g id="rear" transform="translate(318 405)"><use href="#wheel"/></g><g id="front" transform="translate(567 405)"><use href="#wheel"/></g>
+<g stroke-linecap="round" stroke-linejoin="round" fill="none">
+<path d="M318 405L383 328 423 405Z M383 328l135-11-95 88 M567 405l-55-105" stroke="#28473d" stroke-width="12"/>
+<path d="M318 405L383 328 423 405Z M383 328l135-11-95 88 M567 405l-55-105" stroke="#519281" stroke-width="7"/>
+<path d="M382 328l-10-25m141 0-9-23 23-7" stroke="#32473b" stroke-width="7"/><path d="M351 301q17 5 40 0m127-26 15-3" stroke="#814e39" stroke-width="10"/></g>
+<circle cx="423" cy="405" r="15" fill="#e2cb9d" stroke="#33483e" stroke-width="4"/>
+<g id="legs"></g>
+<g id="bird" stroke="#493e31" stroke-width="3.5" stroke-linejoin="round">
+<path fill="#fff5d9" d="M287 228q28 3 51 12 31-40 83-35 24 1 34-20-4-30 2-54 4-34 36-39 31-4 43 21 10 26-15 45-12 13-12 38 3 54-52 86-51 32-102 5-26-13-41-34l-25-10 18 1z"/>
+<path fill="#e9dec0" d="M318 244q38-27 79-24 29 2 43 13-20 30-57 35-31 4-65-24z"/>
+<path fill="none" stroke="#b1a78b" stroke-width="2" d="M332 244q28 15 58 9m-47-16q27 11 52 7"/>
+<path fill="#eaaa61" d="M521 127q51 8 110 33-52 30-83 19-22-8-27-52z"/><path fill="#f9c36a" d="M520 123q31-4 111 34l7 6q-55-8-119-29z"/>
+<circle cx="509" cy="117" r="4.5" fill="#332f28" stroke="none"/><path d="M500 107q6-5 12-2" fill="none"/>
+<path fill="#c75338" d="M456 173q24 13 53 8l-3 12q-28 4-53-9z M457 180q-28-7-53 4l13 4-13 10q32-1 53-18z"/>
+<path fill="#fff2cf" d="M437 210q16 0 29 18l40 34 24 5q7 2 4 8-4 6-19 3-39-7-73-34-17-14-5-34z"/></g>
+</svg><footer><span>海岸漫游 · 日落时分</span><button id="toggle" type="button">暂停动画</button></footer></main>
+<script>
+const ns='http://www.w3.org/2000/svg';
+function add(parent,tag,attrs){const node=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs))node.setAttribute(k,v);parent.append(node);return node}
+const el=id=>document.getElementById(id);
+for(let i=0;i<12;i++)add(el('spokes'),'path',{d:'M0 0h60',transform:'rotate('+i*30+')'});
+for(let i=0;i<9;i++){add(el('road'),'use',{href:'#grass',x:i*155-70,y:424-i%3*4});add(el('road'),'path',{d:'M'+(i*155-105)+' 502h24m16 13h9',stroke:'#cc9b68','stroke-width':3,'stroke-linecap':'round'})}
+const feet=[0,1].map(()=>['path','path','path'].map(tag=>add(el('legs'),tag,{'stroke-linecap':'round','stroke-linejoin':'round'})));
+let running=!matchMedia('(prefers-reduced-motion: reduce)').matches,time=0,last;
+function draw(){
+ const angle=time*3,bob=Math.sin(angle*2)*2;
+ el('bird').setAttribute('transform','translate(0 '+bob+')');
+ for(const [id,x] of [['rear',318],['front',567]])el(id).setAttribute('transform','translate('+x+' 405) rotate('+time*74+')');
+ el('road').setAttribute('transform','translate('+(-(time*86)%155)+' 0)');
+ feet.forEach(([leg,crank,foot],i)=>{const a=angle+i*Math.PI,x=423+25*Math.cos(a),y=405+25*Math.sin(a),hip=393+i*13;
+ leg.setAttribute('d','M'+hip+' '+(270+bob)+' Q'+(hip+48)+' 298 '+(hip+48)+' '+(313+8*Math.cos(a))+' L'+(x-9)+' '+(y-6));leg.setAttribute('fill','none');leg.setAttribute('stroke',i?'#cf873e':'#ac713c');leg.setAttribute('stroke-width',9);
+ crank.setAttribute('d','M423 405L'+x+' '+y+'m-10 0h20');crank.setAttribute('stroke','#39483e');crank.setAttribute('stroke-width',5);crank.setAttribute('fill','none');
+ foot.setAttribute('d','M'+(x-11)+' '+(y-11)+'l19 4 8 5-29-1z');foot.setAttribute('fill','#eda84e');foot.setAttribute('stroke','#704f35');});
+}
+let frame;
+function loop(now){if(!running)return;if(last!==undefined)time+=Math.min((now-last)/1000,.08);last=now;draw();frame=requestAnimationFrame(loop)}
+function update(){el('toggle').textContent=running?'暂停动画':'播放动画';last=undefined;cancelAnimationFrame(frame);if(running)frame=requestAnimationFrame(loop)}
+el('toggle').onclick=()=>{running=!running;update()};draw();update();
+</script></body></html>

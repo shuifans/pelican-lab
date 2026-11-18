@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>鹈鹕骑行</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100svh;display:grid;place-items:center;background:#f7f1e4;color:#173e40;font-family:system-ui,sans-serif}
+main{width:min(960px,94vw);padding:24px 0}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+h1{font-size:clamp(24px,5vw,47px);margin:0;letter-spacing:.09em}
+button{font:inherit;color:inherit;background:#fff9ed;border:1px solid #416365;border-radius:30px;padding:8px 17px;cursor:pointer}
+button:focus-visible{outline:3px solid #c35b38;outline-offset:3px}
+svg{display:block;width:100%;height:auto;border-radius:22px;background:#cbe5db}
+</style>
+<main>
+<header><h1>鹈鹕骑行</h1><button id="toggle" type="button">暂停动画</button></header>
+<svg viewBox="0 0 880 500" role="img" aria-labelledby="title desc">
+<title id="title">鹈鹕骑自行车</title>
+<desc id="desc">戴着红围巾的鹈鹕踩着一辆橘红色自行车，经过海边的沙丘。</desc>
+<defs>
+  <g id="wheel" fill="none">
+    <circle r="73" stroke="#fff2cc" stroke-width="9"/>
+    <circle r="78" stroke="#203f41" stroke-width="8"/>
+    <path d="M-70 0H70M0-70V70M-49-49L49 49M49-49L-49 49M-65-27L65 27M-27-65L27 65M27-65L-27 65M65-27L-65 27" stroke="#547d78" stroke-width="2"/>
+    <circle r="7" fill="#203f41"/>
+  </g>
+  <pattern id="cloud" width="570" height="120" patternUnits="userSpaceOnUse">
+    <path d="M27 88Q36 72 57 76Q66 52 88 58Q110 60 115 80Q139 76 148 88ZM343 43Q351 30 369 32Q383 12 400 32Q416 26 431 43Z" fill="#fff8df" opacity=".9"/>
+  </pattern>
+  <pattern id="sand" width="320" height="65" patternUnits="userSpaceOnUse">
+    <path d="M24 16h29m45 32h15m80-21h36m40 23h22" stroke="#aa734c" stroke-width="3" stroke-linecap="round" opacity=".35"/>
+  </pattern>
+</defs>
+<circle cx="708" cy="103" r="56" fill="#f8ce79"/>
+<rect width="880" height="120" fill="url(#cloud)"/>
+<path d="M0 213Q140 177 275 213T550 216T880 198V431H0Z" fill="#79ada5"/>
+<path d="M0 263Q112 245 227 263T469 258T707 260T880 250M0 289Q103 271 216 288T454 288T683 283T880 277" fill="none" stroke="#c3e2d3" stroke-width="4" opacity=".8"/>
+<path d="M0 336Q115 276 290 322T582 333T880 303V500H0Z" fill="#e6bb83"/>
+<path d="M0 404Q200 384 440 397T880 388V500H0Z" fill="#f5dca9"/>
+<rect y="434" width="880" height="65" fill="url(#sand)"/>
+<ellipse cx="442" cy="427" rx="257" ry="12" fill="#a27250" opacity=".23"/>
+<use id="rear" href="#wheel" transform="translate(277 344)"/>
+<use id="front" href="#wheel" transform="translate(614 344)"/>
+<path d="M392 196Q414 219 432 247L405 293" id="farLeg" fill="none" stroke="#9e6245" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M277 344L363 250L418 344ZM363 250L557 238L418 344M614 344L547 218" fill="none" stroke="#c95134" stroke-width="11" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M363 250L348 225M547 218L535 194Q531 183 553 180L567 178" fill="none" stroke="#203f41" stroke-width="8" stroke-linecap="round"/>
+<path d="M323 223Q345 215 376 221Q382 224 375 230H335Q324 230 323 223Z" fill="#203f41"/>
+<path d="M277 335L416 325M277 352L416 363" fill="none" stroke="#203f41" stroke-width="3"/>
+<circle cx="418" cy="344" r="19" fill="#f5dca9" stroke="#203f41" stroke-width="5"/>
+<g id="crank" transform="translate(418 344)" stroke="#203f41" stroke-width="6" stroke-linecap="round">
+  <path d="M-25 0H25M-32 0h14M18 0h14"/>
+</g>
+<g id="bird" stroke="#254749" stroke-width="3.5" stroke-linejoin="round">
+  <path d="M459 130Q419 122 354 111L375 125L333 124Q374 152 458 144Z" fill="#bf503e"/>
+  <path d="M422 149Q444 133 451 106Q449 79 468 66Q494 47 520 67Q538 83 527 108Q514 130 494 151Q470 192 428 209Q372 234 326 199L295 170L344 178Q371 147 422 149Z" fill="#fff6df"/>
+  <path d="M514 87Q576 94 640 113Q607 136 558 129Q522 125 514 99Z" fill="#e7a756"/>
+  <path d="M515 85Q572 85 642 111Q647 116 636 117L523 102Z" fill="#f5c674"/>
+  <path d="M448 122Q468 134 500 139L489 155Q463 152 441 138Z" fill="#cb5744"/>
+  <path d="M425 160Q464 166 492 184Q516 189 542 180Q554 177 555 187Q544 202 510 203Q477 202 453 190Q419 217 374 205Q349 199 340 182Q381 188 401 172Q414 161 425 160Z" fill="#e9debd"/>
+  <path d="M350 193Q366 198 384 195M363 202Q380 206 399 199" fill="none" stroke="#8f9b88" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="506" cy="81" r="5" fill="#203f41" stroke="none"/>
+  <circle cx="507.5" cy="79.5" r="1.4" fill="#fff" stroke="none"/>
+  <path d="M472 67Q465 60 457 58M480 63Q475 53 470 50" fill="none" stroke-linecap="round"/>
+</g>
+<path id="leg" d="M388 210Q417 222 444 260L443 344" fill="none" stroke="#aa6743" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/>
+<path id="foot" d="M-9-4Q0-11 9-6L23 0Q25 6 13 6H-8Z" transform="translate(443 341)" fill="#ecaa58" stroke="#254749" stroke-width="2.5"/>
+</svg>
+</main>
+<script>
+const byId = id => document.getElementById(id)
+const toggle = byId('toggle')
+const motion = matchMedia('(prefers-reduced-motion: reduce)')
+let playing = !motion.matches
+let elapsed = 0
+let previous = null
+let frame
+
+function draw() {
+  const angle = elapsed * Math.PI / 900
+  const degrees = angle * 180 / Math.PI
+  const dx = Math.cos(angle) * 25
+  const dy = Math.sin(angle) * 25
+  const bob = Math.sin(angle * 2) * 1.4
+  byId('rear').setAttribute('transform', `translate(277 344) rotate(${degrees})`)
+  byId('front').setAttribute('transform', `translate(614 344) rotate(${degrees})`)
+  byId('crank').setAttribute('transform', `translate(418 344) rotate(${degrees})`)
+  byId('bird').setAttribute('transform', `rotate(${bob / 2} 550 184)`)
+  byId('leg').setAttribute('d', `M388 ${210 + bob} Q424 224 ${447 + dx * .44} ${263 + dy * .55} L${418 + dx} ${341 + dy}`)
+  byId('farLeg').setAttribute('d', `M392 196 Q412 221 ${431 - dx * .44} ${252 - dy * .55} L${418 - dx} ${344 - dy}`)
+  byId('foot').setAttribute('transform', `translate(${418 + dx} ${341 + dy})`)
+  byId('sand').setAttribute('patternTransform', `translate(${-(elapsed * .27 % 320)} 0)`)
+  byId('cloud').setAttribute('patternTransform', `translate(${-(elapsed * .021 % 570)} 0)`)
+}
+
+function tick(now) {
+  if (previous !== null) elapsed += Math.min(now - previous, 50)
+  previous = now
+  draw()
+  frame = requestAnimationFrame(tick)
+}
+
+function updatePlayback() {
+  cancelAnimationFrame(frame)
+  previous = null
+  toggle.textContent = playing ? '暂停动画' : '播放动画'
+  if (playing) frame = requestAnimationFrame(tick)
+}
+
+toggle.addEventListener('click', () => {
+  playing = !playing
+  updatePlayback()
+})
+motion.addEventListener('change', event => {
+  playing = !event.matches
+  updatePlayback()
+})
+draw()
+updatePlayback()
+</script>
+</html>

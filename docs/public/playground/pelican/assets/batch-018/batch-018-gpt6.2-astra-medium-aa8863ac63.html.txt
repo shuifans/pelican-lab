@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>鹈鹕的海岸骑行</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f4f0e5;color:#203f45;font-family:"DM Sans","PingFang SC",sans-serif}main{max-width:1240px;margin:auto;padding:clamp(18px,4vw,56px)}header,footer{display:flex;align-items:center;justify-content:space-between;gap:12px}header{border-bottom:2px solid;padding-bottom:15px;margin-bottom:20px}h1{font-size:clamp(21px,3.3vw,43px);margin:0;letter-spacing:.04em}.english{font:italic clamp(14px,2vw,24px) Georgia,serif}svg{display:block;width:100%;height:auto;background:#bcdacb}figure{margin:0;border:2px solid #203f45;border-radius:4px;overflow:hidden}footer{padding-top:15px;font-size:13px}button{color:inherit;background:none;border:1px solid currentColor;padding:9px 15px;border-radius:30px;font:inherit;cursor:pointer}button:hover{background:#e4e6d7}button:focus-visible{outline:3px solid #d25a35;outline-offset:3px}
+</style>
+<main><header><h1>鹈鹕的海岸骑行</h1><span class="english" lang="en">The Coastal Ride</span></header>
+<figure><svg id="scene" viewBox="0 0 1000 540" role="img" aria-labelledby="title desc" xmlns="http://www.w3.org/2000/svg">
+<title id="title">海岸公路上的骑车鹈鹕</title><desc id="desc">一只戴着蓝帽子、系着红围巾的白鹈鹕蹬着绿色自行车，骑过海湾和灯塔。</desc>
+<defs>
+<pattern id="foam" width="130" height="32" patternUnits="userSpaceOnUse"><path d="M8 12h28m40 15h13m8-4h14" stroke="#dbebd7" stroke-width="2" stroke-linecap="round"/></pattern>
+<pattern id="road" width="160" height="42" patternUnits="userSpaceOnUse"><path d="M17 29h17m70-19h9" stroke="#bd9b70" stroke-width="2" stroke-linecap="round"/></pattern>
+<pattern id="grain" width="9" height="11" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r=".75" fill="#644c30" opacity=".18"/><circle cx="7" cy="8" r=".65" fill="#fff9de" opacity=".5"/></pattern>
+<g id="wheel"><circle r="63" fill="#d8e4cc" fill-opacity=".26" stroke="#213e43" stroke-width="10"/><circle r="57" fill="none" stroke="#fff1d4" stroke-width="3"/><g stroke="#486369" stroke-width="1.8"><path id="spoke" d="M0-56V56"/><use href="#spoke" transform="rotate(20)"/><use href="#spoke" transform="rotate(40)"/><use href="#spoke" transform="rotate(60)"/><use href="#spoke" transform="rotate(80)"/><use href="#spoke" transform="rotate(100)"/><use href="#spoke" transform="rotate(120)"/><use href="#spoke" transform="rotate(140)"/><use href="#spoke" transform="rotate(160)"/></g><circle r="7" fill="#29454a"/></g>
+<g id="grass" fill="#597361"><path d="M0 0q-2-16-12-24Q0-20 4-6q-1-24 7-33Q8-17 9-5q6-14 15-17L13 0Z"/></g>
+</defs>
+<rect width="1000" height="540" fill="#bfdccd"/><circle cx="732" cy="121" r="76" fill="#f9b278"/>
+<g fill="#f5ecd3"><path d="M50 102q6-12 26-11 15-24 37-7 19-5 29 8 21-2 30 10Z"/><path d="M786 65q12-11 24-8 12-22 37-8 20-3 27 10 15-1 22 6Z"/></g>
+<g fill="none" stroke="#526f68" stroke-width="3" stroke-linecap="round"><path d="M246 69q9-4 16 4 2-9 13-10m-65 32q7-3 13 3 3-8 10-8m650 58q8-3 14 4 3-8 12-8"/></g>
+<path d="M0 251q73-34 129-21t118 3q58-32 108-18l71 27q79-25 152-10t134-15q53-27 108-14t180-19v80H0Z" fill="#94b5a4"/>
+<rect y="256" width="1000" height="144" fill="#81b9ad"/><rect y="266" width="1000" height="126" fill="url(#foam)"/>
+<g transform="translate(811 164)"><path d="M-14 81l7-59H9l8 59Z" fill="#f6ead0" stroke="#47635d" stroke-width="2"/><path d="M-10 50h23l2 13h-27Z" fill="#d7684a"/><path d="M-9 22V9h19v13z" fill="#f9ca81" stroke="#405b58" stroke-width="3"/><path d="M-15 10 0-2l15 12Zm1 12h29v4h-29" fill="#405b58"/><path d="M0-2v-6" stroke="#405b58" stroke-width="2"/></g>
+<path d="M662 276q55-10 88-29 23-17 66-10 26 6 54 0 37-8 57 6l73-3v41Z" fill="#587f70"/>
+<path d="M0 299q85 4 167 40 79 33 222 32 148-3 275 4 177 13 336-39v75H0Z" fill="#9ca77b"/>
+<path d="M0 336q88-5 186 28t232 25q224-12 343 1t239-20v45H0Z" fill="#6e8b72"/>
+<path d="M0 397q187-8 354 0t331 1 315-3v145H0Z" fill="#dfc69b"/><rect y="408" width="1000" height="132" fill="url(#road)"/>
+<g id="dashes" fill="#f7e7c5"><path d="M-220 493h117l-9 4h-118Zm250 0h117l-9 4H21Zm250 0h117l-9 4H271Zm250 0h117l-9 4H521Zm250 0h117l-9 4H771Zm250 0h117l-9 4h-118Z"/></g>
+<g id="plants"><use href="#grass" x="100" y="397"/><use href="#grass" x="739" y="397"/><use href="#grass" x="1100" y="397"/><use href="#grass" x="1739" y="397"/></g>
+<ellipse cx="488" cy="465" rx="177" ry="8" fill="#877b5d" opacity=".32"/>
+<g stroke-linecap="round" stroke-linejoin="round">
+<g transform="translate(376 396)"><use id="rear" href="#wheel"/></g><g transform="translate(590 396)"><use id="front" href="#wheel"/></g>
+<path id="farleg" fill="none" stroke="#ab602e" stroke-width="11"/><path id="farfoot" fill="#c7793c" stroke="#704e36" stroke-width="2"/>
+<path d="m376 396 55-92 52 88-107 4m55-92 137-5-85 93m107 4-28-119 15-15h22" stroke="#234850" fill="none" stroke-width="11"/>
+<path d="m376 396 55-92 52 88-107 4m55-92 137-5-85 93m107 4-22-96" stroke="#419b8c" fill="none" stroke-width="6"/>
+<path d="m431 304-10-24m143 6-2-9 15-15h22" stroke="#324c4c" fill="none" stroke-width="7"/>
+<path d="M398 276q4-5 17-3l27 2q6 2 1 6l-37 2q-10 0-8-7Z" fill="#7c4d32" stroke="#293e3e" stroke-width="3"/>
+<circle cx="483" cy="392" r="16" fill="#73998c" stroke="#29484a" stroke-width="4"/>
+<g id="bird" stroke="#294649" stroke-width="3.5">
+<path d="m491 183-40 5-27-9 9 12-13 4q38 18 74-3" fill="#dc6243"/>
+<path d="M355 225q18 2 34-2l-26-15q48 8 79-9 33-15 36-51 2-34 33-41 26-5 41 16 8 18-7 40l-21 22q-9 12-7 34 0 39-36 56-46 19-81-7Z" fill="#fbf2d9"/>
+<path d="M397 230q40 1 68-22-2 28-25 41-19 11-38 4l18-10-24 3 18-12Z" fill="#d9dfc9" stroke-width="2.5"/>
+<path d="M540 133q38 7 98 30l-2 9q-9 25-34 22-31-3-71-44Z" fill="#ee9755"/>
+<path d="M537 131q53 5 108 33 1 5-10 5l-101-23Z" fill="#f4c56a"/>
+<circle cx="527" cy="132" r="4" fill="#253d40" stroke="none"/>
+<path d="M478 117q1-30 27-32 20-1 29 17l18-1q7 2 1 7l-29 6Z" fill="#377a82"/><path d="m480 110 52-9" fill="none" stroke="#243f46"/>
+<path d="M478 173q17 9 39 8l-3 12q-25 3-41-9Z" fill="#dd6245"/>
+<path d="M468 208q12-5 24 5 22 20 74 45l16 2q5 3-2 6l-15 1q-63-15-91-35" fill="#f5e8c9"/>
+</g>
+<path id="crank" stroke="#293e42" stroke-width="6"/><path id="leg" fill="none" stroke="#d38b43" stroke-width="12"/><path id="foot" fill="#efad56" stroke="#805831" stroke-width="2.5"/><path id="pedal" stroke="#294347" stroke-width="6"/>
+</g><rect width="1000" height="540" fill="url(#grain)" pointer-events="none"/>
+</svg></figure><footer><span>海岸公路 · SVG 动画</span><button type="button" id="toggle">Ⅱ　暂停动画</button></footer></main>
+<script>
+const get=id=>document.getElementById(id);
+let running=!matchMedia('(prefers-reduced-motion: reduce)').matches, t=0, last=0;
+function leg(angle,far,bob){
+  const x=483+24*Math.cos(angle), y=392+24*Math.sin(angle);
+  const hipX=far?444:453,hipY=267+bob;
+  // Two linked segments keep each webbed foot on its pedal.
+  const dx=x-hipX,dy=y-hipY,d=Math.hypot(dx,dy);
+  const bend=Math.sqrt(Math.max(0,81*81-d*d/4));
+  const kx=(hipX+x)/2+dy/d*bend, ky=(hipY+y)/2-dx/d*bend;
+  get(far?'farleg':'leg').setAttribute('d',`M${hipX} ${hipY} L${kx} ${ky} ${x-5} ${y-5}`);
+  get(far?'farfoot':'foot').setAttribute('d',`M${x-8} ${y-8}q6-3 12 2l15 6-8 1-5-1-3 1-12-2Z`);
+  if(!far){get('crank').setAttribute('d',`M${966-x} ${784-y}L${x} ${y}`);get('pedal').setAttribute('d',`M${x-9} ${y+3}h22`)}
+}
+function draw(){
+  const a=t*3.2,bob=1.8*Math.sin(2*a);
+  for(const id of ['front','rear'])get(id).setAttribute('transform',`rotate(${t*124})`);
+  get('bird').setAttribute('transform',`translate(0 ${bob})`);
+  leg(a+Math.PI,true,bob);leg(a,false,bob);
+  get('dashes').setAttribute('transform',`translate(${-(t*137%250)} 0)`);
+  get('plants').setAttribute('transform',`translate(${-(t*95%1000)} 0)`);
+  get('road').setAttribute('patternTransform',`translate(${-(t*137%160)} 0)`);
+}
+function frame(now){if(!running)return;if(last)t+=Math.min((now-last)/1000,.06);last=now;draw();raf=requestAnimationFrame(frame)}
+let raf=0;
+function sync(){cancelAnimationFrame(raf);last=0;get('toggle').textContent=running?'Ⅱ　暂停动画':'▶　播放动画';if(running)raf=requestAnimationFrame(frame)}
+get('toggle').onclick=()=>{running=!running;sync()};draw();sync();
+</script>
+</html>

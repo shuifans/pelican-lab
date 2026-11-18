@@ -70,6 +70,10 @@
     {
       "id": "batch-017",
       "label": "第十七批"
+    },
+    {
+      "id": "batch-018",
+      "label": "第十八批"
     }
   ],
   "results": [
@@ -1455,6 +1459,246 @@
         "browser": "Chromium (Google Chrome)",
         "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
         "capturedOn": "2026-11-17"
+      }
+    },
+    {
+      "id": "batch-018-gpt6.2-astra-high-66d9f02ad3",
+      "modelId": "gpt6.2-astra",
+      "reasoningEffort": "high",
+      "modelLabel": "gpt6.2-astra",
+      "challengeId": "pelican-bicycle",
+      "promptVersion": "v1",
+      "effortSource": "filename",
+      "batchId": "batch-018",
+      "runId": "66d9f02ad3",
+      "sourceFilename": "pelican-bicycle-gpt6.2-astra-high.html",
+      "artifactPath": "/playground/pelican/assets/batch-018/batch-018-gpt6.2-astra-high-66d9f02ad3.html.txt",
+      "thumbnailPath": "/playground/pelican/assets/batch-018/batch-018-gpt6.2-astra-high-66d9f02ad3.webp",
+      "sha256": "66d9f02ad3bb43e20c2f8acdaa8583abd8e6cb9930664c0efc34f65069ba307c",
+      "importedAt": "2026-11-18T01:37:58.632Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "browser": "Chromium (Google Chrome)",
+        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
+        "capturedOn": "2026-11-18"
+      }
+    },
+    {
+      "id": "batch-018-gpt6.2-astra-low-414a3b30d8",
+      "modelId": "gpt6.2-astra",
+      "reasoningEffort": "low",
+      "modelLabel": "gpt6.2-astra",
+      "challengeId": "pelican-bicycle",
+      "promptVersion": "v1",
+      "effortSource": "filename",
+      "batchId": "batch-018",
+      "runId": "414a3b30d8",
+      "sourceFilename": "pelican-bicycle-gpt6.2-astra-low.html",
+      "artifactPath": "/playground/pelican/assets/batch-018/batch-018-gpt6.2-astra-low-414a3b30d8.html.txt",
+      "thumbnailPath": "/playground/pelican/assets/batch-018/batch-018-gpt6.2-astra-low-414a3b30d8.webp",
+      "sha256": "414a3b30d890a6e564ad1f00889976be2997e886e5f248b102fa3cf6fda52206",
+      "importedAt": "2026-11-18T01:37:58.632Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 841
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 841
+        },
+        "browser": "Chromium (Google Chrome)",
+        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
+        "capturedOn": "2026-11-18"
+      }
+    },
+    {
+      "id": "batch-018-gpt6.2-astra-medium-aa8863ac63",
+      "modelId": "gpt6.2-astra",
+      "reasoningEffort": "medium",
+      "modelLabel": "gpt6.2-astra",
+      "challengeId": "pelican-bicycle",
+      "promptVersion": "v1",
+      "effortSource": "filename",
+      "batchId": "batch-018",
+      "runId": "aa8863ac63",
+      "sourceFilename": "pelican-bicycle-gpt6.2-astra-medium.html",
+      "artifactPath": "/playground/pelican/assets/batch-018/batch-018-gpt6.2-astra-medium-aa8863ac63.html.txt",
+      "thumbnailPath": "/playground/pelican/assets/batch-018/batch-018-gpt6.2-astra-medium-aa8863ac63.webp",
+      "sha256": "aa8863ac634cf034c96d7ba0e4afee4339a5983ad56ff6fb4dc9ed4117a4c2c8",
+      "importedAt": "2026-11-18T01:37:58.632Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 868
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 868
+        },
+        "browser": "Chromium (Google Chrome)",
+        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
+        "capturedOn": "2026-11-18"
+      }
+    },
+    {
+      "id": "batch-018-gpt6.2-astra-xhigh-8b1d07b05c",
+      "modelId": "gpt6.2-astra",
+      "reasoningEffort": "xhigh",
+      "modelLabel": "gpt6.2-astra",
+      "challengeId": "pelican-bicycle",
+      "promptVersion": "v1",
+      "effortSource": "filename",
+      "batchId": "batch-018",
+      "runId": "8b1d07b05c",
+      "sourceFilename": "pelican-bicycle-gpt6.2-astra-xhigh.html",
+      "artifactPath": "/playground/pelican/assets/batch-018/batch-018-gpt6.2-astra-xhigh-8b1d07b05c.html.txt",
+      "thumbnailPath": "/playground/pelican/assets/batch-018/batch-018-gpt6.2-astra-xhigh-8b1d07b05c.webp",
+      "sha256": "8b1d07b05c4160fb68ae52ee059e33feac45e92852cfd2d775c058deeff2d30b",
+      "importedAt": "2026-11-18T01:37:58.632Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "browser": "Chromium (Google Chrome)",
+        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
+        "capturedOn": "2026-11-18"
+      }
+    },
+    {
+      "id": "batch-018-gpt6.2-sol-high-f7c6226682",
+      "modelId": "gpt6.2-sol",
+      "reasoningEffort": "high",
+      "modelLabel": "gpt6.2-sol",
+      "challengeId": "pelican-bicycle",
+      "promptVersion": "v1",
+      "effortSource": "filename",
+      "batchId": "batch-018",
+      "runId": "f7c6226682",
+      "sourceFilename": "pelican-bicycle-gpt6.2-sol-high.html",
+      "artifactPath": "/playground/pelican/assets/batch-018/batch-018-gpt6.2-sol-high-f7c6226682.html.txt",
+      "thumbnailPath": "/playground/pelican/assets/batch-018/batch-018-gpt6.2-sol-high-f7c6226682.webp",
+      "sha256": "f7c6226682f9dbcfcbb41851dacbc781d2e846b7d681ed838708ecee1eecb2a2",
+      "importedAt": "2026-11-18T01:37:58.632Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 868
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 868
+        },
+        "browser": "Chromium (Google Chrome)",
+        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
+        "capturedOn": "2026-11-18"
+      }
+    },
+    {
+      "id": "batch-018-gpt6.2-sol-low-164d8b1a69",
+      "modelId": "gpt6.2-sol",
+      "reasoningEffort": "low",
+      "modelLabel": "gpt6.2-sol",
+      "challengeId": "pelican-bicycle",
+      "promptVersion": "v1",
+      "effortSource": "filename",
+      "batchId": "batch-018",
+      "runId": "164d8b1a69",
+      "sourceFilename": "pelican-bicycle-gpt6.2-sol-low.html",
+      "artifactPath": "/playground/pelican/assets/batch-018/batch-018-gpt6.2-sol-low-164d8b1a69.html.txt",
+      "thumbnailPath": "/playground/pelican/assets/batch-018/batch-018-gpt6.2-sol-low-164d8b1a69.webp",
+      "sha256": "164d8b1a693eef2289c3cefb845fdbc11dd5636c4212ce96e1ed89770b08cb79",
+      "importedAt": "2026-11-18T01:37:58.632Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "browser": "Chromium (Google Chrome)",
+        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
+        "capturedOn": "2026-11-18"
+      }
+    },
+    {
+      "id": "batch-018-gpt6.2-sol-medium-9e59bbf507",
+      "modelId": "gpt6.2-sol",
+      "reasoningEffort": "medium",
+      "modelLabel": "gpt6.2-sol",
+      "challengeId": "pelican-bicycle",
+      "promptVersion": "v1",
+      "effortSource": "filename",
+      "batchId": "batch-018",
+      "runId": "9e59bbf507",
+      "sourceFilename": "pelican-bicycle-gpt6.2-sol-medium.html",
+      "artifactPath": "/playground/pelican/assets/batch-018/batch-018-gpt6.2-sol-medium-9e59bbf507.html.txt",
+      "thumbnailPath": "/playground/pelican/assets/batch-018/batch-018-gpt6.2-sol-medium-9e59bbf507.webp",
+      "sha256": "9e59bbf507989139e6a2ff9a1f99cf48a3011766e82c6e61470fdb46edfe4e5d",
+      "importedAt": "2026-11-18T01:37:58.632Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "browser": "Chromium (Google Chrome)",
+        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
+        "capturedOn": "2026-11-18"
+      }
+    },
+    {
+      "id": "batch-018-gpt6.2-sol-xhigh-c9df7e760b",
+      "modelId": "gpt6.2-sol",
+      "reasoningEffort": "xhigh",
+      "modelLabel": "gpt6.2-sol",
+      "challengeId": "pelican-bicycle",
+      "promptVersion": "v1",
+      "effortSource": "filename",
+      "batchId": "batch-018",
+      "runId": "c9df7e760b",
+      "sourceFilename": "pelican-bicycle-gpt6.2-sol-xhigh.html",
+      "artifactPath": "/playground/pelican/assets/batch-018/batch-018-gpt6.2-sol-xhigh-c9df7e760b.html.txt",
+      "thumbnailPath": "/playground/pelican/assets/batch-018/batch-018-gpt6.2-sol-xhigh-c9df7e760b.webp",
+      "sha256": "c9df7e760b2b2308783dd08e18797b2669dc80bff36bc0011f58759e47b3f365",
+      "importedAt": "2026-11-18T01:37:58.632Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 813
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 813
+        },
+        "browser": "Chromium (Google Chrome)",
+        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
+        "capturedOn": "2026-11-18"
       }
     }
   ]
