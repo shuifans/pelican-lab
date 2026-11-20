@@ -10,6 +10,10 @@
     {
       "id": "batch-002",
       "label": "第二批 3D"
+    },
+    {
+      "id": "batch-003",
+      "label": "第三批 3D"
     }
   ],
   "results": [
@@ -214,6 +218,41 @@
       "previewDependencies": [
         "three@0.161.0",
         "google-fonts:Space Grotesk,IBM Plex Mono"
+      ]
+    },
+    {
+      "id": "batch-003-qaudex-cantus-261120-xhigh-a8be8dd49e",
+      "modelId": "qaudex-cantus-261120",
+      "modelLabel": "qaudex-cantus-261120",
+      "reasoningEffort": "xhigh",
+      "challengeId": "pelican-bicycle-3d",
+      "promptVersion": "v1",
+      "effortSource": "manual",
+      "batchId": "batch-003",
+      "runId": "a8be8dd49e",
+      "sourceFilename": "pelican-bicycle-3d-qaudex-cantus-261120-xhigh.html",
+      "artifactPath": "/playground/pelican-3d/assets/batch-003/batch-003-qaudex-cantus-261120-xhigh-a8be8dd49e.html.txt",
+      "thumbnailPath": "/playground/pelican-3d/assets/batch-003/batch-003-qaudex-cantus-261120-xhigh-a8be8dd49e.webp",
+      "sha256": "a8be8dd49e076069bde0385df3892a480640c19be60fff6bfc832e64e3d8fa9b",
+      "importedAt": "2026-11-20T05:29:45.869Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "browser": "Chrome headless",
+        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
+        "capturedOn": "2026-11-20"
+      },
+      "previewKind": "webgl",
+      "previewArtifactPath": "/playground/pelican-3d/assets/batch-003/batch-003-qaudex-cantus-261120-xhigh-a8be8dd49e.preview.html.txt",
+      "previewDependencies": [
+        "three@0.160.0"
       ]
     }
   ]
