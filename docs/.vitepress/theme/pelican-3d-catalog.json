@@ -14,6 +14,10 @@
     {
       "id": "batch-003",
       "label": "第三批 3D"
+    },
+    {
+      "id": "batch-004",
+      "label": "第四批 3D"
     }
   ],
   "results": [
@@ -253,6 +257,111 @@
       "previewArtifactPath": "/playground/pelican-3d/assets/batch-003/batch-003-qaudex-cantus-261120-xhigh-a8be8dd49e.preview.html.txt",
       "previewDependencies": [
         "three@0.160.0"
+      ]
+    },
+    {
+      "id": "batch-004-gemini4-argon-high-8f7b6607f7",
+      "modelId": "gemini4-argon",
+      "modelLabel": "gemini4-argon",
+      "reasoningEffort": "high",
+      "challengeId": "pelican-bicycle-3d",
+      "promptVersion": "v1",
+      "effortSource": "manual",
+      "batchId": "batch-004",
+      "runId": "8f7b6607f7",
+      "sourceFilename": "pelican-bicycle-3d-gemini4-argon-high.html",
+      "artifactPath": "/playground/pelican-3d/assets/batch-004/batch-004-gemini4-argon-high-8f7b6607f7.html.txt",
+      "thumbnailPath": "/playground/pelican-3d/assets/batch-004/batch-004-gemini4-argon-high-8f7b6607f7.webp",
+      "sha256": "8f7b6607f721a0fa89af1eee490ca0d69164a974c945b56c9b0c1c92b58cdccc",
+      "importedAt": "2026-11-20T22:16:27.300Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "browser": "Chrome headless (ANGLE/SwiftShader)",
+        "timing": "captured after scene initialization with animation running for about 6 s; animation phase varies",
+        "capturedOn": "2026-11-21"
+      },
+      "previewKind": "webgl",
+      "previewArtifactPath": "/playground/pelican-3d/assets/batch-004/batch-004-gemini4-argon-high-8f7b6607f7.preview.html.txt",
+      "previewDependencies": [
+        "three@0.160.0"
+      ]
+    },
+    {
+      "id": "batch-004-gemini4-hydrogen-xhigh-43d78bcb3a",
+      "modelId": "gemini4-hydrogen",
+      "modelLabel": "gemini4-hydrogen",
+      "reasoningEffort": "xhigh",
+      "challengeId": "pelican-bicycle-3d",
+      "promptVersion": "v1",
+      "effortSource": "manual",
+      "batchId": "batch-004",
+      "runId": "43d78bcb3a",
+      "sourceFilename": "pelican-bicycle-3d-gemini4-hydrogen-xhigh.html",
+      "artifactPath": "/playground/pelican-3d/assets/batch-004/batch-004-gemini4-hydrogen-xhigh-43d78bcb3a.html.txt",
+      "thumbnailPath": "/playground/pelican-3d/assets/batch-004/batch-004-gemini4-hydrogen-xhigh-43d78bcb3a.webp",
+      "sha256": "43d78bcb3ab80f66ee722d2c4ae246e5b31138c7d968d70de076cc5c19199668",
+      "importedAt": "2026-11-20T22:16:27.301Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "browser": "Chrome headless (ANGLE/SwiftShader)",
+        "timing": "captured after scene initialization with animation running for about 12 s; animation phase varies",
+        "capturedOn": "2026-11-21"
+      },
+      "previewKind": "webgl",
+      "previewArtifactPath": "/playground/pelican-3d/assets/batch-004/batch-004-gemini4-hydrogen-xhigh-43d78bcb3a.preview.html.txt",
+      "previewDependencies": [
+        "three@0.147.0"
+      ]
+    },
+    {
+      "id": "batch-004-gemini4-neon-xhigh-7b6fd0e90c",
+      "modelId": "gemini4-neon",
+      "modelLabel": "gemini4-neon",
+      "reasoningEffort": "xhigh",
+      "challengeId": "pelican-bicycle-3d",
+      "promptVersion": "v1",
+      "effortSource": "manual",
+      "batchId": "batch-004",
+      "runId": "7b6fd0e90c",
+      "sourceFilename": "pelican-bicycle-3d-gemini4-neon-xhigh.html",
+      "artifactPath": "/playground/pelican-3d/assets/batch-004/batch-004-gemini4-neon-xhigh-7b6fd0e90c.html.txt",
+      "thumbnailPath": "/playground/pelican-3d/assets/batch-004/batch-004-gemini4-neon-xhigh-7b6fd0e90c.webp",
+      "sha256": "7b6fd0e90c43e9ab5d1b0886315b8e3707715bbf2578c4b4841cdc51f0f03f12",
+      "importedAt": "2026-11-20T22:16:27.301Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "browser": "Chrome headless (ANGLE/SwiftShader)",
+        "timing": "captured after scene initialization with animation running for about 6 s; animation phase varies",
+        "capturedOn": "2026-11-21"
+      },
+      "previewKind": "webgl",
+      "previewArtifactPath": "/playground/pelican-3d/assets/batch-004/batch-004-gemini4-neon-xhigh-7b6fd0e90c.preview.html.txt",
+      "previewDependencies": [
+        "three@0.170.0"
       ]
     }
   ]

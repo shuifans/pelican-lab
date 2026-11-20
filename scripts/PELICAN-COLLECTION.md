@@ -65,3 +65,5 @@
 3D 第二批于 2026-11-18 收录 `hy4-flash / high`、`hy4 / high`、`qwen4-max / high` 与 `qwen4-max / xhigh`，参考视口均为 1280 × 800。四份原作都从 CDN 加载 three.js：前三份为 0.160.0，`qwen4-max / xhigh` 为 0.161.0 并引用 Google Fonts。预览副本把锁定版本的内联实现写入 `<id>.preview.html.txt`，原始归档按字节保留。
 
 3D 第三批于 2026-11-20 收录 `qaudex-cantus-261120 / xhigh`，参考视口为 1280 × 800。原作源文件名为 `pelican-bike-qaudex-cantus-261120.html`，不含 effort 段；清单按测试记录补全 `qaudex-cantus-261120 / xhigh`，HTML 字节不变。原作从 CDN 动态加载 three.js 0.160.0（jsDelivr，失败回退 unpkg），预览副本把锁定版本的内联实现写入 `<id>.preview.html.txt`，并在初始化时同步渲染一次首帧，保证隔离预览在没有动画帧回调的场景下也能显示画面；原始归档按字节保留。
+
+3D 第四批于 2026-11-21 收录 `gemini4-argon / high`、`gemini4-hydrogen / xhigh` 与 `gemini4-neon / xhigh`，参考视口均为 1280 × 800。`gemini4-argon` 与 `gemini4-neon` 通过 importmap 从 jsDelivr 加载 three.js 0.160.0 / 0.170.0 与 OrbitControls addon，预览副本把锁定版本的 three.js 与 OrbitControls 打包为单条内联脚本；`gemini4-hydrogen` 通过 jsDelivr（失败回退 unpkg）动态加载 three.js 0.147.0 UMD 与 `examples/js` 版 OrbitControls，预览副本内联这两份锁定文件并替换引导加载段，同样不保留网络请求。三份原始归档均按字节保留；在隔离预览中确认了首帧、跨时刻运动与拖拽旋转交互。

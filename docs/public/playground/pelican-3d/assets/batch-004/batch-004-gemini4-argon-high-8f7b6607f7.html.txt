@@ -1,0 +1,2471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>海滨骑行鹈鹕 — Three.js 全程序化 3D 交互场景</title>
+  <style>
+    :root {
+      --bg-panel: rgba(14, 23, 38, 0.76);
+      --border-panel: rgba(255, 255, 255, 0.16);
+      --accent: #ff8c3b;
+      --accent-hover: #ffa35c;
+      --accent-blue: #38bdf8;
+      --text-main: #f8fafc;
+      --text-muted: #cbd5e1;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #0b1322;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      color: var(--text-main);
+    }
+
+    #scene-container {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* 顶部标题与遥测状态栏 */
+    .top-bar {
+      position: fixed;
+      top: 16px;
+      left: 18px;
+      right: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      pointer-events: none;
+      z-index: 10;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .brand-card {
+      pointer-events: auto;
+      background: var(--bg-panel);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--border-panel);
+      border-radius: 16px;
+      padding: 12px 18px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.32);
+      max-width: 390px;
+    }
+
+    .brand-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #ffffff;
+    }
+
+    .brand-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ff8c3b, #f97316);
+      color: #fff;
+    }
+
+    .brand-sub {
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .telemetry-card {
+      pointer-events: auto;
+      background: var(--bg-panel);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--border-panel);
+      border-radius: 16px;
+      padding: 10px 16px;
+      display: flex;
+      gap: 18px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.32);
+    }
+
+    .metric {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .metric-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .metric-value {
+      font-size: 17px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--accent-blue);
+    }
+
+    /* 底部交互控制面板 */
+    .control-dock {
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--bg-panel);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border-panel);
+      border-radius: 20px;
+      padding: 14px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.42);
+      z-index: 10;
+      width: min(96vw, 1040px);
+    }
+
+    .control-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .group-divider {
+      width: 1px;
+      height: 28px;
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .group-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-right: 2px;
+      white-space: nowrap;
+    }
+
+    .btn {
+      appearance: none;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 7px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.18);
+      transform: translateY(-1px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn.active {
+      background: linear-gradient(135deg, #38bdf8, #0284c7);
+      border-color: #7dd3fc;
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(56, 189, 248, 0.35);
+    }
+
+    .btn.action {
+      background: linear-gradient(135deg, #ff8c3b, #ea580c);
+      border-color: #fdba74;
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(249, 115, 22, 0.35);
+    }
+
+    .btn.action:hover {
+      background: linear-gradient(135deg, #ffa35c, #f97316);
+    }
+
+    .slider-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 110px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.22);
+      outline: none;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid #fff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    }
+
+    .key-hint {
+      position: fixed;
+      bottom: 94px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(14, 23, 38, 0.62);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 5px 14px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      pointer-events: none;
+      white-space: nowrap;
+      z-index: 9;
+    }
+
+    .kbd {
+      display: inline-block;
+      padding: 1px 6px;
+      margin: 0 2px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.16);
+      border-radius: 5px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+    }
+
+    @media (max-width: 768px) {
+      .group-divider {
+        display: none;
+      }
+      .control-dock {
+        padding: 10px 12px;
+        gap: 10px;
+      }
+      .key-hint {
+        display: none;
+      }
+    }
+  </style>
+
+  <!-- 使用 ES Module Import Map 引入 Three.js -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="scene-container"></div>
+
+  <!-- 顶部信息与实时运动学遥测 -->
+  <div class="top-bar">
+    <div class="brand-card">
+      <div class="brand-title">
+        <span>鹈鹕海滨单车奇旅</span>
+        <span class="brand-badge">纯程序化 3D + 双骨骼 IK</span>
+      </div>
+      <div class="brand-sub">
+        实时解析逆运动学（髋-膝-踝-脚踏 &amp; 肩-肘-腕-车把）、链条传动、喉囊弹性物理与海滨昼夜光影。鼠标拖拽旋转视角，滚轮缩放。
+      </div>
+    </div>
+
+    <div class="telemetry-card">
+      <div class="metric">
+        <span class="metric-label">骑行速度</span>
+        <span class="metric-value" id="hud-speed">18.5 km/h</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">踏频 Cadence</span>
+        <span class="metric-value" id="hud-cadence">72 RPM</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">喉囊存鱼</span>
+        <span class="metric-value" id="hud-fish">3 条</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="key-hint">
+    快捷键：<span class="kbd">W</span>/<span class="kbd">S</span> 加减速 &nbsp;|&nbsp;
+    <span class="kbd">A</span>/<span class="kbd">D</span> 左右转向压弯 &nbsp;|&nbsp;
+    <span class="kbd">F</span> 投喂小鱼 &nbsp;|&nbsp;
+    <span class="kbd">B</span> 按响车铃 &nbsp;|&nbsp;
+    <span class="kbd">Space</span> 振翅欢跃
+  </div>
+
+  <!-- 底部交互控制台 -->
+  <div class="control-dock">
+    <div class="control-group slider-wrap">
+      <span class="group-label">骑行速度</span>
+      <input type="range" id="speed-slider" min="0" max="2.4" step="0.05" value="1.15" />
+    </div>
+
+    <div class="group-divider"></div>
+
+    <div class="control-group">
+      <span class="group-label">趣味互动</span>
+      <button class="btn action" id="btn-feed">投喂小鱼 (F)</button>
+      <button class="btn action" id="btn-bell">按响车铃 (B)</button>
+      <button class="btn" id="btn-hop">振翅冲刺 (Space)</button>
+      <button class="btn" id="btn-ik">显示 IK 骨骼</button>
+    </div>
+
+    <div class="group-divider"></div>
+
+    <div class="control-group" id="camera-group">
+      <span class="group-label">机位</span>
+      <button class="btn active" data-cam="free">自由环绕</button>
+      <button class="btn" data-cam="side">侧面机械特写</button>
+      <button class="btn" data-cam="front">迎面低机位</button>
+      <button class="btn" data-cam="pov">鹈鹕第一视角</button>
+    </div>
+
+    <div class="group-divider"></div>
+
+    <div class="control-group" id="time-group">
+      <span class="group-label">天光</span>
+      <button class="btn active" data-time="day">晴朗海风</button>
+      <button class="btn" data-time="sunset">落日余晖</button>
+      <button class="btn" data-time="night">星夜灯塔</button>
+    </div>
+  </div>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    // ============================================================================
+    // 1. Web Audio 纯程序化音效合成器（无外部音频文件）
+    // ============================================================================
+    class SoundFX {
+      constructor() {
+        this.ctx = null;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (AudioCtx) this.ctx = new AudioCtx();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+
+      playBikeBell() {
+        this.init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        // 双击清脆黄铜车铃声 "叮-铃铃！"
+        const strikes = [0, 0.07, 0.22, 0.29];
+        const freqs = [2150, 3220, 4580];
+        strikes.forEach((offset, idx) => {
+          freqs.forEach((f, fi) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = fi === 0 ? 'sine' : 'triangle';
+            osc.frequency.setValueAtTime(f * (1 + (idx % 2) * 0.015), now + offset);
+
+            const peak = (0.14 / (fi + 1)) * (idx >= 2 ? 1.15 : 0.85);
+            gain.gain.setValueAtTime(0.0001, now + offset);
+            gain.gain.exponentialRampToValueAtTime(peak, now + offset + 0.008);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + offset + 0.65);
+
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start(now + offset);
+            osc.stop(now + offset + 0.68);
+          });
+        });
+      }
+
+      playFishGulp() {
+        this.init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        // 喉囊接鱼咕咚声
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(190, now);
+        osc.frequency.exponentialRampToValueAtTime(95, now + 0.11);
+        osc.frequency.exponentialRampToValueAtTime(340, now + 0.26);
+
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(0.22, now + 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.30);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.32);
+      }
+
+      playWingHop() {
+        this.init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(140, now);
+        osc.frequency.exponentialRampToValueAtTime(420, now + 0.18);
+        osc.frequency.exponentialRampToValueAtTime(220, now + 0.35);
+
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(0.18, now + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.38);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.4);
+      }
+    }
+
+    const sfx = new SoundFX();
+
+    // ============================================================================
+    // 2. 场景、渲染器与摄像机初始化
+    // ============================================================================
+    const container = document.getElementById('scene-container');
+    const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.08;
+    container.appendChild(renderer.domElement);
+
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x9bd7f5, 0.011);
+
+    const camera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 260);
+    camera.position.set(4.6, 3.6, 6.8);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.target.set(0.1, 2.2, 0);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+    controls.maxPolarAngle = Math.PI * 0.485;
+    controls.minDistance = 2.4;
+    controls.maxDistance = 24;
+
+    // ============================================================================
+    // 3. 几何辅助工具函数（纯 3D 程序化构建连杆、弧形管与羽毛）
+    // ============================================================================
+    const UP_AXIS = new THREE.Vector3(0, 1, 0);
+    const _tmpVecA = new THREE.Vector3();
+    const _tmpVecB = new THREE.Vector3();
+    const _tmpQuat = new THREE.Quaternion();
+
+    function createCylinderBetween(p1, p2, rTop, rBottom, material, radialSeg = 14) {
+      const dir = new THREE.Vector3().subVectors(p2, p1);
+      const len = dir.length();
+      const geo = new THREE.CylinderGeometry(rTop, rBottom, len, radialSeg);
+      const mesh = new THREE.Mesh(geo, material);
+      mesh.position.copy(p1).add(p2).multiplyScalar(0.5);
+      mesh.quaternion.setFromUnitVectors(UP_AXIS, dir.normalize());
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      return mesh;
+    }
+
+    // 将一个起点在原点、沿 +Y 方向延伸的骨骼组对齐到 pStart -> pEnd
+    function alignBoneLimb(limbGroup, lengthMesh, pStart, pEnd, fixedLength = null) {
+      limbGroup.position.copy(pStart);
+      _tmpVecA.subVectors(pEnd, pStart);
+      const dist = _tmpVecA.length();
+      if (dist > 0.0001) {
+        _tmpVecA.divideScalar(dist);
+        _tmpQuat.setFromUnitVectors(UP_AXIS, _tmpVecA);
+        limbGroup.quaternion.copy(_tmpQuat);
+        if (lengthMesh && !fixedLength) {
+          lengthMesh.scale.y = dist;
+        }
+      }
+    }
+
+    // 双骨骼解析逆运动学求解器 (Two-Bone Analytic IK Solver)
+    // 输入髋/肩起点 pA、脚踝/手腕目标点 pB、大腿长 L1、小腿长 L2、弯曲朝向提示 bendHint
+    // 输出精确的膝盖/手肘 3D 坐标 pJoint
+    function solveTwoBoneIK(pA, pB, L1, L2, bendHint, outJoint) {
+      _tmpVecA.subVectors(pB, pA);
+      let d = _tmpVecA.length();
+      const minD = Math.abs(L1 - L2) + 0.015;
+      const maxD = L1 + L2 - 0.015;
+      const clampedD = THREE.MathUtils.clamp(d, minD, maxD);
+
+      const dir = _tmpVecA.clone().normalize();
+      // 余弦定理求投影长度 a 与法向高度 h
+      const a = (L1 * L1 - L2 * L2 + clampedD * clampedD) / (2 * clampedD);
+      const h = Math.sqrt(Math.max(0, L1 * L1 - a * a));
+
+      // 计算与 dir 正交的弯曲平面法向
+      const proj = dir.clone().multiplyScalar(bendHint.dot(dir));
+      const bendNormal = _tmpVecB.subVectors(bendHint, proj);
+      if (bendNormal.lengthSq() < 0.0001) {
+        bendNormal.set(1, 0, 0);
+      } else {
+        bendNormal.normalize();
+      }
+
+      outJoint.copy(pA)
+        .addScaledVector(dir, a)
+        .addScaledVector(bendNormal, h);
+      return outJoint;
+    }
+
+    // ============================================================================
+    // 4. 材质库（高质感物理与标准材质）
+    // ============================================================================
+    const MATS = {
+      // 自行车材质
+      framePaint: new THREE.MeshPhysicalMaterial({
+        color: 0x0f766e,       // 复古英伦松石绿车架
+        roughness: 0.22,
+        metalness: 0.35,
+        clearcoat: 0.85,
+        clearcoatRoughness: 0.15
+      }),
+      frameCream: new THREE.MeshPhysicalMaterial({
+        color: 0xfef3c7,       // 奶油白撞色挡泥板
+        roughness: 0.28,
+        metalness: 0.1,
+        clearcoat: 0.6
+      }),
+      chrome: new THREE.MeshStandardMaterial({
+        color: 0xe2e8f0,
+        roughness: 0.16,
+        metalness: 0.92
+      }),
+      brass: new THREE.MeshStandardMaterial({
+        color: 0xf59e0b,
+        roughness: 0.22,
+        metalness: 0.88
+      }),
+      darkMetal: new THREE.MeshStandardMaterial({
+        color: 0x334155,
+        roughness: 0.42,
+        metalness: 0.78
+      }),
+      tireRubber: new THREE.MeshStandardMaterial({
+        color: 0x1e293b,
+        roughness: 0.85,
+        metalness: 0.05
+      }),
+      whiteWall: new THREE.MeshStandardMaterial({
+        color: 0xf8fafc,
+        roughness: 0.65,
+        metalness: 0.02
+      }),
+      leather: new THREE.MeshStandardMaterial({
+        color: 0x7c2d12,
+        roughness: 0.52,
+        metalness: 0.08
+      }),
+      wicker: new THREE.MeshStandardMaterial({
+        color: 0xd99b52,
+        roughness: 0.75,
+        metalness: 0.05
+      }),
+      headlampGlass: new THREE.MeshStandardMaterial({
+        color: 0xfef08a,
+        emissive: 0xfef08a,
+        emissiveIntensity: 0.4,
+        roughness: 0.1
+      }),
+      tailLight: new THREE.MeshStandardMaterial({
+        color: 0xef4444,
+        emissive: 0xef4444,
+        emissiveIntensity: 0.5,
+        roughness: 0.2
+      }),
+
+      // 鹈鹕材质
+      featherWhite: new THREE.MeshStandardMaterial({
+        color: 0xfafaf9,
+        roughness: 0.62,
+        metalness: 0.02
+      }),
+      featherCream: new THREE.MeshStandardMaterial({
+        color: 0xfef3c7,
+        roughness: 0.64,
+        metalness: 0.02
+      }),
+      featherSlate: new THREE.MeshStandardMaterial({
+        color: 0x334155,
+        roughness: 0.58,
+        metalness: 0.05
+      }),
+      beakUpper: new THREE.MeshPhysicalMaterial({
+        color: 0xfb923c,
+        roughness: 0.34,
+        metalness: 0.04,
+        clearcoat: 0.35
+      }),
+      beakHook: new THREE.MeshStandardMaterial({
+        color: 0xdc2626,
+        roughness: 0.32
+      }),
+      gularPouch: new THREE.MeshPhysicalMaterial({
+        color: 0xff7b29,
+        roughness: 0.42,
+        metalness: 0.02,
+        transmission: 0.15,
+        thickness: 0.4
+      }),
+      pelicanOrangeLeg: new THREE.MeshStandardMaterial({
+        color: 0xf97316,
+        roughness: 0.48,
+        metalness: 0.04
+      }),
+      eyeRing: new THREE.MeshStandardMaterial({
+        color: 0xbae6fd,
+        roughness: 0.4
+      }),
+      eyePupil: new THREE.MeshStandardMaterial({
+        color: 0x0f172a,
+        roughness: 0.08,
+        metalness: 0.2
+      }),
+      scarfRed: new THREE.MeshStandardMaterial({
+        color: 0xe11d48,
+        roughness: 0.55,
+        side: THREE.DoubleSide
+      }),
+      captainHatWhite: new THREE.MeshStandardMaterial({
+        color: 0xffffff,
+        roughness: 0.45
+      }),
+      captainVisor: new THREE.MeshStandardMaterial({
+        color: 0x0f172a,
+        roughness: 0.2,
+        metalness: 0.3
+      }),
+      fishSilver: new THREE.MeshStandardMaterial({
+        color: 0x94a3b8,
+        roughness: 0.22,
+        metalness: 0.78
+      })
+    };
+
+    // ============================================================================
+    // 5. 天空穹顶着色器、太阳/月亮灯光与星夜环境
+    // ============================================================================
+    const skyVertexShader = `
+      varying vec3 vWorldPosition;
+      void main() {
+        vec4 worldPosition = modelMatrix * vec4(position, 1.0);
+        vWorldPosition = worldPosition.xyz;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `;
+
+    const skyFragmentShader = `
+      uniform vec3 topColor;
+      uniform vec3 horizonColor;
+      uniform vec3 bottomColor;
+      uniform vec3 sunDir;
+      uniform vec3 sunColor;
+      varying vec3 vWorldPosition;
+      void main() {
+        vec3 dir = normalize(vWorldPosition);
+        float h = clamp(dir.y, 0.0, 1.0);
+        vec3 col = mix(horizonColor, topColor, pow(h, 0.55));
+        if (dir.y < 0.0) {
+          col = mix(horizonColor, bottomColor, clamp(-dir.y * 3.0, 0.0, 1.0));
+        }
+        float sunAmt = max(dot(dir, normalize(sunDir)), 0.0);
+        col += sunColor * pow(sunAmt, 36.0) * 0.65;
+        col += sunColor * smoothstep(0.9985, 0.9998, sunAmt) * 1.4;
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `;
+
+    const skyUniforms = {
+      topColor: { value: new THREE.Color(0x1d8cf8) },
+      horizonColor: { value: new THREE.Color(0xbbe6ff) },
+      bottomColor: { value: new THREE.Color(0x1e3a5f) },
+      sunDir: { value: new THREE.Vector3(0.55, 0.45, -0.65).normalize() },
+      sunColor: { value: new THREE.Color(0xfff4d6) }
+    };
+
+    const skyDome = new THREE.Mesh(
+      new THREE.SphereGeometry(180, 32, 24),
+      new THREE.ShaderMaterial({
+        vertexShader: skyVertexShader,
+        fragmentShader: skyFragmentShader,
+        uniforms: skyUniforms,
+        side: THREE.BackSide,
+        depthWrite: false
+      })
+    );
+    scene.add(skyDome);
+
+    // 星空粒子系统（夜晚模式显现）
+    const starCount = 700;
+    const starPositions = new Float32Array(starCount * 3);
+    for (let i = 0; i < starCount; i++) {
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(Math.random() * 0.88 + 0.08);
+      const r = 155;
+      starPositions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+      starPositions[i * 3 + 1] = r * Math.cos(phi);
+      starPositions[i * 3 + 2] = r * Math.sin(phi) * Math.sin(theta);
+    }
+    const starGeo = new THREE.BufferGeometry();
+    starGeo.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
+    const starMat = new THREE.PointsMaterial({
+      color: 0xffffff,
+      size: 0.85,
+      transparent: true,
+      opacity: 0.0
+    });
+    const starField = new THREE.Points(starGeo, starMat);
+    scene.add(starField);
+
+    // 主灯光系统
+    const hemiLight = new THREE.HemisphereLight(0xdbeafe, 0xfde68a, 0.85);
+    scene.add(hemiLight);
+
+    const dirLight = new THREE.DirectionalLight(0xfffbeb, 1.85);
+    dirLight.position.set(16, 22, 14);
+    dirLight.castShadow = true;
+    dirLight.shadow.mapSize.width = 2048;
+    dirLight.shadow.mapSize.height = 2048;
+    dirLight.shadow.camera.near = 2;
+    dirLight.shadow.camera.far = 55;
+    const dCam = 11;
+    dirLight.shadow.camera.left = -dCam;
+    dirLight.shadow.camera.right = dCam;
+    dirLight.shadow.camera.top = dCam;
+    dirLight.shadow.camera.bottom = -dCam;
+    dirLight.shadow.bias = -0.0005;
+    scene.add(dirLight);
+
+    const rimLight = new THREE.DirectionalLight(0x7dd3fc, 0.65);
+    rimLight.position.set(-14, 10, -12);
+    scene.add(rimLight);
+
+    // ============================================================================
+    // 6. 构建海滨步道、大海波浪、灯塔、椰树、海鸥与路灯
+    // ============================================================================
+    const envGroup = new THREE.Group();
+    scene.add(envGroup);
+
+    // 地面与海滨木栈道大道
+    const roadMat = new THREE.MeshStandardMaterial({ color: 0x475569, roughness: 0.82 });
+    const roadMesh = new THREE.Mesh(new THREE.BoxGeometry(160, 0.2, 5.6), roadMat);
+    roadMesh.position.set(0, -0.1, 0);
+    roadMesh.receiveShadow = true;
+    envGroup.add(roadMesh);
+
+    // 道路两侧路缘石与草地沙洲
+    const curbMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.7 });
+    const leftCurb = new THREE.Mesh(new THREE.BoxGeometry(160, 0.28, 0.35), curbMat);
+    leftCurb.position.set(0, -0.04, -2.95);
+    leftCurb.receiveShadow = true;
+    envGroup.add(leftCurb);
+
+    const rightCurb = new THREE.Mesh(new THREE.BoxGeometry(160, 0.28, 0.35), curbMat);
+    rightCurb.position.set(0, -0.04, 2.95);
+    rightCurb.receiveShadow = true;
+    envGroup.add(rightCurb);
+
+    // 右侧草地海岸坡面 (+Z 侧)
+    const meadowMat = new THREE.MeshStandardMaterial({ color: 0x65a30d, roughness: 0.88 });
+    const meadowMesh = new THREE.Mesh(new THREE.BoxGeometry(160, 0.24, 55), meadowMat);
+    meadowMesh.position.set(0, -0.11, 30.5);
+    meadowMesh.receiveShadow = true;
+    envGroup.add(meadowMesh);
+
+    // 左侧沙滩过渡带 (-Z 侧)
+    const sandMat = new THREE.MeshStandardMaterial({ color: 0xfde68a, roughness: 0.9 });
+    const sandMesh = new THREE.Mesh(new THREE.BoxGeometry(160, 0.25, 4.5), sandMat);
+    sandMesh.position.set(0, -0.22, -5.2);
+    sandMesh.receiveShadow = true;
+    envGroup.add(sandMesh);
+
+    // 左侧动态波浪大海 (-Z 远端)
+    const oceanGeo = new THREE.PlaneGeometry(160, 85, 72, 36);
+    oceanGeo.rotateX(-Math.PI / 2);
+    const oceanMat = new THREE.MeshPhysicalMaterial({
+      color: 0x0284c7,
+      roughness: 0.18,
+      metalness: 0.12,
+      clearcoat: 0.9,
+      clearcoatRoughness: 0.15,
+      flatShading: true
+    });
+    const oceanMesh = new THREE.Mesh(oceanGeo, oceanMat);
+    oceanMesh.position.set(0, -0.42, -48);
+    oceanMesh.receiveShadow = true;
+    envGroup.add(oceanMesh);
+
+    // 保存水面原始顶点用于实时波浪动画
+    const oceanBaseY = new Float32Array(oceanGeo.attributes.position.count);
+    for (let i = 0; i < oceanBaseY.length; i++) {
+      oceanBaseY[i] = oceanGeo.attributes.position.getY(i);
+    }
+
+    // 循环滚动的道路标线、木栏杆柱、路灯、花丛与棕榈树
+    const SCROLL_SPAN = 80; // 循环范围 [-40, +40]
+    const scrollItems = [];
+
+    function registerScrollItem(obj, baseX) {
+      obj.position.x = baseX;
+      scrollItems.push(obj);
+      envGroup.add(obj);
+    }
+
+    // 车道中心虚线 + 路边红白里程砖
+    const dashGeo = new THREE.BoxGeometry(1.7, 0.02, 0.16);
+    const dashMat = new THREE.MeshStandardMaterial({ color: 0xfef08a, roughness: 0.5 });
+    for (let x = -38; x < 40; x += 4) {
+      const dash = new THREE.Mesh(dashGeo, dashMat);
+      dash.position.set(x, 0.005, 0);
+      dash.receiveShadow = true;
+      registerScrollItem(dash, x);
+    }
+
+    // 海滨护栏木桩与复古街灯
+    const woodPostMat = new THREE.MeshStandardMaterial({ color: 0x78350f, roughness: 0.85 });
+    const ropeMat = new THREE.MeshStandardMaterial({ color: 0xd6d3d1, roughness: 0.8 });
+    const streetLampBulbs = [];
+    const streetLampLights = [];
+
+    function createStreetLamp() {
+      const g = new THREE.Group();
+      const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.09, 4.2, 10), MATS.darkMetal);
+      pole.position.y = 2.1;
+      pole.castShadow = true;
+      g.add(pole);
+
+      const base = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.22, 0.35, 10), MATS.darkMetal);
+      base.position.y = 0.17;
+      g.add(base);
+
+      const arm = createCylinderBetween(
+        new THREE.Vector3(0, 4.05, 0),
+        new THREE.Vector3(0, 4.35, 0.65),
+        0.04, 0.04, MATS.darkMetal, 8
+      );
+      g.add(arm);
+
+      const lanternCap = new THREE.Mesh(new THREE.ConeGeometry(0.24, 0.2, 8), MATS.darkMetal);
+      lanternCap.position.set(0, 4.42, 0.65);
+      g.add(lanternCap);
+
+      const bulbMat = new THREE.MeshStandardMaterial({
+        color: 0xfef3c7,
+        emissive: 0xf59e0b,
+        emissiveIntensity: 0.15,
+        roughness: 0.2
+      });
+      const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.15, 12, 10), bulbMat);
+      bulb.position.set(0, 4.22, 0.65);
+      g.add(bulb);
+      streetLampBulbs.push(bulbMat);
+
+      return g;
+    }
+
+    for (let x = -36; x < 40; x += 6) {
+      const post = new THREE.Group();
+      const pillar = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.95, 0.22), woodPostMat);
+      pillar.position.set(0, 0.47, -2.95);
+      pillar.castShadow = true;
+      post.add(pillar);
+
+      const cap = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.08, 0.26), MATS.frameCream);
+      cap.position.set(0, 0.96, -2.95);
+      post.add(cap);
+
+      const rail = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 6.0, 8), ropeMat);
+      rail.rotation.z = Math.PI / 2;
+      rail.position.set(3.0, 0.72, -2.95);
+      post.add(rail);
+
+      registerScrollItem(post, x);
+    }
+
+    for (let x = -32; x < 40; x += 16) {
+      const lamp = createStreetLamp();
+      lamp.position.z = -2.95;
+      registerScrollItem(lamp, x);
+    }
+
+    // 路旁单簇实时点光源跟随最近路灯（优化性能并保持夜景真实照亮）
+    const nightRoadLight = new THREE.PointLight(0xffb74d, 0, 14);
+    nightRoadLight.position.set(0, 4.3, -2.2);
+    scene.add(nightRoadLight);
+    streetLampLights.push(nightRoadLight);
+
+    // 程序化海岸棕榈树与野花丛
+    const trunkMat = new THREE.MeshStandardMaterial({ color: 0x854d0e, roughness: 0.88 });
+    const frondMat = new THREE.MeshStandardMaterial({ color: 0x15803d, roughness: 0.65, side: THREE.DoubleSide });
+    const flowerColors = [0xf43f5e, 0xfacc15, 0xa855f7, 0x38bdf8];
+
+    function createPalmTree(scale = 1) {
+      const tree = new THREE.Group();
+      let curPos = new THREE.Vector3(0, 0, 0);
+      const segs = 6;
+      for (let i = 0; i < segs; i++) {
+        const nextPos = new THREE.Vector3(
+          curPos.x + Math.sin(i * 0.25) * 0.14,
+          curPos.y + 0.72,
+          curPos.z - i * 0.06
+        );
+        const r1 = THREE.MathUtils.lerp(0.24, 0.11, (i + 1) / segs);
+        const r0 = THREE.MathUtils.lerp(0.24, 0.11, i / segs);
+        const segMesh = createCylinderBetween(curPos, nextPos, r1, r0, trunkMat, 8);
+        tree.add(segMesh);
+        curPos = nextPos;
+      }
+
+      // 树冠椰叶
+      const crown = new THREE.Group();
+      crown.position.copy(curPos);
+      for (let f = 0; f < 7; f++) {
+        const angle = (f / 7) * Math.PI * 2;
+        const frondGroup = new THREE.Group();
+        frondGroup.rotation.y = angle;
+        frondGroup.rotation.z = -0.35;
+
+        const leafGeo = new THREE.ConeGeometry(0.42, 2.2, 4);
+        leafGeo.scale(0.35, 1, 1.2);
+        leafGeo.translate(0, 1.1, 0);
+        const leaf = new THREE.Mesh(leafGeo, frondMat);
+        leaf.rotation.z = -1.05;
+        leaf.castShadow = true;
+        frondGroup.add(leaf);
+        crown.add(frondGroup);
+      }
+      tree.add(crown);
+      tree.scale.setScalar(scale);
+      return tree;
+    }
+
+    function createFlowerPatch() {
+      const g = new THREE.Group();
+      const bush = new THREE.Mesh(new THREE.DodecahedronGeometry(0.42, 1), meadowMat);
+      bush.scale.set(1.3, 0.7, 1.1);
+      bush.position.y = 0.2;
+      bush.castShadow = true;
+      g.add(bush);
+
+      for (let i = 0; i < 4; i++) {
+        const c = flowerColors[(i + Math.floor(Math.random() * 4)) % flowerColors.length];
+        const blossom = new THREE.Mesh(
+          new THREE.SphereGeometry(0.09, 8, 8),
+          new THREE.MeshStandardMaterial({ color: c, roughness: 0.4 })
+        );
+        blossom.position.set(
+          (Math.random() - 0.5) * 0.6,
+          0.38 + Math.random() * 0.12,
+          (Math.random() - 0.5) * 0.5
+        );
+        g.add(blossom);
+      }
+      return g;
+    }
+
+    for (let x = -38; x < 40; x += 9.5) {
+      const tree = createPalmTree(0.85 + (Math.abs(x) % 3) * 0.18);
+      tree.position.z = 5.5 + (Math.abs(x * 7) % 9);
+      tree.rotation.y = x * 0.7;
+      registerScrollItem(tree, x);
+
+      const patch = createFlowerPatch();
+      patch.position.z = 3.7 + (Math.abs(x * 3) % 4);
+      registerScrollItem(patch, x + 3.2);
+    }
+
+    // 远景海角与红白条纹灯塔
+    const lighthouseGroup = new THREE.Group();
+    lighthouseGroup.position.set(-22, -0.3, -24);
+    envGroup.add(lighthouseGroup);
+
+    const rockMat = new THREE.MeshStandardMaterial({ color: 0x475569, roughness: 0.9, flatShading: true });
+    for (let i = 0; i < 6; i++) {
+      const rock = new THREE.Mesh(new THREE.DodecahedronGeometry(2.4 - i * 0.25, 1), rockMat);
+      rock.position.set((i - 2.5) * 1.8, 0.5, (i % 2) * 1.4);
+      rock.scale.set(1.4, 0.75, 1.2);
+      lighthouseGroup.add(rock);
+    }
+
+    const stripeRedMat = new THREE.MeshStandardMaterial({ color: 0xdc2626, roughness: 0.5 });
+    const stripeWhiteMat = new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.5 });
+    for (let s = 0; s < 5; s++) {
+      const rBot = 1.35 - s * 0.12;
+      const rTop = 1.35 - (s + 1) * 0.12;
+      const cyl = new THREE.Mesh(
+        new THREE.CylinderGeometry(rTop, rBot, 1.6, 16),
+        s % 2 === 0 ? stripeWhiteMat : stripeRedMat
+      );
+      cyl.position.y = 1.5 + s * 1.6;
+      cyl.castShadow = true;
+      lighthouseGroup.add(cyl);
+    }
+
+    const lanternRoom = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.65, 0.65, 1.1, 12),
+      MATS.headlampGlass
+    );
+    lanternRoom.position.y = 9.3;
+    lighthouseGroup.add(lanternRoom);
+
+    const lighthouseRoof = new THREE.Mesh(new THREE.ConeGeometry(0.92, 0.9, 12), stripeRedMat);
+    lighthouseRoof.position.y = 10.25;
+    lighthouseGroup.add(lighthouseRoof);
+
+    // 灯塔旋转光束
+    const beaconPivot = new THREE.Group();
+    beaconPivot.position.y = 9.3;
+    lighthouseGroup.add(beaconPivot);
+
+    const beaconConeMat = new THREE.MeshBasicMaterial({
+      color: 0xfef08a,
+      transparent: true,
+      opacity: 0.0,
+      side: THREE.DoubleSide,
+      depthWrite: false
+    });
+    const beaconConeGeo = new THREE.ConeGeometry(4.2, 28, 20, 1, true);
+    beaconConeGeo.rotateX(Math.PI / 2);
+    beaconConeGeo.translate(0, 0, 14);
+    const beaconCone = new THREE.Mesh(beaconConeGeo, beaconConeMat);
+    beaconPivot.add(beaconCone);
+
+    // 空中体积云与盘旋海鸥
+    const clouds = [];
+    const cloudMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.9 });
+    for (let c = 0; c < 8; c++) {
+      const cg = new THREE.Group();
+      for (let b = 0; b < 4; b++) {
+        const puff = new THREE.Mesh(new THREE.SphereGeometry(1.6 - b * 0.22, 12, 10), cloudMat);
+        puff.position.set((b - 1.5) * 1.25, (b % 2) * 0.35, (b % 3 - 1) * 0.3);
+        puff.scale.y = 0.68;
+        cg.add(puff);
+      }
+      cg.position.set(-35 + c * 11, 14 + (c % 3) * 2.8, -18 + (c % 2 === 0 ? -10 : 28));
+      scene.add(cg);
+      clouds.push(cg);
+    }
+
+    // 远处翱翔海鸥
+    const seagulls = [];
+    for (let g = 0; g < 4; g++) {
+      const bird = new THREE.Group();
+      const body = new THREE.Mesh(new THREE.ConeGeometry(0.11, 0.48, 8), MATS.featherWhite);
+      body.rotation.z = -Math.PI / 2;
+      bird.add(body);
+
+      const wingL = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.03, 0.65), MATS.featherWhite);
+      wingL.position.z = -0.32;
+      bird.add(wingL);
+
+      const wingR = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.03, 0.65), MATS.featherWhite);
+      wingR.position.z = 0.32;
+      bird.add(wingR);
+
+      scene.add(bird);
+      seagulls.push({ group: bird, wingL, wingR, phase: g * 1.6, radius: 12 + g * 3 });
+    }
+
+    // ============================================================================
+    // 7. 构建精细的程序化复古自行车 (Bicycle Assembly)
+    // ============================================================================
+    // 坐标系约定：+X 为车头前进方向，+Y 为竖直向上，+Z 为车体右侧
+    const bikeRoot = new THREE.Group();
+    scene.add(bikeRoot);
+
+    const bikeLeanGroup = new THREE.Group(); // 用于转弯压弯倾斜与跳跃弹跳
+    bikeRoot.add(bikeLeanGroup);
+
+    // 关键几何节点坐标 (以轮胎触地面 Y=0 为基准)
+    const WHEEL_R = 1.04;
+    const P_REAR = new THREE.Vector3(-1.62, WHEEL_R, 0);
+    const P_FRONT = new THREE.Vector3(1.74, WHEEL_R, 0);
+    const P_BB = new THREE.Vector3(-0.24, 0.92, 0);        // 五通曲柄轴心
+    const P_SEAT_TOP = new THREE.Vector3(-0.72, 2.08, 0);  // 立管顶端
+    const P_SADDLE = new THREE.Vector3(-0.79, 2.38, 0);    // 车座鞍部中心
+    const P_HEAD_BOT = new THREE.Vector3(1.30, 2.02, 0);   // 头管下端
+    const P_HEAD_TOP = new THREE.Vector3(1.15, 2.50, 0);   // 头管上端
+    const CRANK_LEN = 0.42;
+
+    // 构建辐条车轮函数
+    function createSpokedWheel() {
+      const wheelGroup = new THREE.Group();
+
+      // 橡胶外胎 + 复古白边胎壁
+      const tire = new THREE.Mesh(new THREE.TorusGeometry(WHEEL_R - 0.08, 0.088, 18, 48), MATS.tireRubber);
+      tire.castShadow = true;
+      wheelGroup.add(tire);
+
+      const whiteWall = new THREE.Mesh(new THREE.TorusGeometry(WHEEL_R - 0.11, 0.068, 14, 48), MATS.whiteWall);
+      whiteWall.scale.set(1, 1, 1.15);
+      wheelGroup.add(whiteWall);
+
+      // 铝合金轮圈
+      const rim = new THREE.Mesh(new THREE.TorusGeometry(WHEEL_R - 0.15, 0.036, 12, 48), MATS.chrome);
+      wheelGroup.add(rim);
+
+      // 花鼓轴心
+      const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.075, 0.22, 16), MATS.chrome);
+      hub.rotation.x = Math.PI / 2;
+      wheelGroup.add(hub);
+
+      const flangeL = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.02, 16), MATS.chrome);
+      flangeL.rotation.x = Math.PI / 2;
+      flangeL.position.z = -0.08;
+      wheelGroup.add(flangeL);
+
+      const flangeR = flangeL.clone();
+      flangeR.position.z = 0.08;
+      wheelGroup.add(flangeR);
+
+      // 24 根交叉编织金属辐条 + 黄铜气嘴
+      const spokeCount = 24;
+      const innerR = WHEEL_R - 0.16;
+      for (let i = 0; i < spokeCount; i++) {
+        const a1 = (i / spokeCount) * Math.PI * 2;
+        const crossAngle = a1 + (i % 2 === 0 ? 0.34 : -0.34);
+        const zSide = i % 2 === 0 ? 0.078 : -0.078;
+        const pHub = new THREE.Vector3(Math.cos(crossAngle) * 0.105, Math.sin(crossAngle) * 0.105, zSide);
+        const pRim = new THREE.Vector3(Math.cos(a1) * innerR, Math.sin(a1) * innerR, 0);
+        const spoke = createCylinderBetween(pHub, pRim, 0.008, 0.008, MATS.chrome, 6);
+        wheelGroup.add(spoke);
+      }
+
+      // 黄铜气门嘴
+      const valve = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.016, 0.12, 8), MATS.brass);
+      valve.position.set(0, -(WHEEL_R - 0.21), 0);
+      wheelGroup.add(valve);
+
+      return wheelGroup;
+    }
+
+    const rearWheel = createSpokedWheel();
+    rearWheel.position.copy(P_REAR);
+    bikeLeanGroup.add(rearWheel);
+
+    // 车架主体管材构建
+    // 1. 立管 (Seat Tube) & 下管 (Down Tube) & 头管 (Head Tube)
+    bikeLeanGroup.add(createCylinderBetween(P_BB, P_SEAT_TOP, 0.055, 0.055, MATS.framePaint));
+    bikeLeanGroup.add(createCylinderBetween(P_BB, P_HEAD_BOT, 0.06, 0.06, MATS.framePaint));
+    bikeLeanGroup.add(createCylinderBetween(P_HEAD_BOT, P_HEAD_TOP, 0.068, 0.068, MATS.framePaint));
+
+    // 2. 优雅弧形上管 (Curved Cruiser Top Tube)
+    const topTubeCurve = new THREE.CatmullRomCurve3([
+      P_SEAT_TOP.clone().add(new THREE.Vector3(0, -0.06, 0)),
+      new THREE.Vector3(-0.1, 2.25, 0),
+      new THREE.Vector3(0.55, 2.38, 0),
+      P_HEAD_TOP.clone().add(new THREE.Vector3(0, -0.08, 0))
+    ]);
+    const topTubeMesh = new THREE.Mesh(new THREE.TubeGeometry(topTubeCurve, 24, 0.052, 12, false), MATS.framePaint);
+    topTubeMesh.castShadow = true;
+    bikeLeanGroup.add(topTubeMesh);
+
+    // 第二根复古副梁
+    const subTubeCurve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(-0.56, 1.68, 0),
+      new THREE.Vector3(0.15, 1.88, 0),
+      new THREE.Vector3(1.22, 2.15, 0)
+    ]);
+    const subTubeMesh = new THREE.Mesh(new THREE.TubeGeometry(subTubeCurve, 18, 0.038, 10, false), MATS.framePaint);
+    subTubeMesh.castShadow = true;
+    bikeLeanGroup.add(subTubeMesh);
+
+    // 3. 左右后下叉 (Chain Stays) 与后上叉 (Seat Stays)
+    [-1, 1].forEach((side) => {
+      const pRearDrop = P_REAR.clone().add(new THREE.Vector3(0, 0, side * 0.13));
+      const pBBStay = P_BB.clone().add(new THREE.Vector3(0, 0, side * 0.075));
+      const pSeatStay = P_SEAT_TOP.clone().add(new THREE.Vector3(0, -0.06, side * 0.055));
+
+      bikeLeanGroup.add(createCylinderBetween(pBBStay, pRearDrop, 0.034, 0.026, MATS.framePaint));
+      bikeLeanGroup.add(createCylinderBetween(pSeatStay, pRearDrop, 0.03, 0.024, MATS.framePaint));
+    });
+
+    // 4. 后泥除 (Rear Fender)、后货架与尾灯
+    const rearFender = new THREE.Mesh(
+      new THREE.TorusGeometry(WHEEL_R + 0.045, 0.095, 12, 32, Math.PI * 0.92),
+      MATS.frameCream
+    );
+    rearFender.position.copy(P_REAR);
+    rearFender.rotation.z = Math.PI * 0.08;
+    rearFender.scale.set(1, 1, 1.15);
+    bikeLeanGroup.add(rearFender);
+
+    // 后置镀铬行李架
+    const rackTop1 = new THREE.Vector3(-1.12, 2.18, -0.14);
+    const rackTop2 = new THREE.Vector3(-1.95, 2.18, -0.14);
+    const rackTop3 = new THREE.Vector3(-1.12, 2.18, 0.14);
+    const rackTop4 = new THREE.Vector3(-1.95, 2.18, 0.14);
+    bikeLeanGroup.add(createCylinderBetween(rackTop1, rackTop2, 0.02, 0.02, MATS.chrome));
+    bikeLeanGroup.add(createCylinderBetween(rackTop3, rackTop4, 0.02, 0.02, MATS.chrome));
+    bikeLeanGroup.add(createCylinderBetween(rackTop2, rackTop4, 0.02, 0.02, MATS.chrome));
+    bikeLeanGroup.add(createCylinderBetween(P_SEAT_TOP, new THREE.Vector3(-1.12, 2.18, 0), 0.022, 0.022, MATS.chrome));
+    bikeLeanGroup.add(createCylinderBetween(P_REAR.clone().add(new THREE.Vector3(0, 0, -0.14)), rackTop2, 0.018, 0.018, MATS.chrome));
+    bikeLeanGroup.add(createCylinderBetween(P_REAR.clone().add(new THREE.Vector3(0, 0, 0.14)), rackTop4, 0.018, 0.018, MATS.chrome));
+
+    // 红色宝石尾灯
+    const tailLamp = new THREE.Mesh(new THREE.SphereGeometry(0.065, 12, 10), MATS.tailLight);
+    tailLamp.position.set(-2.0, 2.18, 0);
+    bikeLeanGroup.add(tailLamp);
+
+    // 5. 皮革弹簧车座 (Leather Sprung Saddle)
+    const seatPost = createCylinderBetween(P_SEAT_TOP, P_SADDLE, 0.038, 0.038, MATS.chrome);
+    bikeLeanGroup.add(seatPost);
+
+    const saddleGroup = new THREE.Group();
+    saddleGroup.position.copy(P_SADDLE);
+    const saddleRear = new THREE.Mesh(new THREE.SphereGeometry(0.24, 16, 12), MATS.leather);
+    saddleRear.scale.set(1.2, 0.34, 1.15);
+    saddleRear.position.set(-0.08, 0.02, 0);
+    saddleRear.castShadow = true;
+    saddleGroup.add(saddleRear);
+
+    const saddleNose = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.15, 0.38, 12), MATS.leather);
+    saddleNose.rotation.z = -Math.PI / 2 - 0.08;
+    saddleNose.scale.set(0.55, 1, 1);
+    saddleNose.position.set(0.14, 0.02, 0);
+    saddleGroup.add(saddleNose);
+
+    // 车座后方双镀铬减震弹簧
+    [-0.12, 0.12].forEach((zOff) => {
+      const spring = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 0.14, 10), MATS.chrome);
+      spring.position.set(-0.16, -0.07, zOff);
+      saddleGroup.add(spring);
+    });
+    bikeLeanGroup.add(saddleGroup);
+
+    // ============================================================================
+    // 8. 转向系统 (前叉、前轮、燕把、车铃、复古车头灯与装鱼藤编车筐)
+    // ============================================================================
+    // 建立沿头管轴线对齐的转向枢轴
+    const steeringPivot = new THREE.Group();
+    steeringPivot.position.copy(P_HEAD_TOP);
+    const headAxis = new THREE.Vector3().subVectors(P_HEAD_TOP, P_HEAD_BOT).normalize();
+    const headQuat = new THREE.Quaternion().setFromUnitVectors(UP_AXIS, headAxis);
+    steeringPivot.quaternion.copy(headQuat);
+    bikeLeanGroup.add(steeringPivot);
+
+    // steeringContent 在 steeringPivot 内部绕局部 Y 轴旋转即可实现真实前叉倾角转向
+    const steeringGroup = new THREE.Group();
+    steeringPivot.add(steeringGroup);
+
+    // 辅助函数：将车架世界坐标转换为 steeringGroup 局部坐标
+    const invHeadQuat = headQuat.clone().invert();
+    function toSteerLocal(worldPt) {
+      return worldPt.clone().sub(P_HEAD_TOP).applyQuaternion(invHeadQuat);
+    }
+
+    const L_FRONT = toSteerLocal(P_FRONT);
+    const L_FORK_CROWN = toSteerLocal(P_HEAD_BOT.clone().add(new THREE.Vector3(0.04, -0.06, 0)));
+
+    // 左右前叉腿 (Front Fork Blades)
+    [-1, 1].forEach((side) => {
+      const crownPt = L_FORK_CROWN.clone().add(new THREE.Vector3(0, 0, side * 0.095));
+      const dropPt = L_FRONT.clone().add(new THREE.Vector3(0, 0, side * 0.12));
+      steeringGroup.add(createCylinderBetween(crownPt, dropPt, 0.042, 0.028, MATS.framePaint));
+    });
+    steeringGroup.add(createCylinderBetween(
+      L_FORK_CROWN.clone().add(new THREE.Vector3(0, 0, -0.1)),
+      L_FORK_CROWN.clone().add(new THREE.Vector3(0, 0, 0.1)),
+      0.048, 0.048, MATS.chrome
+    ));
+
+    // 前轮与前挡泥板
+    const frontWheel = createSpokedWheel();
+    frontWheel.position.copy(L_FRONT);
+    steeringGroup.add(frontWheel);
+
+    const frontFender = new THREE.Mesh(
+      new THREE.TorusGeometry(WHEEL_R + 0.045, 0.092, 12, 28, Math.PI * 0.78),
+      MATS.frameCream
+    );
+    frontFender.position.copy(L_FRONT);
+    frontFender.rotation.z = Math.PI * 0.25;
+    frontFender.scale.set(1, 1, 1.15);
+    steeringGroup.add(frontFender);
+
+    // 鹅颈把立 (Gooseneck Stem) 与海鸥燕把 (Swept-back Cruiser Handlebars)
+    const L_STEM_TOP = toSteerLocal(new THREE.Vector3(1.08, 2.86, 0));
+    const L_STEM_FWD = toSteerLocal(new THREE.Vector3(1.25, 2.92, 0));
+    steeringGroup.add(createCylinderBetween(new THREE.Vector3(0, 0, 0), L_STEM_TOP, 0.042, 0.042, MATS.chrome));
+    steeringGroup.add(createCylinderBetween(L_STEM_TOP, L_STEM_FWD, 0.042, 0.042, MATS.chrome));
+
+    // 车把握把左右锚点（供鹈鹕翅膀双骨骼 IK 实时抓握）
+    const gripLeftAnchor = new THREE.Object3D();
+    const gripRightAnchor = new THREE.Object3D();
+
+    [-1, 1].forEach((side) => {
+      const barCurve = new THREE.CatmullRomCurve3([
+        L_STEM_FWD.clone(),
+        toSteerLocal(new THREE.Vector3(1.24, 2.98, side * 0.26)),
+        toSteerLocal(new THREE.Vector3(1.06, 3.06, side * 0.50)),
+        toSteerLocal(new THREE.Vector3(0.75, 3.04, side * 0.60))
+      ]);
+      const barMesh = new THREE.Mesh(new THREE.TubeGeometry(barCurve, 18, 0.034, 10, false), MATS.chrome);
+      barMesh.castShadow = true;
+      steeringGroup.add(barMesh);
+
+      // 皮革握把套
+      const gripStart = toSteerLocal(new THREE.Vector3(0.95, 3.05, side * 0.56));
+      const gripEnd = toSteerLocal(new THREE.Vector3(0.68, 3.03, side * 0.62));
+      const gripMesh = createCylinderBetween(gripStart, gripEnd, 0.05, 0.048, MATS.leather, 12);
+      steeringGroup.add(gripMesh);
+
+      const midGrip = gripStart.clone().add(gripEnd).multiplyScalar(0.5);
+      if (side === -1) {
+        gripLeftAnchor.position.copy(midGrip);
+        steeringGroup.add(gripLeftAnchor);
+      } else {
+        gripRightAnchor.position.copy(midGrip);
+        steeringGroup.add(gripRightAnchor);
+      }
+    });
+
+    // 右车把上的黄铜车铃 + 声波扩散环
+    const bellPos = toSteerLocal(new THREE.Vector3(1.02, 3.12, 0.48));
+    const bellDome = new THREE.Mesh(new THREE.SphereGeometry(0.075, 14, 12), MATS.brass);
+    bellDome.scale.set(1, 0.72, 1);
+    bellDome.position.copy(bellPos);
+    steeringGroup.add(bellDome);
+
+    const bellRingMat = new THREE.MeshBasicMaterial({
+      color: 0xfef08a,
+      transparent: true,
+      opacity: 0.0,
+      side: THREE.DoubleSide
+    });
+    const bellWaveRing = new THREE.Mesh(new THREE.RingGeometry(0.08, 0.13, 24), bellRingMat);
+    bellWaveRing.position.copy(bellPos);
+    steeringGroup.add(bellWaveRing);
+
+    // 复古黄铜前车灯与真实聚光灯
+    const lampPos = toSteerLocal(new THREE.Vector3(1.42, 2.48, 0));
+    const headlampBody = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.08, 0.22, 14), MATS.brass);
+    headlampBody.rotation.z = Math.PI / 2;
+    headlampBody.position.copy(lampPos);
+    steeringGroup.add(headlampBody);
+
+    const headlampLens = new THREE.Mesh(new THREE.SphereGeometry(0.105, 12, 10), MATS.headlampGlass);
+    headlampLens.scale.set(0.35, 1, 1);
+    headlampLens.position.copy(lampPos).add(new THREE.Vector3(0.11, 0, 0));
+    steeringGroup.add(headlampLens);
+
+    const bikeSpotLight = new THREE.SpotLight(0xfff3c4, 0, 22, Math.PI * 0.24, 0.45, 1.2);
+    bikeSpotLight.position.copy(lampPos).add(new THREE.Vector3(0.12, 0, 0));
+    const spotTarget = new THREE.Object3D();
+    spotTarget.position.copy(toSteerLocal(new THREE.Vector3(7.5, 0.2, 0)));
+    steeringGroup.add(spotTarget);
+    bikeSpotLight.target = spotTarget;
+    steeringGroup.add(bikeSpotLight);
+
+    // 车头藤编车筐 + 筐内鲜鱼
+    const basketGroup = new THREE.Group();
+    basketGroup.position.copy(toSteerLocal(new THREE.Vector3(1.52, 2.74, 0)));
+    steeringGroup.add(basketGroup);
+
+    const basketBody = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.25, 0.42, 14), MATS.wicker);
+    basketBody.scale.set(0.85, 1, 1.25);
+    basketBody.castShadow = true;
+    basketGroup.add(basketBody);
+
+    const basketRim = new THREE.Mesh(new THREE.TorusGeometry(0.34, 0.028, 10, 24), MATS.wicker);
+    basketRim.rotation.x = Math.PI / 2;
+    basketRim.scale.set(0.85, 1.25, 1);
+    basketRim.position.y = 0.21;
+    basketGroup.add(basketRim);
+
+    // 程序化小银鱼生成器
+    function createFishMesh(scale = 1) {
+      const fg = new THREE.Group();
+      const body = new THREE.Mesh(new THREE.SphereGeometry(0.11, 12, 10), MATS.fishSilver);
+      body.scale.set(2.1, 0.72, 0.45);
+      body.castShadow = true;
+      fg.add(body);
+
+      const tail = new THREE.Mesh(new THREE.ConeGeometry(0.09, 0.16, 4), MATS.fishSilver);
+      tail.rotation.z = -Math.PI / 2;
+      tail.scale.set(1, 1, 0.35);
+      tail.position.x = -0.24;
+      fg.add(tail);
+
+      const eye = new THREE.Mesh(new THREE.SphereGeometry(0.018, 6, 6), MATS.eyePupil);
+      eye.position.set(0.14, 0.02, 0.04);
+      fg.add(eye);
+      fg.scale.setScalar(scale);
+      return fg;
+    }
+
+    for (let f = 0; f < 3; f++) {
+      const basketFish = createFishMesh(0.85);
+      basketFish.position.set(0.04, 0.19, (f - 1) * 0.13);
+      basketFish.rotation.set(0.2 * f, 0.4 - f * 0.3, 0.45);
+      basketGroup.add(basketFish);
+    }
+
+    // ============================================================================
+    // 9. 曲柄牙盘、脚踏与动态传动链条 (Drivetrain & Pedals)
+    // ============================================================================
+    const drivetrainGroup = new THREE.Group();
+    drivetrainGroup.position.copy(P_BB);
+    bikeLeanGroup.add(drivetrainGroup);
+
+    // 前牙盘齿圈 (Front Chainring)
+    const chainringGroup = new THREE.Group();
+    chainringGroup.position.z = 0.095;
+    drivetrainGroup.add(chainringGroup);
+
+    const ringOuter = new THREE.Mesh(new THREE.TorusGeometry(0.26, 0.02, 10, 32), MATS.chrome);
+    chainringGroup.add(ringOuter);
+
+    for (let s = 0; s < 5; s++) {
+      const a = (s / 5) * Math.PI * 2;
+      const spoke = new THREE.Mesh(new THREE.BoxGeometry(0.25, 0.032, 0.016), MATS.chrome);
+      spoke.position.set(Math.cos(a) * 0.125, Math.sin(a) * 0.125, 0);
+      spoke.rotation.z = a;
+      chainringGroup.add(spoke);
+    }
+
+    // 后飞轮 (Rear Cog)
+    const rearCog = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.03, 16), MATS.darkMetal);
+    rearCog.rotation.x = Math.PI / 2;
+    rearCog.position.copy(P_REAR).add(new THREE.Vector3(0, 0, 0.095));
+    bikeLeanGroup.add(rearCog);
+
+    // 传动链条上下轨与滚动链节
+    const pChainFrontTop = P_BB.clone().add(new THREE.Vector3(0, 0.255, 0.095));
+    const pChainFrontBot = P_BB.clone().add(new THREE.Vector3(0, -0.255, 0.095));
+    const pChainRearTop = P_REAR.clone().add(new THREE.Vector3(0, 0.105, 0.095));
+    const pChainRearBot = P_REAR.clone().add(new THREE.Vector3(0, -0.105, 0.095));
+
+    bikeLeanGroup.add(createCylinderBetween(pChainFrontTop, pChainRearTop, 0.014, 0.014, MATS.darkMetal));
+    bikeLeanGroup.add(createCylinderBetween(pChainFrontBot, pChainRearBot, 0.014, 0.014, MATS.darkMetal));
+
+    // 动态滚动链节粒子
+    const chainRollerGeo = new THREE.BoxGeometry(0.042, 0.026, 0.028);
+    const chainRollers = [];
+    for (let i = 0; i < 16; i++) {
+      const roller = new THREE.Mesh(chainRollerGeo, MATS.darkMetal);
+      bikeLeanGroup.add(roller);
+      chainRollers.push({ mesh: roller, index: i });
+    }
+
+    // 左右曲柄臂与水平保持脚踏板
+    const crankAssembly = new THREE.Group();
+    drivetrainGroup.add(crankAssembly);
+
+    const bbAxle = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.34, 14), MATS.darkMetal);
+    bbAxle.rotation.x = Math.PI / 2;
+    crankAssembly.add(bbAxle);
+
+    // 右曲柄 (+Z, 相位 0 along +X) & 左曲柄 (-Z, 相位 PI along -X)
+    const rightCrankArm = createCylinderBetween(
+      new THREE.Vector3(0, 0, 0.13),
+      new THREE.Vector3(CRANK_LEN, 0, 0.17),
+      0.032, 0.042, MATS.chrome
+    );
+    crankAssembly.add(rightCrankArm);
+
+    const leftCrankArm = createCylinderBetween(
+      new THREE.Vector3(0, 0, -0.13),
+      new THREE.Vector3(-CRANK_LEN, 0, -0.17),
+      0.032, 0.042, MATS.chrome
+    );
+    crankAssembly.add(leftCrankArm);
+
+    function createPedalPlatform() {
+      const pg = new THREE.Group();
+      const body = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.045, 0.17), MATS.darkMetal);
+      body.castShadow = true;
+      pg.add(body);
+
+      // 黄色反光条
+      const ref1 = new THREE.Mesh(new THREE.BoxGeometry(0.01, 0.026, 0.11), MATS.brass);
+      ref1.position.x = 0.121;
+      pg.add(ref1);
+      const ref2 = ref1.clone();
+      ref2.position.x = -0.121;
+      pg.add(ref2);
+      return pg;
+    }
+
+    const rightPedalGroup = createPedalPlatform();
+    const leftPedalGroup = createPedalPlatform();
+    bikeLeanGroup.add(rightPedalGroup);
+    bikeLeanGroup.add(leftPedalGroup);
+
+    // ============================================================================
+    // 10. 构建高细节程序化鹈鹕 (Pelican Character + IK Rig)
+    // ============================================================================
+    const pelicanRoot = new THREE.Group();
+    // 鹈鹕骨盆基准位置紧贴车座
+    pelicanRoot.position.copy(P_SADDLE).add(new THREE.Vector3(0.02, 0.18, 0));
+    bikeLeanGroup.add(pelicanRoot);
+
+    // 躯干组（随踩踏呼吸、上下起伏与左右摇摆）
+    const torsoGroup = new THREE.Group();
+    pelicanRoot.add(torsoGroup);
+
+    // 丰满水滴形主躯干
+    const mainBody = new THREE.Mesh(new THREE.SphereGeometry(0.56, 24, 20), MATS.featherWhite);
+    mainBody.scale.set(1.32, 1.05, 0.96);
+    mainBody.position.set(0.14, 0.34, 0);
+    mainBody.rotation.z = -0.22;
+    mainBody.castShadow = true;
+    mainBody.receiveShadow = true;
+    torsoGroup.add(mainBody);
+
+    // 饱满胸脯羽毛层
+    const chestPlumage = new THREE.Mesh(new THREE.SphereGeometry(0.46, 20, 16), MATS.featherCream);
+    chestPlumage.scale.set(1.15, 1.12, 0.92);
+    chestPlumage.position.set(0.38, 0.45, 0);
+    chestPlumage.castShadow = true;
+    torsoGroup.add(chestPlumage);
+
+    // 背部灰黑色覆羽层
+    [-1, 1].forEach((side) => {
+      const backWingCovert = new THREE.Mesh(new THREE.SphereGeometry(0.42, 16, 14), MATS.featherSlate);
+      backWingCovert.scale.set(1.38, 0.45, 0.35);
+      backWingCovert.position.set(0.05, 0.48, side * 0.42);
+      backWingCovert.rotation.z = -0.26;
+      backWingCovert.rotation.y = side * -0.15;
+      backWingCovert.castShadow = true;
+      torsoGroup.add(backWingCovert);
+    });
+
+    // 欢快摆动的扇形尾羽簇
+    const tailGroup = new THREE.Group();
+    tailGroup.position.set(-0.52, 0.25, 0);
+    torsoGroup.add(tailGroup);
+
+    for (let t = -2; t <= 2; t++) {
+      const feather = new THREE.Mesh(
+        new THREE.ConeGeometry(0.11, 0.48, 8),
+        Math.abs(t) === 2 ? MATS.featherSlate : MATS.featherWhite
+      );
+      feather.scale.set(0.4, 1, 1);
+      feather.rotation.z = Math.PI * 0.62 + Math.abs(t) * 0.04;
+      feather.rotation.y = t * 0.18;
+      feather.position.set(-0.18, 0.08, t * 0.08);
+      feather.castShadow = true;
+      tailGroup.add(feather);
+    }
+
+    // 随风飘动的红色领巾 (Animated Wind Scarf)
+    const scarfGroup = new THREE.Group();
+    scarfGroup.position.set(0.45, 0.78, 0);
+    torsoGroup.add(scarfGroup);
+
+    const scarfCollar = new THREE.Mesh(new THREE.TorusGeometry(0.24, 0.055, 10, 20), MATS.scarfRed);
+    scarfCollar.rotation.x = Math.PI / 2;
+    scarfCollar.rotation.y = 0.25;
+    scarfGroup.add(scarfCollar);
+
+    const scarfTailSegments = [];
+    let parentScarfNode = scarfGroup;
+    for (let s = 0; s < 5; s++) {
+      const segPivot = new THREE.Group();
+      segPivot.position.set(s === 0 ? -0.16 : -0.18, s === 0 ? -0.02 : 0, s === 0 ? 0.21 : 0);
+      const segMesh = new THREE.Mesh(
+        new THREE.BoxGeometry(0.20, 0.025, 0.13 - s * 0.015),
+        MATS.scarfRed
+      );
+      segMesh.position.x = -0.09;
+      segMesh.castShadow = true;
+      segPivot.add(segMesh);
+      parentScarfNode.add(segPivot);
+      scarfTailSegments.push(segPivot);
+      parentScarfNode = segPivot;
+    }
+
+    // S 形优雅弯曲脖颈与头部总成
+    const neckBaseGroup = new THREE.Group();
+    neckBaseGroup.position.set(0.46, 0.80, 0);
+    torsoGroup.add(neckBaseGroup);
+
+    // 3 段关节式天鹅/鹈鹕 S 形长脖颈
+    const neckSeg1 = new THREE.Group();
+    neckBaseGroup.add(neckSeg1);
+    const nMesh1 = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.23, 0.36, 14), MATS.featherWhite);
+    nMesh1.position.set(-0.04, 0.16, 0);
+    nMesh1.rotation.z = 0.22;
+    nMesh1.castShadow = true;
+    neckSeg1.add(nMesh1);
+
+    const neckSeg2 = new THREE.Group();
+    neckSeg2.position.set(-0.08, 0.31, 0);
+    neckSeg1.add(neckSeg2);
+    const nMesh2 = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.185, 0.36, 14), MATS.featherWhite);
+    nMesh2.position.set(0.02, 0.16, 0);
+    nMesh2.rotation.z = -0.12;
+    nMesh2.castShadow = true;
+    neckSeg2.add(nMesh2);
+
+    const neckSeg3 = new THREE.Group();
+    neckSeg3.position.set(0.05, 0.31, 0);
+    neckSeg2.add(neckSeg3);
+    const nMesh3 = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.30, 14), MATS.featherCream);
+    nMesh3.position.set(0.06, 0.13, 0);
+    nMesh3.rotation.z = -0.35;
+    nMesh3.castShadow = true;
+    neckSeg3.add(nMesh3);
+
+    // 鹈鹕头部 (Head, Crest, Eyes, Captain Hat, Long Bill & Big Gular Pouch)
+    const headGroup = new THREE.Group();
+    headGroup.position.set(0.12, 0.26, 0);
+    neckSeg3.add(headGroup);
+
+    const skull = new THREE.Mesh(new THREE.SphereGeometry(0.24, 18, 16), MATS.featherCream);
+    skull.scale.set(1.18, 0.96, 0.92);
+    skull.castShadow = true;
+    headGroup.add(skull);
+
+    // 后脑勺俏皮羽冠 (Crest Tuft Feathers)
+    const crestGroup = new THREE.Group();
+    crestGroup.position.set(-0.18, 0.12, 0);
+    headGroup.add(crestGroup);
+    for (let c = 0; c < 3; c++) {
+      const tuft = new THREE.Mesh(new THREE.ConeGeometry(0.045, 0.26 - c * 0.04, 8), MATS.featherCream);
+      tuft.rotation.z = Math.PI * 0.62 + c * 0.14;
+      tuft.position.set(-0.08, 0.04 - c * 0.04, (c - 1) * 0.03);
+      crestGroup.add(tuft);
+    }
+
+    // 俏皮海员船长帽 (Captain's Hat)
+    const hatGroup = new THREE.Group();
+    hatGroup.position.set(-0.02, 0.22, 0);
+    hatGroup.rotation.z = 0.12;
+    headGroup.add(hatGroup);
+
+    const hatBand = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.145, 0.07, 16), MATS.captainVisor);
+    hatGroup.add(hatBand);
+    const hatGoldStripe = new THREE.Mesh(new THREE.CylinderGeometry(0.153, 0.153, 0.02, 16), MATS.brass);
+    hatGoldStripe.position.y = -0.015;
+    hatGroup.add(hatGoldStripe);
+    const hatCrown = new THREE.Mesh(new THREE.CylinderGeometry(0.21, 0.15, 0.11, 16), MATS.captainHatWhite);
+    hatCrown.position.y = 0.08;
+    hatCrown.rotation.z = -0.08;
+    hatCrown.castShadow = true;
+    hatGroup.add(hatCrown);
+    const hatVisor = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 0.02, 16, 1, false, -0.8, 1.6), MATS.captainVisor);
+    hatVisor.rotation.y = Math.PI / 2;
+    hatVisor.rotation.z = -0.22;
+    hatVisor.position.set(0.08, -0.03, 0);
+    hatGroup.add(hatVisor);
+
+    // 灵动双眼（带浅蓝眼圈、黑亮瞳仁、高光点与眨眼眼睑）
+    const eyelids = [];
+    [-1, 1].forEach((side) => {
+      const eyeGroup = new THREE.Group();
+      eyeGroup.position.set(0.11, 0.07, side * 0.195);
+      headGroup.add(eyeGroup);
+
+      const eyeRing = new THREE.Mesh(new THREE.TorusGeometry(0.056, 0.016, 8, 16), MATS.eyeRing);
+      eyeGroup.add(eyeRing);
+
+      const eyeball = new THREE.Mesh(new THREE.SphereGeometry(0.048, 12, 10), MATS.eyePupil);
+      eyeball.position.z = side * 0.01;
+      eyeGroup.add(eyeball);
+
+      const glint = new THREE.Mesh(
+        new THREE.SphereGeometry(0.014, 8, 8),
+        new THREE.MeshBasicMaterial({ color: 0xffffff })
+      );
+      glint.position.set(0.02, 0.02, side * 0.046);
+      eyeGroup.add(glint);
+
+      const lid = new THREE.Mesh(
+        new THREE.SphereGeometry(0.054, 12, 8, 0, Math.PI * 2, 0, Math.PI * 0.5),
+        MATS.featherCream
+      );
+      lid.scale.set(1, 0.1, 1);
+      lid.visible = false;
+      eyeGroup.add(lid);
+      eyelids.push(lid);
+    });
+
+    // 标志性超长扁平上喙 (Long Flat Upper Mandible + Red Hook Tip)
+    const upperBeakGroup = new THREE.Group();
+    upperBeakGroup.position.set(0.20, 0.03, 0);
+    headGroup.add(upperBeakGroup);
+
+    const upperBill = new THREE.Mesh(new THREE.ConeGeometry(0.15, 1.18, 12), MATS.beakUpper);
+    upperBill.rotation.z = -Math.PI / 2 - 0.04;
+    upperBill.scale.set(0.46, 1, 1.15);
+    upperBill.position.set(0.56, -0.02, 0);
+    upperBill.castShadow = true;
+    upperBeakGroup.add(upperBill);
+
+    // 上喙脊线与前端鲜红鹰钩尖 (Nail Hook)
+    const culmenRidge = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.038, 1.12, 8), MATS.beakUpper);
+    culmenRidge.rotation.z = -Math.PI / 2 - 0.03;
+    culmenRidge.position.set(0.55, 0.025, 0);
+    upperBeakGroup.add(culmenRidge);
+
+    const beakHook = new THREE.Mesh(new THREE.ConeGeometry(0.042, 0.13, 8), MATS.beakHook);
+    beakHook.rotation.z = Math.PI * 0.88;
+    beakHook.position.set(1.13, -0.065, 0);
+    upperBeakGroup.add(beakHook);
+
+    // 下颌与极具辨识度的橘黄色弹性大喉囊 (Lower Jaw & Big Elastic Gular Pouch)
+    const lowerJawGroup = new THREE.Group();
+    lowerJawGroup.position.set(0.18, -0.04, 0);
+    headGroup.add(lowerJawGroup);
+
+    // 左右下颌骨支
+    [-1, 1].forEach((side) => {
+      const ramus = createCylinderBetween(
+        new THREE.Vector3(0, 0, side * 0.11),
+        new THREE.Vector3(1.06, -0.03, side * 0.02),
+        0.018, 0.026, MATS.beakUpper, 8
+      );
+      lowerJawGroup.add(ramus);
+    });
+
+    // 垂挂的大喉囊网格（带多重球体组合，可随惯性摇晃及吞鱼膨胀）
+    const gularPouchGroup = new THREE.Group();
+    gularPouchGroup.position.set(0.45, -0.02, 0);
+    lowerJawGroup.add(gularPouchGroup);
+
+    const pouchMain = new THREE.Mesh(new THREE.SphereGeometry(0.26, 20, 16), MATS.gularPouch);
+    pouchMain.scale.set(2.05, 0.95, 0.72);
+    pouchMain.position.set(0.02, -0.17, 0);
+    pouchMain.rotation.z = 0.14;
+    pouchMain.castShadow = true;
+    gularPouchGroup.add(pouchMain);
+
+    const pouchBelly = new THREE.Mesh(new THREE.SphereGeometry(0.22, 16, 14), MATS.gularPouch);
+    pouchBelly.scale.set(1.45, 1.15, 0.82);
+    pouchBelly.position.set(-0.12, -0.23, 0);
+    pouchBelly.castShadow = true;
+    gularPouchGroup.add(pouchBelly);
+
+    // ============================================================================
+    // 11. 鹈鹕双腿 + 脚蹼 & 双翅抓把 (Two-Bone IK Limbs)
+    // ============================================================================
+    const LEG_L1 = 1.06; // 大腿长度 (Thigh)
+    const LEG_L2 = 1.03; // 小腿长度 (Tarsometatarsus)
+
+    function createPelicanLegLimb() {
+      // 大腿组（沿局部 +Y 延伸 1.0 单位，通过 scale.y 或固定长度对齐）
+      const thighGroup = new THREE.Group();
+      const thighFeather = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.11, 0.155, LEG_L1, 12),
+        MATS.featherWhite
+      );
+      thighFeather.position.y = LEG_L1 * 0.5;
+      thighFeather.castShadow = true;
+      thighGroup.add(thighFeather);
+
+      // 膝关节球
+      const kneeSphere = new THREE.Mesh(new THREE.SphereGeometry(0.088, 12, 10), MATS.pelicanOrangeLeg);
+      kneeSphere.castShadow = true;
+
+      // 橘黄色细长小腿组
+      const shinGroup = new THREE.Group();
+      const shinMesh = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.042, 0.058, LEG_L2, 10),
+        MATS.pelicanOrangeLeg
+      );
+      shinMesh.position.y = LEG_L2 * 0.5;
+      shinMesh.castShadow = true;
+      shinGroup.add(shinMesh);
+
+      // 宽大橘黄色全蹼足 (Webbed Pelican Foot)
+      const footGroup = new THREE.Group();
+      const ankleBall = new THREE.Mesh(new THREE.SphereGeometry(0.056, 10, 8), MATS.pelicanOrangeLeg);
+      footGroup.add(ankleBall);
+
+      // 扇形脚蹼与三根脚趾
+      const webGeo = new THREE.ConeGeometry(0.19, 0.36, 5);
+      webGeo.rotateZ(-Math.PI / 2);
+      webGeo.scale(1, 0.22, 1.15);
+      webGeo.translate(0.12, -0.03, 0);
+      const webMesh = new THREE.Mesh(webGeo, MATS.pelicanOrangeLeg);
+      webMesh.castShadow = true;
+      footGroup.add(webMesh);
+
+      for (let toe = -1; toe <= 1; toe++) {
+        const toeCyl = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.024, 0.34, 8), MATS.pelicanOrangeLeg);
+        toeCyl.rotation.z = -Math.PI / 2;
+        toeCyl.rotation.y = toe * 0.26;
+        toeCyl.position.set(0.13, -0.025, toe * 0.055);
+        footGroup.add(toeCyl);
+      }
+
+      bikeLeanGroup.add(thighGroup);
+      bikeLeanGroup.add(kneeSphere);
+      bikeLeanGroup.add(shinGroup);
+      bikeLeanGroup.add(footGroup);
+
+      return { thighGroup, kneeSphere, shinGroup, footGroup };
+    }
+
+    const rightLeg = createPelicanLegLimb();
+    const leftLeg = createPelicanLegLimb();
+
+    // 鹈鹕双翅（大臂 + 小臂羽毛 + 翅尖飞羽握住车把）
+    const WING_L1 = 0.88;
+    const WING_L2 = 0.92;
+
+    function createPelicanWingLimb(side) {
+      const upperWingGroup = new THREE.Group();
+      const upperMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.14, WING_L1, 12), MATS.featherWhite);
+      upperMesh.position.y = WING_L1 * 0.5;
+      upperMesh.scale.set(1.2, 1, 0.72);
+      upperMesh.castShadow = true;
+      upperWingGroup.add(upperMesh);
+
+      // 大臂覆羽边缘
+      const upperFringe = new THREE.Mesh(new THREE.BoxGeometry(0.18, WING_L1 * 0.85, 0.07), MATS.featherWhite);
+      upperFringe.position.set(-0.08, WING_L1 * 0.48, side * 0.03);
+      upperWingGroup.add(upperFringe);
+
+      const elbowSphere = new THREE.Mesh(new THREE.SphereGeometry(0.095, 10, 10), MATS.featherWhite);
+
+      const foreWingGroup = new THREE.Group();
+      const foreMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.085, 0.11, WING_L2, 12), MATS.featherWhite);
+      foreMesh.position.y = WING_L2 * 0.5;
+      foreMesh.scale.set(1.25, 1, 0.65);
+      foreMesh.castShadow = true;
+      foreWingGroup.add(foreMesh);
+
+      // 小臂灰黑色初级飞羽
+      for (let f = 0; f < 4; f++) {
+        const primary = new THREE.Mesh(new THREE.ConeGeometry(0.06, 0.34, 6), MATS.featherSlate);
+        primary.position.set(-0.11, 0.25 + f * 0.16, side * 0.02);
+        primary.rotation.z = 0.65;
+        primary.scale.set(1, 1, 0.45);
+        foreWingGroup.add(primary);
+      }
+
+      // 握把翼尖羽手
+      const wingHand = new THREE.Mesh(new THREE.SphereGeometry(0.095, 12, 10), MATS.featherSlate);
+      wingHand.scale.set(1.3, 0.85, 0.95);
+      wingHand.castShadow = true;
+
+      bikeLeanGroup.add(upperWingGroup);
+      bikeLeanGroup.add(elbowSphere);
+      bikeLeanGroup.add(foreWingGroup);
+      bikeLeanGroup.add(wingHand);
+
+      return { upperWingGroup, elbowSphere, foreWingGroup, wingHand };
+    }
+
+    const rightWing = createPelicanWingLimb(1);
+    const leftWing = createPelicanWingLimb(-1);
+
+    // ============================================================================
+    // 12. 实时 IK 骨骼可视化调试层 (Toggleable 3D IK Skeleton Debug Overlay)
+    // ============================================================================
+    const ikDebugGroup = new THREE.Group();
+    ikDebugGroup.visible = false;
+    bikeLeanGroup.add(ikDebugGroup);
+
+    const ikJointMat = new THREE.MeshBasicMaterial({ color: 0x38bdf8, depthTest: false });
+    const ikLineMat = new THREE.LineBasicMaterial({ color: 0xfacc15, depthTest: false });
+
+    function createIKDebugChain() {
+      const s1 = new THREE.Mesh(new THREE.SphereGeometry(0.055, 10, 10), ikJointMat);
+      const s2 = s1.clone();
+      const s3 = s1.clone();
+      s1.renderOrder = s2.renderOrder = s3.renderOrder = 999;
+      const lineGeo = new THREE.BufferGeometry().setFromPoints([
+        new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()
+      ]);
+      const line = new THREE.Line(lineGeo, ikLineMat);
+      line.renderOrder = 998;
+      ikDebugGroup.add(s1, s2, s3, line);
+      return {
+        update(pA, pJoint, pB) {
+          s1.position.copy(pA);
+          s2.position.copy(pJoint);
+          s3.position.copy(pB);
+          const pos = lineGeo.attributes.position;
+          pos.setXYZ(0, pA.x, pA.y, pA.z);
+          pos.setXYZ(1, pJoint.x, pJoint.y, pJoint.z);
+          pos.setXYZ(2, pB.x, pB.y, pB.z);
+          pos.needsUpdate = true;
+        }
+      };
+    }
+
+    const debugLegR = createIKDebugChain();
+    const debugLegL = createIKDebugChain();
+    const debugWingR = createIKDebugChain();
+    const debugWingL = createIKDebugChain();
+
+    // ============================================================================
+    // 13. 交互状态、相机机位、投喂小鱼与天光切换
+    // ============================================================================
+    const state = {
+      speedMultiplier: 1.15,
+      crankAngle: 0,
+      wheelAngle: 0,
+      scrollOffset: 0,
+      steerTarget: 0,
+      steerCurrent: 0,
+      lateralZ: 0,
+      pouchInflate: 0,
+      pouchJigglePhase: 0,
+      mouthOpen: 0,
+      hopTimer: 0,
+      bellWaveTimer: 0,
+      fishCount: 3,
+      camMode: 'free',
+      timeMode: 'day',
+      keys: { w: false, s: false, a: false, d: false }
+    };
+
+    // 抛物线投喂小鱼队列
+    const flyingFishes = [];
+
+    function triggerFeedFish() {
+      const fish = createFishMesh(1.1);
+      const startPos = new THREE.Vector3(3.8, 2.2, (Math.random() - 0.5) * 1.8);
+      fish.position.copy(startPos);
+      scene.add(fish);
+      flyingFishes.push({
+        mesh: fish,
+        start: startPos,
+        t: 0
+      });
+      state.mouthOpen = 1.0;
+    }
+
+    function triggerBikeBell() {
+      state.bellWaveTimer = 1.0;
+      sfx.playBikeBell();
+    }
+
+    function triggerWingHop() {
+      if (state.hopTimer <= 0.05) {
+        state.hopTimer = 1.0;
+        sfx.playWingHop();
+      }
+    }
+
+    // 昼夜天光预设切换
+    function applyTimePreset(mode) {
+      state.timeMode = mode;
+      if (mode === 'day') {
+        skyUniforms.topColor.value.setHex(0x1d8cf8);
+        skyUniforms.horizonColor.value.setHex(0xbbe6ff);
+        skyUniforms.bottomColor.value.setHex(0x1e3a5f);
+        skyUniforms.sunDir.value.set(0.55, 0.48, -0.65).normalize();
+        skyUniforms.sunColor.value.setHex(0xfff4d6);
+        scene.fog.color.setHex(0x9bd7f5);
+        hemiLight.color.setHex(0xdbeafe);
+        hemiLight.groundColor.setHex(0xfde68a);
+        hemiLight.intensity = 0.88;
+        dirLight.color.setHex(0xfffbeb);
+        dirLight.intensity = 1.85;
+        dirLight.position.set(16, 22, 14);
+        starMat.opacity = 0;
+        beaconConeMat.opacity = 0;
+        bikeSpotLight.intensity = 0;
+        MATS.headlampGlass.emissiveIntensity = 0.25;
+        streetLampBulbs.forEach((m) => (m.emissiveIntensity = 0.1));
+        nightRoadLight.intensity = 0;
+      } else if (mode === 'sunset') {
+        skyUniforms.topColor.value.setHex(0x311042);
+        skyUniforms.horizonColor.value.setHex(0xf97316);
+        skyUniforms.bottomColor.value.setHex(0x1e1b4b);
+        skyUniforms.sunDir.value.set(0.45, 0.14, -0.88).normalize();
+        skyUniforms.sunColor.value.setHex(0xffb703);
+        scene.fog.color.setHex(0xe07a5f);
+        hemiLight.color.setHex(0xfdba74);
+        hemiLight.groundColor.setHex(0x431407);
+        hemiLight.intensity = 0.72;
+        dirLight.color.setHex(0xff9e00);
+        dirLight.intensity = 1.75;
+        dirLight.position.set(12, 7, -16);
+        starMat.opacity = 0.35;
+        beaconConeMat.opacity = 0.18;
+        bikeSpotLight.intensity = 3.2;
+        MATS.headlampGlass.emissiveIntensity = 1.2;
+        streetLampBulbs.forEach((m) => (m.emissiveIntensity = 1.4));
+        nightRoadLight.intensity = 2.0;
+      } else if (mode === 'night') {
+        skyUniforms.topColor.value.setHex(0x030712);
+        skyUniforms.horizonColor.value.setHex(0x1e293b);
+        skyUniforms.bottomColor.value.setHex(0x020617);
+        skyUniforms.sunDir.value.set(-0.4, 0.55, -0.7).normalize();
+        skyUniforms.sunColor.value.setHex(0x93c5fd);
+        scene.fog.color.setHex(0x0f172a);
+        hemiLight.color.setHex(0x38bdf8);
+        hemiLight.groundColor.setHex(0x0f172a);
+        hemiLight.intensity = 0.42;
+        dirLight.color.setHex(0x93c5fd);
+        dirLight.intensity = 0.65;
+        dirLight.position.set(-12, 18, -14);
+        starMat.opacity = 0.95;
+        beaconConeMat.opacity = 0.32;
+        bikeSpotLight.intensity = 6.5;
+        MATS.headlampGlass.emissiveIntensity = 2.2;
+        streetLampBulbs.forEach((m) => (m.emissiveIntensity = 2.4));
+        nightRoadLight.intensity = 3.6;
+      }
+    }
+
+    // UI 事件绑定
+    const speedSlider = document.getElementById('speed-slider');
+    const hudSpeed = document.getElementById('hud-speed');
+    const hudCadence = document.getElementById('hud-cadence');
+    const hudFish = document.getElementById('hud-fish');
+
+    speedSlider.addEventListener('input', (e) => {
+      state.speedMultiplier = parseFloat(e.target.value);
+    });
+
+    document.getElementById('btn-feed').addEventListener('click', triggerFeedFish);
+    document.getElementById('btn-bell').addEventListener('click', triggerBikeBell);
+    document.getElementById('btn-hop').addEventListener('click', triggerWingHop);
+
+    const btnIk = document.getElementById('btn-ik');
+    btnIk.addEventListener('click', () => {
+      ikDebugGroup.visible = !ikDebugGroup.visible;
+      btnIk.classList.toggle('active', ikDebugGroup.visible);
+    });
+
+    document.querySelectorAll('#camera-group .btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#camera-group .btn').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        state.camMode = btn.dataset.cam;
+        controls.enabled = state.camMode === 'free';
+      });
+    });
+
+    document.querySelectorAll('#time-group .btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#time-group .btn').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        applyTimePreset(btn.dataset.time);
+      });
+    });
+
+    window.addEventListener('keydown', (e) => {
+      const k = e.key.toLowerCase();
+      if (k === 'w' || e.key === 'ArrowUp') state.keys.w = true;
+      if (k === 's' || e.key === 'ArrowDown') state.keys.s = true;
+      if (k === 'a' || e.key === 'ArrowLeft') state.keys.a = true;
+      if (k === 'd' || e.key === 'ArrowRight') state.keys.d = true;
+      if (k === 'f') triggerFeedFish();
+      if (k === 'b') triggerBikeBell();
+      if (e.code === 'Space') {
+        e.preventDefault();
+        triggerWingHop();
+      }
+    });
+
+    window.addEventListener('keyup', (e) => {
+      const k = e.key.toLowerCase();
+      if (k === 'w' || e.key === 'ArrowUp') state.keys.w = false;
+      if (k === 's' || e.key === 'ArrowDown') state.keys.s = false;
+      if (k === 'a' || e.key === 'ArrowLeft') state.keys.a = false;
+      if (k === 'd' || e.key === 'ArrowRight') state.keys.d = false;
+    });
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // ============================================================================
+    // 14. 主动画与运动学解算循环 (Main Animation & IK Loop)
+    // ============================================================================
+    const clock = new THREE.Clock();
+
+    // 预分配复用向量避免 GC
+    const pHipR = new THREE.Vector3();
+    const pHipL = new THREE.Vector3();
+    const pAnkleR = new THREE.Vector3();
+    const pAnkleL = new THREE.Vector3();
+    const pKneeR = new THREE.Vector3();
+    const pKneeL = new THREE.Vector3();
+    const pShoulderR = new THREE.Vector3();
+    const pShoulderL = new THREE.Vector3();
+    const pGripR = new THREE.Vector3();
+    const pGripL = new THREE.Vector3();
+    const pElbowR = new THREE.Vector3();
+    const pElbowL = new THREE.Vector3();
+
+    const bendLegR = new THREE.Vector3(1.0, 0.22, 0.14).normalize();
+    const bendLegL = new THREE.Vector3(1.0, 0.22, -0.14).normalize();
+    const bendWingR = new THREE.Vector3(-0.35, -0.45, 0.82).normalize();
+    const bendWingL = new THREE.Vector3(-0.35, -0.45, -0.82).normalize();
+
+    const invBikeLeanMat = new THREE.Matrix4();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const dt = Math.min(clock.getDelta(), 0.05);
+      const elapsed = clock.getElapsedTime();
+
+      // 1. 键盘加减速与转向输入处理
+      if (state.keys.w) {
+        state.speedMultiplier = Math.min(2.4, state.speedMultiplier + dt * 0.9);
+        speedSlider.value = state.speedMultiplier.toFixed(2);
+      }
+      if (state.keys.s) {
+        state.speedMultiplier = Math.max(0, state.speedMultiplier - dt * 0.9);
+        speedSlider.value = state.speedMultiplier.toFixed(2);
+      }
+
+      if (state.keys.a) {
+        state.steerTarget = 0.42;
+      } else if (state.keys.d) {
+        state.steerTarget = -0.42;
+      } else {
+        // 自然骑行微幅平衡摆动
+        state.steerTarget = Math.sin(elapsed * 1.4) * 0.055 * Math.min(1, state.speedMultiplier);
+      }
+
+      state.steerCurrent = THREE.MathUtils.lerp(state.steerCurrent, state.steerTarget, dt * 6.5);
+
+      // 横向车道位移与压弯倾角
+      state.lateralZ = THREE.MathUtils.clamp(
+        state.lateralZ - state.steerCurrent * state.speedMultiplier * dt * 1.6,
+        -1.55,
+        1.55
+      );
+      bikeRoot.position.z = state.lateralZ;
+      bikeRoot.rotation.y = state.steerCurrent * 0.22;
+
+      // 2. 曲柄踏频、齿轮传动比与车轮线速度同步
+      const hopBoost = state.hopTimer > 0 ? 1.35 : 1.0;
+      const crankOmega = state.speedMultiplier * 3.8 * hopBoost; // rad/s
+      state.crankAngle = (state.crankAngle + crankOmega * dt) % (Math.PI * 2);
+
+      const gearRatio = 2.15; // 牙盘/飞轮传动比
+      const wheelOmega = crankOmega * gearRatio;
+      state.wheelAngle = (state.wheelAngle + wheelOmega * dt) % (Math.PI * 2);
+
+      // 地面向后滚动的线速度 v = wheelOmega * WHEEL_R (保证轮胎与地面 1:1 零滑移)
+      const linearVelocity = wheelOmega * WHEEL_R;
+      state.scrollOffset += linearVelocity * dt;
+
+      // 更新顶部遥测面板
+      const kmh = (linearVelocity * 2.2).toFixed(1);
+      const rpm = Math.round((crankOmega / (Math.PI * 2)) * 60);
+      hudSpeed.textContent = `${kmh} km/h`;
+      hudCadence.textContent = `${rpm} RPM`;
+
+      // 3. 旋转车轮、曲柄、牙盘、飞轮与滚动链节
+      // 注意：沿 +X 前进时，绕 Z 轴顺时针旋转即 rotation.z = -angle
+      rearWheel.rotation.z = -state.wheelAngle;
+      frontWheel.rotation.z = -state.wheelAngle;
+      crankAssembly.rotation.z = -state.crankAngle;
+      chainringGroup.rotation.z = -state.crankAngle;
+      rearCog.rotation.z = -state.wheelAngle;
+
+      // 更新链条滚子动画
+      const chainPhase = (state.crankAngle * 0.8) % 1;
+      chainRollers.forEach((item) => {
+        const half = 8;
+        const isTop = item.index < half;
+        const idx = item.index % half;
+        let t = (idx + (isTop ? chainPhase : -chainPhase + 1)) / half;
+        t = ((t % 1) + 1) % 1;
+        item.mesh.position.lerpVectors(
+          isTop ? pChainRearTop : pChainRearBot,
+          isTop ? pChainFrontTop : pChainFrontBot,
+          t
+        );
+      });
+
+      // 4. 左右脚踏板空间位置（始终保持水平，随曲柄相位做轻微脚踝俯仰）
+      const thetaR = state.crankAngle;
+      const thetaL = state.crankAngle + Math.PI;
+
+      rightPedalGroup.position.set(
+        P_BB.x + Math.cos(thetaR) * CRANK_LEN,
+        P_BB.y - Math.sin(thetaR) * CRANK_LEN,
+        0.24
+      );
+      rightPedalGroup.rotation.z = Math.sin(thetaR) * 0.16;
+
+      leftPedalGroup.position.set(
+        P_BB.x + Math.cos(thetaL) * CRANK_LEN,
+        P_BB.y - Math.sin(thetaL) * CRANK_LEN,
+        -0.24
+      );
+      leftPedalGroup.rotation.z = Math.sin(thetaL) * 0.16;
+
+      // 5. 前叉与车把转向 + 车身踩踏摇摆 + 振翅弹跳
+      steeringGroup.rotation.y = state.steerCurrent;
+
+      let hopHeight = 0;
+      let hopPitch = 0;
+      if (state.hopTimer > 0) {
+        state.hopTimer = Math.max(0, state.hopTimer - dt * 1.9);
+        const s = Math.sin(state.hopTimer * Math.PI);
+        hopHeight = s * 0.55;
+        hopPitch = Math.sin(state.hopTimer * Math.PI * 2) * 0.12;
+      }
+
+      const pedalSway = Math.sin(state.crankAngle) * 0.032 * Math.min(1.4, state.speedMultiplier);
+      const turnLean = -state.steerCurrent * 0.35 * Math.min(1.5, state.speedMultiplier);
+      bikeLeanGroup.position.y = hopHeight;
+      bikeLeanGroup.rotation.x = turnLean + pedalSway;
+      bikeLeanGroup.rotation.z = hopPitch;
+
+      // 6. 鹈鹕躯干、尾羽、长脖子、头部与大喉囊物理协同运动
+      // 每半圈踩踏（左右脚各发力一次）身体上下律动一次 (2 * crankAngle)
+      const cadenceBounce = Math.sin(state.crankAngle * 2) * 0.065 * Math.min(1.5, state.speedMultiplier);
+      const hipRock = Math.cos(state.crankAngle) * 0.055;
+
+      torsoGroup.position.y = cadenceBounce;
+      torsoGroup.rotation.x = hipRock;
+      torsoGroup.rotation.z = -0.05 * state.speedMultiplier + Math.cos(state.crankAngle * 2) * 0.035;
+
+      // 尾羽随踩踏节拍欢快上下翘动
+      tailGroup.rotation.z = Math.sin(state.crankAngle * 2 - 0.6) * 0.18;
+      tailGroup.rotation.y = Math.cos(state.crankAngle) * 0.14;
+
+      // S 形脖颈与头部前倾平衡 & 转弯注视
+      neckSeg1.rotation.z = Math.sin(state.crankAngle * 2 - 0.4) * 0.06;
+      neckSeg2.rotation.z = -Math.sin(state.crankAngle * 2) * 0.07;
+      headGroup.rotation.y = state.steerCurrent * 0.65;
+      headGroup.rotation.z = Math.sin(state.crankAngle * 2 + 0.5) * 0.05 + 0.04 * state.speedMultiplier;
+
+      // 羽冠与红领巾随骑行海风飘扬
+      crestGroup.rotation.z = -0.12 * state.speedMultiplier + Math.sin(elapsed * 9) * 0.08;
+      const windSpeed = 3.5 + state.speedMultiplier * 7.5;
+      scarfTailSegments.forEach((seg, idx) => {
+        seg.rotation.y = Math.sin(elapsed * windSpeed - idx * 0.7) * (0.14 + idx * 0.04);
+        seg.rotation.z = (0.12 * state.speedMultiplier) + Math.cos(elapsed * (windSpeed * 0.8) - idx * 0.6) * 0.1;
+      });
+
+      // 嘴巴张合与大喉囊弹性物理果冻抖动
+      state.mouthOpen = Math.max(0, state.mouthOpen - dt * 1.4);
+      state.pouchInflate = Math.max(0, state.pouchInflate - dt * 0.85);
+      state.pouchJigglePhase += dt * (8 + state.speedMultiplier * 5);
+
+      const jawAngle = state.mouthOpen * 0.46 + Math.max(0, Math.sin(state.crankAngle * 2)) * 0.04;
+      upperBeakGroup.rotation.z = jawAngle * 0.45;
+      lowerJawGroup.rotation.z = -jawAngle;
+
+      const pouchBounce = Math.sin(state.crankAngle * 2 - 1.1) * 0.09 * Math.min(1.5, state.speedMultiplier);
+      const gulpSwell = 1 + state.pouchInflate * 0.55 + Math.sin(state.pouchJigglePhase * 2.2) * state.pouchInflate * 0.18;
+      gularPouchGroup.scale.set(
+        1 + pouchBounce * 0.4 + state.pouchInflate * 0.25,
+        gulpSwell - pouchBounce * 0.7,
+        gulpSwell
+      );
+      gularPouchGroup.rotation.x = Math.cos(state.crankAngle) * 0.12;
+
+      // 自然周期眨眼
+      const blinkWave = Math.sin(elapsed * 1.7) > 0.97;
+      eyelids.forEach((lid) => {
+        lid.visible = blinkWave;
+        if (blinkWave) lid.scale.y = 1.0;
+      });
+
+      // 7. 双腿与双翅解析逆运动学 (Two-Bone IK Solving in bikeLeanGroup Space)
+      bikeLeanGroup.updateMatrixWorld(true);
+      invBikeLeanMat.copy(bikeLeanGroup.matrixWorld).invert();
+
+      // 计算髋关节在 bikeLeanGroup 局部坐标系中的位置
+      pHipR.set(0.08, 0.12, 0.22).applyMatrix4(torsoGroup.matrixWorld).applyMatrix4(invBikeLeanMat);
+      pHipL.set(0.08, 0.12, -0.22).applyMatrix4(torsoGroup.matrixWorld).applyMatrix4(invBikeLeanMat);
+
+      // 脚踝目标点位于踏板上方
+      pAnkleR.copy(rightPedalGroup.position).add(new THREE.Vector3(-0.04, 0.065, 0));
+      pAnkleL.copy(leftPedalGroup.position).add(new THREE.Vector3(-0.04, 0.065, 0));
+
+      // 求解左右膝关节 3D 位置并对齐大腿、膝盖、小腿、脚蹼
+      solveTwoBoneIK(pHipR, pAnkleR, LEG_L1, LEG_L2, bendLegR, pKneeR);
+      solveTwoBoneIK(pHipL, pAnkleL, LEG_L1, LEG_L2, bendLegL, pKneeL);
+
+      alignBoneLimb(rightLeg.thighGroup, null, pHipR, pKneeR, true);
+      rightLeg.kneeSphere.position.copy(pKneeR);
+      alignBoneLimb(rightLeg.shinGroup, null, pKneeR, pAnkleR, true);
+      rightLeg.footGroup.position.copy(pAnkleR);
+      rightLeg.footGroup.rotation.z = rightPedalGroup.rotation.z;
+
+      alignBoneLimb(leftLeg.thighGroup, null, pHipL, pKneeL, true);
+      leftLeg.kneeSphere.position.copy(pKneeL);
+      alignBoneLimb(leftLeg.shinGroup, null, pKneeL, pAnkleL, true);
+      leftLeg.footGroup.position.copy(pAnkleL);
+      leftLeg.footGroup.rotation.z = leftPedalGroup.rotation.z;
+
+      // 计算左右肩关节与车把握把在 bikeLeanGroup 空间中的位置，求解翅膀双骨骼 IK
+      pShoulderR.set(0.32, 0.58, 0.36).applyMatrix4(torsoGroup.matrixWorld).applyMatrix4(invBikeLeanMat);
+      pShoulderL.set(0.32, 0.58, -0.36).applyMatrix4(torsoGroup.matrixWorld).applyMatrix4(invBikeLeanMat);
+
+      gripRightAnchor.getWorldPosition(pGripR);
+      pGripR.applyMatrix4(invBikeLeanMat);
+      gripLeftAnchor.getWorldPosition(pGripL);
+      pGripL.applyMatrix4(invBikeLeanMat);
+
+      solveTwoBoneIK(pShoulderR, pGripR, WING_L1, WING_L2, bendWingR, pElbowR);
+      solveTwoBoneIK(pShoulderL, pGripL, WING_L1, WING_L2, bendWingL, pElbowL);
+
+      alignBoneLimb(rightWing.upperWingGroup, null, pShoulderR, pElbowR, true);
+      rightWing.elbowSphere.position.copy(pElbowR);
+      alignBoneLimb(rightWing.foreWingGroup, null, pElbowR, pGripR, true);
+      rightWing.wingHand.position.copy(pGripR);
+
+      alignBoneLimb(leftWing.upperWingGroup, null, pShoulderL, pElbowL, true);
+      leftWing.elbowSphere.position.copy(pElbowL);
+      alignBoneLimb(leftWing.foreWingGroup, null, pElbowL, pGripL, true);
+      leftWing.wingHand.position.copy(pGripL);
+
+      // 更新 IK 骨骼可视化层
+      if (ikDebugGroup.visible) {
+        debugLegR.update(pHipR, pKneeR, pAnkleR);
+        debugLegL.update(pHipL, pKneeL, pAnkleL);
+        debugWingR.update(pShoulderR, pElbowR, pGripR);
+        debugWingL.update(pShoulderL, pElbowL, pGripL);
+      }
+
+      // 8. 车铃声波扩散环与抛物线投喂小鱼动画
+      if (state.bellWaveTimer > 0) {
+        state.bellWaveTimer = Math.max(0, state.bellWaveTimer - dt * 1.8);
+        const s = 1 + (1 - state.bellWaveTimer) * 4.5;
+        bellWaveRing.scale.setScalar(s);
+        bellRingMat.opacity = state.bellWaveTimer * 0.85;
+        bellWaveRing.lookAt(camera.position);
+      } else {
+        bellRingMat.opacity = 0;
+      }
+
+      if (flyingFishes.length > 0) {
+        const mouthWorld = new THREE.Vector3();
+        gularPouchGroup.getWorldPosition(mouthWorld);
+        mouthWorld.add(new THREE.Vector3(0.32, 0.16, 0));
+
+        for (let i = flyingFishes.length - 1; i >= 0; i--) {
+          const f = flyingFishes[i];
+          f.t += dt * 1.65;
+          state.mouthOpen = Math.max(state.mouthOpen, 0.9);
+          if (f.t >= 1.0) {
+            scene.remove(f.mesh);
+            flyingFishes.splice(i, 1);
+            state.pouchInflate = 1.0;
+            state.fishCount++;
+            hudFish.textContent = `${state.fishCount} 条`;
+            sfx.playFishGulp();
+          } else {
+            f.mesh.position.lerpVectors(f.start, mouthWorld, f.t);
+            f.mesh.position.y += Math.sin(f.t * Math.PI) * 1.95;
+            f.mesh.rotation.z = f.t * Math.PI * 3;
+            f.mesh.rotation.y = Math.PI;
+          }
+        }
+      }
+
+      // 9. 环境滚动、海浪顶点动画、灯塔光束旋转与海鸥盘旋
+      scrollItems.forEach((obj) => {
+        obj.position.x -= linearVelocity * dt;
+        if (obj.position.x < -SCROLL_SPAN * 0.5) {
+          obj.position.x += SCROLL_SPAN;
+        }
+      });
+
+      const oceanPos = oceanGeo.attributes.position;
+      for (let i = 0; i < oceanPos.count; i++) {
+        const ox = oceanPos.getX(i);
+        const oz = oceanPos.getZ(i);
+        const wave =
+          Math.sin(ox * 0.22 + elapsed * 2.1) * 0.18 +
+          Math.cos(oz * 0.28 + elapsed * 1.7) * 0.14;
+        oceanPos.setY(i, oceanBaseY[i] + wave);
+      }
+      oceanPos.needsUpdate = true;
+
+      beaconPivot.rotation.y = elapsed * 0.85;
+
+      clouds.forEach((c, idx) => {
+        c.position.x -= (0.25 + idx * 0.04) * dt;
+        if (c.position.x < -45) c.position.x = 45;
+      });
+
+      seagulls.forEach((g, idx) => {
+        const a = elapsed * 0.45 + g.phase;
+        g.group.position.set(
+          Math.cos(a) * g.radius - 6,
+          10 + Math.sin(elapsed * 0.8 + idx) * 1.2,
+          Math.sin(a) * g.radius - 16
+        );
+        g.group.rotation.y = -a;
+        const flap = Math.sin(elapsed * 6.5 + g.phase) * 0.42;
+        g.wingL.rotation.x = flap;
+        g.wingR.rotation.x = -flap;
+      });
+
+      // 10. 摄像机机位平滑追踪
+      if (state.camMode === 'free') {
+        controls.target.lerp(new THREE.Vector3(0.1, 2.25 + hopHeight * 0.5, state.lateralZ * 0.6), 0.1);
+        controls.update();
+      } else if (state.camMode === 'side') {
+        const targetPos = new THREE.Vector3(0.0, 2.05, state.lateralZ + 5.6);
+        const lookAtPos = new THREE.Vector3(0.0, 1.95 + hopHeight * 0.4, state.lateralZ);
+        camera.position.lerp(targetPos, 0.08);
+        camera.lookAt(lookAtPos);
+      } else if (state.camMode === 'front') {
+        const targetPos = new THREE.Vector3(4.8, 1.85, state.lateralZ + 2.2);
+        const lookAtPos = new THREE.Vector3(0.2, 2.45 + hopHeight * 0.4, state.lateralZ);
+        camera.position.lerp(targetPos, 0.08);
+        camera.lookAt(lookAtPos);
+      } else if (state.camMode === 'pov') {
+        const headWorld = new THREE.Vector3();
+        headGroup.getWorldPosition(headWorld);
+        const targetPos = headWorld.clone().add(new THREE.Vector3(-0.65, 0.42, 0));
+        const lookAtPos = headWorld.clone().add(new THREE.Vector3(4.5, -0.35, -state.steerCurrent * 1.8));
+        camera.position.lerp(targetPos, 0.14);
+        camera.lookAt(lookAtPos);
+      }
+
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
+</body>
+</html>
