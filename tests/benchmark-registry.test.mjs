@@ -34,12 +34,13 @@ test('3D dataset preserves the prompt verbatim and records the published runs', 
   assert.equal(catalog3d.challengeId, 'pelican-bicycle-3d')
   assert.equal(catalog3d.promptVersion, 'v1')
   assert.equal(catalog3d.prompt, EXACT_3D_PROMPT)
-  assert.equal(catalog3d.batches.length, 4)
-  assert.equal(catalog3d.results.length, 10)
+  assert.equal(catalog3d.batches.length, 5)
+  assert.equal(catalog3d.results.length, 11)
   assert.deepEqual(catalog3d.results.map(result => `${result.modelId}/${result.reasoningEffort}`).sort(), [
     'gemini4-argon/high',
     'gemini4-hydrogen/xhigh',
     'gemini4-neon/xhigh',
+    'gemini4-orchestrator-neon-hydrogen/xhigh',
     'gpt6.2-astra/xhigh',
     'gpt6.2-sol/xhigh',
     'hy4-flash/high',
@@ -48,9 +49,9 @@ test('3D dataset preserves the prompt verbatim and records the published runs', 
     'qwen4-max/high',
     'qwen4-max/xhigh',
   ])
-  assert.equal(new Set(catalog3d.results.map(result => result.id)).size, 10)
+  assert.equal(new Set(catalog3d.results.map(result => result.id)).size, 11)
   for (const result of catalog3d.results) {
-    assert.match(result.artifactPath, /^\/playground\/pelican-3d\/assets\/batch-00[1-4]\//)
+    assert.match(result.artifactPath, /^\/playground\/pelican-3d\/assets\/batch-00[1-5]\//)
     assert.ok(result.artifactPath.endsWith('.html.txt'))
     assert.ok(result.thumbnailPath.endsWith('.webp'))
     assert.equal(result.previewKind, 'webgl')

@@ -18,6 +18,10 @@
     {
       "id": "batch-004",
       "label": "第四批 3D"
+    },
+    {
+      "id": "batch-005",
+      "label": "第五批 3D"
     }
   ],
   "results": [
@@ -360,6 +364,45 @@
       },
       "previewKind": "webgl",
       "previewArtifactPath": "/playground/pelican-3d/assets/batch-004/batch-004-gemini4-neon-xhigh-7b6fd0e90c.preview.html.txt",
+      "previewDependencies": [
+        "three@0.170.0"
+      ]
+    },
+    {
+      "id": "batch-005-gemini4-orchestrator-neon-hydrogen-xhigh-2d885ceb9e",
+      "modelId": "gemini4-orchestrator-neon-hydrogen",
+      "modelLabel": "gemini4-orchestrator [neon+hydrogen]",
+      "reasoningEffort": "xhigh",
+      "challengeId": "pelican-bicycle-3d",
+      "promptVersion": "v1",
+      "effortSource": "manual",
+      "orchestratorModel": "gemini4-neon",
+      "orchestratorEffort": "xhigh",
+      "executorModel": "gemini4-hydrogen",
+      "executorEffort": "xhigh",
+      "batchId": "batch-005",
+      "runId": "2d885ceb9e",
+      "sourceFilename": "pelican-bicycle-3d-gemini4-orchestrator-[neon+hydrogen]-xhigh.html",
+      "artifactPath": "/playground/pelican-3d/assets/batch-005/batch-005-gemini4-orchestrator-neon-hydrogen-xhigh-2d885ceb9e.html.txt",
+      "thumbnailPath": "/playground/pelican-3d/assets/batch-005/batch-005-gemini4-orchestrator-neon-hydrogen-xhigh-2d885ceb9e.webp",
+      "sha256": "2d885ceb9e29f2ce2f101cb8017f2477c622c3649ad2c83aff43febaed19b6ae",
+      "importedAt": "2026-11-21T00:03:40.714Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "browser": "Chrome headless (ANGLE/SwiftShader)",
+        "timing": "captured after scene initialization with animation running for about 8 s; animation phase varies",
+        "capturedOn": "2026-11-21"
+      },
+      "previewKind": "webgl",
+      "previewArtifactPath": "/playground/pelican-3d/assets/batch-005/batch-005-gemini4-orchestrator-neon-hydrogen-xhigh-2d885ceb9e.preview.html.txt",
       "previewDependencies": [
         "three@0.170.0"
       ]
