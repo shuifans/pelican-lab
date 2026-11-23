@@ -35,7 +35,7 @@ test('3D dataset preserves the prompt verbatim and records the published runs', 
   assert.equal(catalog3d.promptVersion, 'v1')
   assert.equal(catalog3d.prompt, EXACT_3D_PROMPT)
   assert.equal(catalog3d.batches.length, 5)
-  assert.equal(catalog3d.results.length, 11)
+  assert.equal(catalog3d.results.length, 10)
   assert.deepEqual(catalog3d.results.map(result => `${result.modelId}/${result.reasoningEffort}`).sort(), [
     'gemini4-argon/high',
     'gemini4-hydrogen/xhigh',
@@ -46,10 +46,9 @@ test('3D dataset preserves the prompt verbatim and records the published runs', 
     'hy4-flash/high',
     'hy4/high',
     'qaudex-cantus-261120/xhigh',
-    'qwen4-max/high',
     'qwen4-max/xhigh',
   ])
-  assert.equal(new Set(catalog3d.results.map(result => result.id)).size, 11)
+  assert.equal(new Set(catalog3d.results.map(result => result.id)).size, 10)
   for (const result of catalog3d.results) {
     assert.match(result.artifactPath, /^\/playground\/pelican-3d\/assets\/batch-00[1-5]\//)
     assert.ok(result.artifactPath.endsWith('.html.txt'))

@@ -158,41 +158,6 @@
       ]
     },
     {
-      "id": "batch-002-qwen4-max-high-dbef313d35",
-      "modelId": "qwen4-max",
-      "modelLabel": "qwen4-max",
-      "reasoningEffort": "high",
-      "challengeId": "pelican-bicycle-3d",
-      "promptVersion": "v1",
-      "effortSource": "manual",
-      "batchId": "batch-002",
-      "runId": "dbef313d35",
-      "sourceFilename": "pelican-bicycle-3d-qwen4-max-high.html",
-      "artifactPath": "/playground/pelican-3d/assets/batch-002/batch-002-qwen4-max-high-dbef313d35.html.txt",
-      "thumbnailPath": "/playground/pelican-3d/assets/batch-002/batch-002-qwen4-max-high-dbef313d35.webp",
-      "sha256": "dbef313d351e8f95c99426fcdf5d137066526c4cd8a8e769778aff046ba685e5",
-      "importedAt": "2026-11-18T08:25:28.160Z",
-      "testedAt": null,
-      "previewViewport": {
-        "width": 1280,
-        "height": 800
-      },
-      "capture": {
-        "viewport": {
-          "width": 1280,
-          "height": 800
-        },
-        "browser": "Chrome headless",
-        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
-        "capturedOn": "2026-11-18"
-      },
-      "previewKind": "webgl",
-      "previewArtifactPath": "/playground/pelican-3d/assets/batch-002/batch-002-qwen4-max-high-dbef313d35.preview.html.txt",
-      "previewDependencies": [
-        "three@0.160.0"
-      ]
-    },
-    {
       "id": "batch-002-qwen4-max-xhigh-25f80241e3",
       "modelId": "qwen4-max",
       "modelLabel": "qwen4-max",
