@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#e9eee7" />
+  <title>Coastal Cruiser — 鹈鹕的海岸骑行</title>
+  <style>
+    :root {
+      --ink: #173f3a;
+      --muted: #667c74;
+      --paper: #f3f4ed;
+      --glass: rgba(248, 249, 243, 0.76);
+      --line: rgba(23, 63, 58, 0.14);
+      --coral: #e97852;
+      --mint: #4d8f80;
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+    body {
+      color: var(--ink);
+      background: #e9eee7;
+      font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+    }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    #scene { position: fixed; inset: 0; }
+    #scene canvas { display: block; width: 100%; height: 100%; outline: none; }
+    .vignette {
+      position: fixed; inset: 0; pointer-events: none;
+      background: radial-gradient(circle at 58% 46%, transparent 48%, rgba(44, 70, 60, 0.07) 120%);
+      z-index: 1;
+    }
+    .ui { position: fixed; inset: 0; z-index: 2; pointer-events: none; }
+    .ui button, .ui input { pointer-events: auto; }
+    .topbar {
+      position: absolute; top: 0; left: 0; right: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 34px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-mark {
+      width: 35px; height: 35px; border: 1.5px solid var(--ink); border-radius: 50%;
+      position: relative; display: grid; place-items: center;
+    }
+    .brand-mark::before {
+      content: ""; width: 13px; height: 13px; background: var(--ink); border-radius: 50%;
+      position: absolute; left: 7px; top: 7px;
+    }
+    .brand-mark::after {
+      content: ""; width: 12px; height: 5px; background: var(--coral); border-radius: 5px 8px 8px 5px;
+      position: absolute; right: 4px; bottom: 7px; transform: rotate(-20deg);
+    }
+    .brand-copy { font-size: 10px; line-height: 1.35; letter-spacing: 0.19em; font-weight: 700; }
+    .live-pill {
+      display: flex; align-items: center; gap: 9px; padding: 10px 14px;
+      border: 1px solid var(--line); border-radius: 30px; background: rgba(255,255,255,.32);
+      backdrop-filter: blur(12px); font-size: 9px; letter-spacing: .16em; font-weight: 700;
+    }
+    .live-dot { width: 6px; height: 6px; border-radius: 50%; background: #ef815c; box-shadow: 0 0 0 4px rgba(239,129,92,.12); }
+    .hero { position: absolute; left: 5.2vw; top: 20%; width: min(390px, 34vw); }
+    .eyebrow { display: flex; align-items: center; gap: 10px; font-size: 9px; letter-spacing: .25em; font-weight: 700; margin-bottom: 22px; }
+    .eyebrow::before { content: ""; width: 26px; height: 1px; background: var(--coral); }
+    h1 { margin: 0; font-size: clamp(56px, 6.7vw, 108px); line-height: .83; letter-spacing: -.065em; font-weight: 600; }
+    h1 em { font-family: Georgia, "Times New Roman", serif; font-weight: 400; color: var(--coral); }
+    .intro { margin: 26px 0 0 4px; max-width: 280px; font-size: 12px; line-height: 1.9; letter-spacing: .08em; color: var(--muted); }
+    .route-tag { display: flex; gap: 18px; margin: 24px 0 0 4px; font-size: 9px; letter-spacing: .14em; color: var(--ink); }
+    .route-tag span { padding-right: 18px; border-right: 1px solid var(--line); }
+    .route-tag span:last-child { border: 0; }
+    .camera-panel {
+      position: absolute; right: 30px; top: 50%; transform: translateY(-50%);
+      display: flex; flex-direction: column; gap: 5px; padding: 6px;
+      border-radius: 24px; border: 1px solid rgba(255,255,255,.55);
+      background: var(--glass); backdrop-filter: blur(18px); box-shadow: 0 12px 35px rgba(38,66,57,.08);
+    }
+    .camera-btn {
+      width: 47px; height: 47px; border: 0; border-radius: 18px; background: transparent;
+      cursor: pointer; font-size: 9px; letter-spacing: .08em; transition: .25s ease;
+    }
+    .camera-btn:hover { background: rgba(77,143,128,.1); }
+    .camera-btn.active { background: var(--ink); color: #f5f5ed; box-shadow: 0 5px 15px rgba(23,63,58,.18); }
+    .camera-btn .cam-icon { display: block; width: 13px; height: 9px; border: 1px solid currentColor; border-radius: 2px; margin: 0 auto 4px; position: relative; }
+    .camera-btn .cam-icon::after { content: ""; position: absolute; width: 3px; height: 3px; border: 1px solid currentColor; border-radius: 50%; left: 4px; top: 2px; }
+    .bottom-controls {
+      position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 7px; padding: 7px;
+      background: var(--glass); border: 1px solid rgba(255,255,255,.7); border-radius: 40px;
+      backdrop-filter: blur(20px); box-shadow: 0 14px 40px rgba(40,67,57,.12); pointer-events: auto;
+    }
+    .control-btn {
+      height: 44px; min-width: 44px; padding: 0 15px; border: 0; border-radius: 24px;
+      background: transparent; cursor: pointer; font-size: 10px; letter-spacing: .08em;
+      display: flex; align-items: center; justify-content: center; gap: 8px; transition: .2s ease;
+    }
+    .control-btn:hover { background: rgba(77,143,128,.09); }
+    .control-btn.primary { background: var(--ink); color: white; min-width: 92px; }
+    .control-btn.primary:hover { background: #245a51; transform: translateY(-1px); }
+    .pause-icon { display: flex; gap: 3px; }
+    .pause-icon i { display: block; width: 2px; height: 10px; background: currentColor; border-radius: 2px; }
+    .play-icon { width: 0; height: 0; border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-left: 8px solid currentColor; margin-left: 2px; }
+    .speed-control { display: flex; align-items: center; gap: 10px; padding: 0 13px; height: 44px; border-left: 1px solid var(--line); border-right: 1px solid var(--line); }
+    .speed-control label { font-size: 9px; color: var(--muted); letter-spacing: .12em; white-space: nowrap; }
+    #speed { width: 82px; height: 3px; accent-color: var(--coral); cursor: pointer; }
+    #speed-value { width: 30px; font-size: 10px; font-variant-numeric: tabular-nums; }
+    .bell-icon { width: 13px; height: 11px; border: 1.5px solid currentColor; border-radius: 8px 8px 3px 3px; position: relative; border-bottom-width: 2px; }
+    .bell-icon::before { content: ""; position: absolute; width: 3px; height: 2px; background: currentColor; top: -4px; left: 3.5px; border-radius: 2px; }
+    .bell-icon::after { content: ""; position: absolute; width: 3px; height: 3px; background: currentColor; border-radius: 50%; bottom: -5px; left: 3.5px; }
+    .footer-note { position: absolute; left: 34px; bottom: 36px; font-size: 8px; line-height: 1.8; letter-spacing: .16em; color: var(--muted); }
+    .gesture-hint { position: absolute; right: 34px; bottom: 39px; font-size: 8px; letter-spacing: .14em; color: var(--muted); display: flex; align-items: center; gap: 9px; }
+    .mouse { width: 13px; height: 19px; border: 1px solid currentColor; border-radius: 8px; position: relative; }
+    .mouse::after { content: ""; width: 1px; height: 4px; background: currentColor; position: absolute; top: 3px; left: 5px; }
+    #toast {
+      position: absolute; left: 50%; top: 100px; transform: translate(-50%, -10px);
+      padding: 11px 18px; border-radius: 24px; background: rgba(23,63,58,.9); color: #fff;
+      font-size: 11px; letter-spacing: .08em; opacity: 0; transition: .35s ease; backdrop-filter: blur(10px);
+    }
+    #toast.show { opacity: 1; transform: translate(-50%, 0); }
+    #loader {
+      position: fixed; inset: 0; z-index: 10; display: grid; place-items: center;
+      background: #e9eee7; transition: opacity .8s ease, visibility .8s;
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; }
+    .loader-inner { text-align: center; }
+    .loader-wheel { width: 52px; height: 52px; border: 2px solid var(--ink); border-radius: 50%; margin: 0 auto 20px; position: relative; animation: spin 2.4s linear infinite; }
+    .loader-wheel::before, .loader-wheel::after { content: ""; position: absolute; left: 24px; top: 0; width: 1px; height: 48px; background: var(--ink); }
+    .loader-wheel::after { transform: rotate(60deg); }
+    .loader-inner p { margin: 0; font-size: 9px; letter-spacing: .24em; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    button:focus-visible, input:focus-visible { outline: 2px solid var(--coral); outline-offset: 3px; }
+    @media (max-width: 850px) {
+      .topbar { padding: 20px; }
+      .hero { left: 22px; top: 15%; width: 65vw; }
+      h1 { font-size: clamp(50px, 13vw, 78px); opacity: .92; }
+      .intro { font-size: 11px; max-width: 225px; margin-top: 18px; }
+      .route-tag { display: none; }
+      .camera-panel { right: 14px; top: 46%; }
+      .camera-btn { width: 41px; height: 41px; }
+      .footer-note, .gesture-hint { display: none; }
+      .bottom-controls { bottom: 16px; max-width: calc(100vw - 20px); }
+      .speed-control { padding: 0 9px; gap: 6px; }
+      #speed { width: 55px; }
+      .control-btn { padding: 0 11px; }
+      .control-btn .optional { display: none; }
+    }
+    @media (max-width: 520px) {
+      .brand-copy { font-size: 8px; }
+      .live-pill { padding: 9px 11px; font-size: 8px; }
+      .hero { top: 13%; }
+      h1 { font-size: 54px; }
+      .intro { max-width: 190px; font-size: 10px; }
+      .speed-control label { display: none; }
+      .control-btn.primary { min-width: 48px; }
+      .control-btn.primary .optional { display: none; }
+    }
+  </style>
+  <script type="importmap">
+    { "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+    } }
+  </script>
+</head>
+<body>
+  <main id="scene" aria-label="一只鹈鹕在海岸环岛上骑自行车的交互式三维场景"></main>
+  <div class="vignette"></div>
+  <div class="ui">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div class="brand-copy">MORNING RIDE<br>PELAGIC CLUB · 07:24</div>
+      </div>
+      <div class="live-pill"><span class="live-dot"></span> REALTIME · WEBGL</div>
+    </header>
+    <section class="hero">
+      <div class="eyebrow">THE COASTAL COLLECTION — 001</div>
+      <h1>Coastal<br><em>Cruiser.</em></h1>
+      <p class="intro">海风、链条与一点笨拙的优雅。<br>跟着鹈鹕 Péllo，沿海岸线慢慢骑。</p>
+      <div class="route-tag"><span>4.7 KM LOOP</span><span>18°C</span><span>SEASIDE</span></div>
+    </section>
+    <nav class="camera-panel" aria-label="摄像机模式">
+      <button class="camera-btn active" data-camera="cinema" aria-label="环绕镜头" title="环绕镜头 · 1"><span class="cam-icon"></span>环绕</button>
+      <button class="camera-btn" data-camera="follow" aria-label="跟拍镜头" title="跟拍镜头 · 2"><span class="cam-icon"></span>跟拍</button>
+      <button class="camera-btn" data-camera="free" aria-label="自由镜头" title="自由镜头 · 3"><span class="cam-icon"></span>自由</button>
+    </nav>
+    <div id="toast" role="status" aria-live="polite">叮铃！鹈鹕优先通行。</div>
+    <div class="bottom-controls" aria-label="骑行控制">
+      <button id="play" class="control-btn primary" aria-label="暂停骑行" title="播放 / 暂停 · Space">
+        <span class="pause-icon"><i></i><i></i></span><span class="optional" id="play-label">暂停骑行</span>
+      </button>
+      <div class="speed-control">
+        <label for="speed">骑行速度</label>
+        <input id="speed" type="range" min="0.4" max="2" step="0.1" value="1" aria-label="骑行速度" />
+        <span id="speed-value">1.0×</span>
+      </div>
+      <button id="bell" class="control-btn" aria-label="按车铃" title="车铃 · B"><span class="bell-icon"></span><span class="optional">车铃</span></button>
+      <button id="reset" class="control-btn" aria-label="重置镜头" title="重置镜头 · R">↺<span class="optional">复位</span></button>
+    </div>
+    <div class="footer-note">PROCEDURAL GEOMETRY<br>NO MODELS · JUST CODE</div>
+    <div class="gesture-hint"><span class="mouse"></span>拖拽环视 · 滚轮缩放 · SPACE 暂停</div>
+  </div>
+  <div id="loader"><div class="loader-inner"><div class="loader-wheel"></div><p id="load-text">ASSEMBLING YOUR RIDE</p></div></div>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    const container = document.querySelector('#scene');
+    const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.08;
+    container.appendChild(renderer.domElement);
+    renderer.domElement.setAttribute('aria-label', '可拖拽旋转的三维鹈鹕骑行场景');
+    renderer.domElement.setAttribute('tabindex', '0');
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color('#e9eee7');
+    scene.fog = new THREE.Fog('#e9eee7', 19, 38);
+    const camera = new THREE.PerspectiveCamera(innerWidth / innerHeight < .85 ? 46 : 35, innerWidth / innerHeight, 0.1, 100);
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.065;
+    controls.enablePan = false;
+    controls.minDistance = 5;
+    controls.maxDistance = 20;
+    controls.minPolarAngle = 0.35;
+    controls.maxPolarAngle = Math.PI * 0.475;
+
+    const hemi = new THREE.HemisphereLight('#fff8df', '#6b9184', 2.25);
+    scene.add(hemi);
+    const sun = new THREE.DirectionalLight('#fff0ce', 4.2);
+    sun.position.set(7, 12, 8);
+    sun.castShadow = true;
+    sun.shadow.mapSize.set(2048, 2048);
+    sun.shadow.camera.left = -11;
+    sun.shadow.camera.right = 11;
+    sun.shadow.camera.top = 11;
+    sun.shadow.camera.bottom = -11;
+    sun.shadow.camera.near = 1;
+    sun.shadow.camera.far = 35;
+    sun.shadow.bias = -0.00035;
+    scene.add(sun);
+    const fill = new THREE.DirectionalLight('#9bd8d1', 1.35);
+    fill.position.set(-8, 5, -5);
+    scene.add(fill);
+
+    const C = {
+      white: '#f6f1df', feather: '#e8e3d2', featherLight: '#fffaf0',
+      orange: '#e88a49', pouch: '#efad68', coral: '#d9694c',
+      teal: '#367f75', tealLight: '#74afa0', dark: '#173f3a',
+      tire: '#263b38', metal: '#b9c9c2', road: '#cfc7b5',
+      grass: '#8ba887', grassLight: '#a9bb91', sand: '#d9cbae',
+      water: '#72b9b0', yellow: '#e9b755'
+    };
+    const material = (color, roughness = 0.75, metalness = 0) => new THREE.MeshStandardMaterial({ color, roughness, metalness });
+    const M = {
+      white: material(C.white, .92), feather: material(C.feather, .95), featherLight: material(C.featherLight, .95),
+      orange: material(C.orange, .72), pouch: material(C.pouch, .85), coral: material(C.coral, .8),
+      teal: material(C.teal, .38, .18), tealLight: material(C.tealLight, .55), dark: material(C.dark, .65),
+      tire: material(C.tire, .96), metal: material(C.metal, .25, .75), chrome: material('#e5eee8', .16, .9),
+      road: material(C.road, 1), grass: material(C.grass, 1), grassLight: material(C.grassLight, 1),
+      sand: material(C.sand, 1), yellow: material(C.yellow, .65),
+      black: material('#152724', .45), eye: new THREE.MeshStandardMaterial({ color: '#142e2b', roughness: .15 }),
+      iris: new THREE.MeshStandardMaterial({ color: '#a8d5cb', roughness: .25 }),
+      glow: new THREE.MeshStandardMaterial({ color: '#fff3c4', emissive: '#ffcf65', emissiveIntensity: 2, roughness: .25 })
+    };
+    const Y_AXIS = new THREE.Vector3(0, 1, 0);
+    const v3 = (x, y, z) => new THREE.Vector3(x, y, z);
+    const sphereGeo = new THREE.SphereGeometry(1, 24, 16);
+
+    function addMesh(parent, geometry, mat, pos, scale, rotation) {
+      const mesh = new THREE.Mesh(geometry, mat);
+      if (pos) mesh.position.set(...pos);
+      if (scale) mesh.scale.set(...scale);
+      if (rotation) mesh.rotation.set(...rotation);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      parent.add(mesh);
+      return mesh;
+    }
+    function ball(parent, pos, scale, mat = M.white) {
+      return addMesh(parent, sphereGeo, mat, pos, scale);
+    }
+    function segment(parent, a, b, radius, mat, radiusTop = radius) {
+      const mesh = addMesh(parent, new THREE.CylinderGeometry(radiusTop, radius, 1, 12), mat);
+      setSegment(mesh, a, b);
+      return mesh;
+    }
+    function setSegment(mesh, a, b) {
+      const start = Array.isArray(a) ? v3(...a) : a;
+      const end = Array.isArray(b) ? v3(...b) : b;
+      const delta = new THREE.Vector3().subVectors(end, start);
+      mesh.position.copy(start).add(end).multiplyScalar(.5);
+      mesh.scale.y = delta.length();
+      mesh.quaternion.setFromUnitVectors(Y_AXIS, delta.normalize());
+    }
+    function tubeCurve(parent, points, radius, mat, closed = false) {
+      const curve = new THREE.CatmullRomCurve3(points.map(p => Array.isArray(p) ? v3(...p) : p), closed, 'centripetal');
+      const mesh = addMesh(parent, new THREE.TubeGeometry(curve, Math.max(24, points.length * 8), radius, 8, closed), mat);
+      return { mesh, curve };
+    }
+    function loftX(sections, sides = 16) {
+      const vertices = [], indices = [];
+      for (const s of sections) {
+        for (let j = 0; j < sides; j++) {
+          const a = j / sides * Math.PI * 2;
+          vertices.push(s.x, s.y + Math.sin(a) * s.h, Math.cos(a) * s.w);
+        }
+      }
+      for (let i = 0; i < sections.length - 1; i++) {
+        for (let j = 0; j < sides; j++) {
+          const n = (j + 1) % sides;
+          const a = i * sides + j, b = i * sides + n, c = (i + 1) * sides + n, d = (i + 1) * sides + j;
+          indices.push(a, b, d, b, c, d);
+        }
+      }
+      for (let j = 1; j < sides - 1; j++) indices.push(0, j + 1, j);
+      const last = (sections.length - 1) * sides;
+      for (let j = 1; j < sides - 1; j++) indices.push(last, last + j, last + j + 1);
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+      geo.setIndex(indices);
+      geo.computeVertexNormals();
+      return geo;
+    }
+
+    // The island is stationary; the rider follows its circular coastal road.
+    const world = new THREE.Group();
+    scene.add(world);
+    const oceanMat = material(C.water, .3, .08);
+    let waterShader;
+    oceanMat.onBeforeCompile = shader => {
+      shader.uniforms.uTime = { value: 0 };
+      shader.vertexShader = 'uniform float uTime;\n' + shader.vertexShader;
+      shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>', `
+        vec3 transformed = vec3(position);
+        transformed.z += sin(position.x * .7 + uTime) * .045 + cos(position.y * .55 - uTime * .8) * .035;
+      `);
+      waterShader = shader;
+    };
+    addMesh(world, new THREE.CylinderGeometry(7.35, 7.1, .55, 96), M.sand, [0, -.34, 0]);
+    addMesh(world, new THREE.CylinderGeometry(7.18, 7.18, .2, 96), M.grass, [0, -.1, 0]);
+    addMesh(world, new THREE.CircleGeometry(18, 96), material('#8bc5bb', .4), [0, -.61, 0], null, [-Math.PI / 2, 0, 0]);
+    addMesh(world, new THREE.RingGeometry(6.9, 18, 128, 16), oceanMat, [0, -.57, 0], null, [-Math.PI / 2, 0, 0]);
+    addMesh(world, new THREE.RingGeometry(3.75, 5.65, 128), M.road, [0, .018, 0], null, [-Math.PI / 2, 0, 0]);
+    addMesh(world, new THREE.CircleGeometry(3.74, 96), M.grassLight, [0, .025, 0], null, [-Math.PI / 2, 0, 0]);
+    addMesh(world, new THREE.TorusGeometry(5.67, .065, 8, 128), M.feather, [0, .055, 0], null, [Math.PI / 2, 0, 0]);
+    addMesh(world, new THREE.TorusGeometry(3.73, .055, 8, 128), M.feather, [0, .055, 0], null, [Math.PI / 2, 0, 0]);
+
+    const pathRadius = 4.7;
+    for (let i = 0; i < 36; i++) {
+      const a = i / 36 * Math.PI * 2;
+      const dash = addMesh(world, new THREE.BoxGeometry(.42, .018, .035), M.featherLight,
+        [Math.sin(a) * pathRadius, .04, Math.cos(a) * pathRadius]);
+      dash.rotation.y = a;
+    }
+    for (let i = 0; i < 22; i++) {
+      const a = i / 22 * Math.PI * 2;
+      const post = new THREE.Group();
+      post.position.set(Math.sin(a) * 5.92, 0, Math.cos(a) * 5.92);
+      world.add(post);
+      addMesh(post, new THREE.CylinderGeometry(.035, .045, .38, 8), M.feather, [0, .19, 0]);
+      ball(post, [0, .4, 0], [.065, .065, .065], M.yellow);
+    }
+
+    const trees = [];
+    function tree(x, z, s = 1, tone = 0) {
+      const g = new THREE.Group();
+      g.position.set(x, 0, z); g.scale.setScalar(s); world.add(g);
+      addMesh(g, new THREE.CylinderGeometry(.1, .16, 1.15, 8), material('#917455'), [0, .57, 0]);
+      const leafMat = tone ? material('#6e9a7c') : material('#5e8b72');
+      ball(g, [0, 1.4, 0], [.66, .82, .64], leafMat);
+      ball(g, [-.34, 1.28, .08], [.48, .58, .48], leafMat);
+      ball(g, [.34, 1.5, -.06], [.5, .62, .5], tone ? M.grass : M.grassLight);
+      trees.push(g);
+      return g;
+    }
+    tree(-1.5, -.6, 1.15); tree(-2.25, -.2, .72, 1); tree(.3, -1.3, .9);
+    tree(1.8, .8, .75, 1); tree(5.95, -1.8, .8); tree(-5.8, 2.3, .7, 1);
+
+    const rockMat = material('#a9aa94');
+    [[-6.3,-2.1,.45],[6.45,1.1,.35],[-2.8,6.35,.4],[3.7,-5.9,.3],[2.2,1.5,.35]].forEach(([x,z,s], i) => {
+      addMesh(world, new THREE.DodecahedronGeometry(s, 0), rockMat, [x, s * .4, z], [1.3,.8,1], [0,i*.7,0]);
+    });
+
+    const flowers = new THREE.Group(); world.add(flowers);
+    for (let i = 0; i < 58; i++) {
+      const a = i * 2.39996;
+      const r = i % 3 === 0 ? 6.25 + Math.sin(i) * .3 : 2.1 + (i % 7) * .18;
+      const x = Math.cos(a) * r, z = Math.sin(a) * r;
+      const h = .12 + (i % 4) * .035;
+      segment(flowers, [x,0,z], [x,h,z], .012, M.tealLight);
+      ball(flowers, [x,h,z], [.055,.045,.055], i % 3 ? M.featherLight : M.coral);
+    }
+
+    // A tiny lighthouse anchors the diorama without using texture assets.
+    const lighthouse = new THREE.Group();
+    lighthouse.position.set(.15, 0, .6); world.add(lighthouse);
+    addMesh(lighthouse, new THREE.CylinderGeometry(.43, .58, 1.9, 24), M.featherLight, [0,.95,0]);
+    addMesh(lighthouse, new THREE.CylinderGeometry(.49, .52, .34, 24), M.coral, [0,1.25,0]);
+    addMesh(lighthouse, new THREE.CylinderGeometry(.5, .5, .12, 24), M.dark, [0,1.92,0]);
+    addMesh(lighthouse, new THREE.CylinderGeometry(.32, .32, .48, 16), M.glow, [0,2.2,0]);
+    addMesh(lighthouse, new THREE.ConeGeometry(.48, .42, 24), M.coral, [0,2.64,0]);
+    for (let i = 0; i < 8; i++) {
+      const a = i / 8 * Math.PI * 2;
+      segment(lighthouse, [Math.sin(a)*.44,1.94,Math.cos(a)*.44], [Math.sin(a)*.44,2.2,Math.cos(a)*.44], .018, M.dark);
+    }
+    addMesh(lighthouse, new THREE.BoxGeometry(.2,.38,.03), M.teal, [0,.25,.5]);
+
+    const clouds = [];
+    function cloud(x, y, z, s) {
+      const g = new THREE.Group(); g.position.set(x,y,z); g.scale.setScalar(s); scene.add(g);
+      const cm = new THREE.MeshStandardMaterial({ color: '#fffdf4', roughness: 1, transparent: true, opacity: .82 });
+      ball(g, [0,0,0], [.85,.32,.4], cm); ball(g, [-.48,.04,0], [.52,.28,.34], cm);
+      ball(g, [.4,.09,-.03], [.58,.4,.38], cm); ball(g, [.05,.27,0], [.48,.43,.35], cm);
+      clouds.push(g);
+    }
+    cloud(-7,5,-6,1.25); cloud(7,6,-4,.9); cloud(-5,4.4,7,.75);
+
+    for (let k = 0; k < 7; k++) {
+      const pts = [];
+      const start = k * .86;
+      for (let j = 0; j < 9; j++) {
+        const a = start + j * .035;
+        pts.push([Math.sin(a) * (8.1 + k % 2), -.49, Math.cos(a) * (8.1 + k % 2)]);
+      }
+      tubeCurve(world, pts, .018, new THREE.MeshStandardMaterial({ color: '#d8eee3', transparent: true, opacity: .7, roughness: .7 }));
+    }
+
+    const rider = new THREE.Group(); scene.add(rider);
+    const bike = new THREE.Group(); rider.add(bike);
+    const wheelRadius = .88;
+    const rear = v3(-1.25,.91,0), front = v3(1.25,.91,0), crank = v3(-.23,.96,0);
+
+    function makeWheel(x) {
+      const g = new THREE.Group(); g.position.set(x,.91,0); bike.add(g);
+      addMesh(g, new THREE.TorusGeometry(.79,.085,12,64), M.tire);
+      addMesh(g, new THREE.TorusGeometry(.785,.026,8,64), M.feather, [0,0,.072]);
+      addMesh(g, new THREE.TorusGeometry(.785,.026,8,64), M.feather, [0,0,-.072]);
+      addMesh(g, new THREE.TorusGeometry(.70,.022,8,64), M.chrome);
+      for (let i = 0; i < 20; i++) {
+        const a = i / 20 * Math.PI * 2;
+        const z = i % 2 ? .045 : -.045;
+        segment(g, [0,0,z], [Math.cos(a)*.695,Math.sin(a)*.695,0], .007, M.metal);
+      }
+      addMesh(g, new THREE.CylinderGeometry(.065,.065,.3,16), M.chrome, [0,0,0], null, [Math.PI/2,0,0]);
+      return g;
+    }
+    const rearWheel = makeWheel(-1.25), frontWheel = makeWheel(1.25);
+    for (const x of [-1.25,1.25]) {
+      addMesh(bike, new THREE.TorusGeometry(.9,.032,8,48,Math.PI), M.tealLight, [x,.91,0]);
+      segment(bike, [x-.78,1.35,.06], [x,.91,.1], .015, M.metal);
+      segment(bike, [x+.78,1.35,-.06], [x,.91,-.1], .015, M.metal);
+    }
+
+    const seatTop = v3(-.58,1.78,0), headTop = v3(.72,1.8,0), headBottom = v3(.91,1.39,0);
+    segment(bike, crank, seatTop, .052, M.teal);
+    segment(bike, seatTop, headTop, .052, M.teal);
+    segment(bike, headBottom, crank, .058, M.teal);
+    segment(bike, headTop, headBottom, .065, M.tealLight);
+    for (const z of [-.09,.09]) {
+      segment(bike, [-1.25,.91,z], [crank.x,crank.y,z], .035, M.teal);
+      segment(bike, [-1.25,.91,z], [seatTop.x,seatTop.y,z], .035, M.tealLight);
+      segment(bike, [headBottom.x,headBottom.y,z], [1.25,.91,z], .032, M.chrome);
+    }
+    segment(bike, seatTop, [-.64,1.98,0], .04, M.chrome);
+    ball(bike, [-.7,2.005,0], [.34,.075,.22], M.dark);
+    segment(bike, headTop, [.65,2.08,0], .035, M.chrome);
+    tubeCurve(bike, [[.65,2.06,-.53],[.68,2.06,-.36],[.68,1.99,0],[.68,2.06,.36],[.65,2.06,.53]], .025, M.chrome);
+    for (const side of [-1,1]) {
+      segment(bike, [.65,2.06,side*.42], [.65,2.06,side*.57], .045, M.coral);
+      ball(bike, [.65,2.06,side*.575], [.05,.05,.025], M.dark);
+    }
+    const bellMesh = addMesh(bike, new THREE.SphereGeometry(.09,16,8,0,Math.PI*2,0,Math.PI/2), M.yellow, [.7,2.12,.34]);
+    segment(bike, [.7,2.08,.34],[.7,2.14,.34],.025,M.dark);
+
+    addMesh(bike, new THREE.CylinderGeometry(.115,.115,.18,20), M.dark, [1.03,1.63,0], null, [0,0,Math.PI/2]);
+    addMesh(bike, new THREE.CircleGeometry(.092,20), M.glow, [1.125,1.63,0], null, [0,Math.PI/2,0]);
+    segment(bike, [.92,1.48,0],[1.02,1.61,0],.022,M.chrome);
+
+    const chainring = new THREE.Group(); chainring.position.set(crank.x,crank.y,-.18); bike.add(chainring);
+    addMesh(chainring, new THREE.TorusGeometry(.275,.026,8,40), M.metal);
+    for (let i=0;i<5;i++) {
+      const a=i/5*Math.PI*2;
+      segment(chainring,[0,0,0],[Math.cos(a)*.24,Math.sin(a)*.24,0],.022,M.metal);
+    }
+    addMesh(bike, new THREE.TorusGeometry(.13,.022,8,28), M.metal, [-1.25,.91,-.18]);
+    const chainPoints = [
+      [-1.25,1.04,-.18],[-.23,1.235,-.18],[.02,1.14,-.18],[.05,.96,-.18],
+      [.01,.77,-.18],[-.23,.685,-.18],[-1.25,.78,-.18],[-1.39,.88,-.18],[-1.36,1.01,-.18]
+    ];
+    const chainData = tubeCurve(bike, chainPoints, .016, M.dark, true);
+    const chainLinks = [];
+    for (let i=0;i<44;i++) chainLinks.push(addMesh(bike,new THREE.BoxGeometry(.065,.026,.025),M.metal));
+
+    const crankArms = [], pedals = [], feet = [], legs = [];
+    function webbedFoot() {
+      const outline = [[-.17,-.105],[-.17,.105],[.08,.15],[.35,.105],[.27,0],[.35,-.105],[.08,-.15]];
+      const vertices = [], indices = [], n = outline.length;
+      for (const y of [-.025,.025]) for (const [x,z] of outline) vertices.push(x,y,z);
+      for (let i=1;i<n-1;i++) { indices.push(0,i,i+1,n,n+i+1,n+i); }
+      for (let i=0;i<n;i++) { const j=(i+1)%n; indices.push(i,n+i,j,j,n+i,n+j); }
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3)); geo.setIndex(indices); geo.computeVertexNormals();
+      return geo;
+    }
+    const footGeo = webbedFoot();
+    for (const side of [-1,1]) {
+      const arm = segment(bike,[crank.x,crank.y,side*.22],[crank.x+.34,crank.y,side*.22],.032,M.chrome);
+      crankArms.push({ mesh:arm,side });
+      const pedal = addMesh(bike,new THREE.BoxGeometry(.28,.055,.23),M.dark);
+      pedals.push({mesh:pedal,side});
+      const upper = segment(rider,[-.55,2,side*.28],[-.2,1.5,side*.3],.075,M.orange,.09);
+      const lower = segment(rider,[-.2,1.5,side*.3],[0,1,side*.3],.055,M.orange,.068);
+      const knee = ball(rider,[0,0,0],[.088,.088,.088],M.orange);
+      const foot = addMesh(rider,footGeo,M.orange);
+      feet.push({mesh:foot,side}); legs.push({upper,lower,knee,side});
+    }
+
+    const torso = new THREE.Group(); rider.add(torso);
+    const body = ball(torso,[-.52,2.58,0],[.64,.83,.53],M.white); body.rotation.z=-.22;
+    ball(torso,[-.38,2.88,0],[.5,.58,.46],M.white);
+    tubeCurve(torso,[[-.3,2.8,0],[-.18,3.13,0],[-.08,3.43,0]],.28,M.white);
+    for (const side of [-1,1]) {
+      for (let row=0;row<3;row++) for (let col=0;col<4;col++) {
+        const x=-.86+col*.19+row*.03, y=2.35+row*.22;
+        const f=ball(torso,[x,y,side*(.48-Math.abs(x+.5)*.12)],[.14,.115,.035],(row+col)%2?M.feather:M.featherLight);
+        f.rotation.z=-.3;
+      }
+    }
+    for (let i=0;i<5;i++) {
+      const f=ball(torso,[-1.02-i*.08,2.58+(i%2)*.08,(i-2)*.105],[.43,.11,.12],i%2?M.feather:M.white);
+      f.rotation.z=.12+(i-2)*.06;
+    }
+
+    const head = new THREE.Group(); head.position.set(-.02,3.55,0); torso.add(head);
+    ball(head,[0,0,0],[.45,.43,.4],M.featherLight);
+    addMesh(head,loftX([
+      {x:.25,y:.015,h:.12,w:.2},{x:.46,y:.01,h:.145,w:.22},{x:.85,y:-.055,h:.115,w:.17},
+      {x:1.22,y:-.12,h:.075,w:.09},{x:1.46,y:-.17,h:.025,w:.025}
+    ]),M.orange);
+    addMesh(head,loftX([
+      {x:.27,y:-.09,h:.07,w:.17},{x:.48,y:-.19,h:.17,w:.19},{x:.79,y:-.25,h:.16,w:.17},
+      {x:1.1,y:-.22,h:.09,w:.1},{x:1.43,y:-.175,h:.025,w:.025}
+    ]),M.pouch);
+    for (const side of [-1,1]) {
+      ball(head,[.22,.105,side*.355],[.125,.135,.055],M.white);
+      ball(head,[.255,.11,side*.399],[.071,.08,.025],M.iris);
+      ball(head,[.275,.11,side*.418],[.041,.052,.016],M.eye);
+      ball(head,[.292,.14,side*.431],[.012,.016,.008],M.featherLight);
+      ball(head,[.48,.075,side*.185],[.055,.018,.012],M.dark);
+      tubeCurve(head,[[.32,-.065,side*.17],[.78,-.13,side*.14],[1.39,-.175,side*.027]],.009,M.coral);
+    }
+    for (let i=0;i<3;i++) {
+      const crest=ball(head,[-.2-i*.07,.32+(i%2)*.05,(i-1)*.09],[.25,.055,.07],M.featherLight);
+      crest.rotation.z=.65+i*.15;
+    }
+    addMesh(head,new THREE.SphereGeometry(1,24,12,0,Math.PI*2,0,Math.PI/2),M.yellow,[0,.24,0],[.47,.3,.42]);
+    addMesh(head,new THREE.TorusGeometry(.42,.018,6,32),M.coral,[0,.25,0],null,[Math.PI/2,0,0]);
+    for (const z of [-.19,0,.19]) {
+      const vent=addMesh(head,new THREE.BoxGeometry(.28,.018,.045),M.dark,[-.01,.49,z]); vent.rotation.z=-.08;
+    }
+    tubeCurve(head,[[-.15,.2,-.32],[-.19,-.18,-.35],[.05,-.34,-.29]],.018,M.dark);
+    tubeCurve(head,[[-.15,.2,.32],[-.19,-.18,.35],[.05,-.34,.29]],.018,M.dark);
+
+    addMesh(torso,new THREE.TorusGeometry(.29,.075,10,32),M.coral,[-.14,3.12,0],null,[Math.PI/2,0,0]);
+    const scarfSegments=[];
+    for(let i=0;i<4;i++) {
+      const s=ball(torso,[-.35-i*.24,3.12-i*.04,.12],[.2,.09,.15],M.coral);
+      scarfSegments.push(s);
+    }
+
+    const wings=[];
+    for(const side of [-1,1]) {
+      const upper=segment(rider,[0,0,0],[0,1,0],.15,M.white,.19);
+      const lower=segment(rider,[0,0,0],[0,1,0],.105,M.featherLight,.14);
+      const hand=ball(rider,[0,0,0],[.14,.11,.13],M.featherLight);
+      const feathers=[];
+      for(let i=0;i<3;i++) feathers.push(segment(rider,[0,0,0],[0,1,0],.035,i%2?M.white:M.feather,.065));
+      wings.push({side,upper,lower,hand,feathers});
+    }
+
+    const shadowMat = new THREE.MeshBasicMaterial({ color:'#173f3a',transparent:true,opacity:.13,depthWrite:false });
+    for(const x of [-1.25,1.25]) {
+      addMesh(rider,new THREE.CircleGeometry(.58,32),shadowMat,[x,.047,0],[1,.38,1],[-Math.PI/2,0,0]);
+    }
+
+    // Reusable two-bone IK keeps each webbed foot planted on its moving pedal.
+    function solveKnee(hip, foot, l1=.79, l2=.82) {
+      const delta=new THREE.Vector3().subVectors(foot,hip);
+      const d=Math.min(delta.length(),l1+l2-.001);
+      const dir=delta.normalize();
+      const a=(l1*l1-l2*l2+d*d)/(2*d);
+      const h=Math.sqrt(Math.max(0,l1*l1-a*a));
+      const mid=hip.clone().addScaledVector(dir,a);
+      const bend=new THREE.Vector3(-dir.y,dir.x,0).normalize();
+      return mid.addScaledVector(bend,h);
+    }
+
+    let playing=true, speed=1, travel=0, simTime=0, cameraMode='cinema', bellKick=0;
+    let toastTimer, audioContext;
+    const clock=new THREE.Clock();
+    const desiredCamera=new THREE.Vector3(), desiredTarget=new THREE.Vector3();
+    const riderPos=new THREE.Vector3(), previousRiderPos=new THREE.Vector3();
+    const tempOffset=new THREE.Vector3(), tempRight=new THREE.Vector3();
+    const bellWaves=[];
+
+    function showToast(message) {
+      const toast=document.querySelector('#toast');
+      toast.textContent=message; toast.classList.add('show');
+      clearTimeout(toastTimer); toastTimer=setTimeout(()=>toast.classList.remove('show'),1800);
+    }
+    function ringBell() {
+      bellKick=1;
+      showToast('叮铃！鹈鹕优先通行。');
+      if(audioContext) {
+        const now=audioContext.currentTime;
+        [1568,2093].forEach((frequency,i)=>{
+          const osc=audioContext.createOscillator(), gain=audioContext.createGain();
+          osc.type='sine'; osc.frequency.setValueAtTime(frequency,now);
+          gain.gain.setValueAtTime(.0001,now);
+          gain.gain.exponentialRampToValueAtTime(.12/(i+1),now+.008);
+          gain.gain.exponentialRampToValueAtTime(.0001,now+1.15);
+          osc.connect(gain).connect(audioContext.destination); osc.start(now); osc.stop(now+1.2);
+        });
+      }
+      for(let i=0;i<3;i++) {
+        const mat=new THREE.MeshBasicMaterial({color:'#e9b755',transparent:true,opacity:.65,depthWrite:false});
+        const wave=addMesh(rider,new THREE.TorusGeometry(.12,.012,6,32),mat,[.73,2.2,.35],null,[0,Math.PI/2,0]);
+        bellWaves.push({mesh:wave,age:-i*.12});
+      }
+    }
+    function ensureAudio() {
+      if(!audioContext) audioContext=new (window.AudioContext||window.webkitAudioContext)();
+      if(audioContext.state==='suspended') audioContext.resume();
+    }
+    function setCameraMode(mode, announce=false) {
+      cameraMode=mode;
+      document.querySelectorAll('.camera-btn').forEach(b=>b.classList.toggle('active',b.dataset.camera===mode));
+      if(announce) showToast({cinema:'环绕镜头 · 自动运镜',follow:'跟拍镜头 · 海岸巡航',free:'自由镜头 · 拖拽环视'}[mode]);
+    }
+    function togglePlay() {
+      playing=!playing;
+      const button=document.querySelector('#play');
+      button.innerHTML=playing?'<span class="pause-icon"><i></i><i></i></span><span class="optional" id="play-label">暂停骑行</span>':'<span class="play-icon"></span><span class="optional" id="play-label">继续骑行</span>';
+      button.setAttribute('aria-label',playing?'暂停骑行':'继续骑行');
+      showToast(playing?'继续迎着海风出发':'停下来，听听海浪');
+    }
+    document.querySelector('#play').addEventListener('click',togglePlay);
+    document.querySelector('#bell').addEventListener('click',()=>{ensureAudio();ringBell();});
+    document.querySelector('#reset').addEventListener('click',()=>{setCameraMode('cinema',true);});
+    document.querySelector('#speed').addEventListener('input',e=>{
+      speed=Number(e.target.value); document.querySelector('#speed-value').textContent=speed.toFixed(1)+'×';
+    });
+    document.querySelectorAll('.camera-btn').forEach(b=>b.addEventListener('click',()=>setCameraMode(b.dataset.camera,true)));
+    controls.addEventListener('start',()=>setCameraMode('free'));
+    window.addEventListener('keydown',e=>{
+      if(e.target.tagName==='INPUT') return;
+      if(e.code==='Space'){e.preventDefault();togglePlay();}
+      if(e.key.toLowerCase()==='b'){ensureAudio();ringBell();}
+      if(e.key.toLowerCase()==='r')setCameraMode('cinema',true);
+      if(['1','2','3'].includes(e.key))setCameraMode({1:'cinema',2:'follow',3:'free'}[e.key],true);
+    });
+
+    function updateRider(dt) {
+      if(playing) { travel+=dt*speed*1.38; simTime+=dt*speed; }
+      const theta=travel/pathRadius;
+      riderPos.set(Math.sin(theta)*pathRadius,0,Math.cos(theta)*pathRadius);
+      rider.position.copy(riderPos); rider.rotation.y=theta;
+      rider.rotation.x=THREE.MathUtils.lerp(rider.rotation.x,-.045*Math.min(speed,1.5),1-Math.exp(-dt*4));
+      const wheelAngle=-travel/wheelRadius;
+      rearWheel.rotation.z=wheelAngle; frontWheel.rotation.z=wheelAngle;
+      const phase=-travel/(wheelRadius*2.15)+.65;
+      chainring.rotation.z=phase;
+      const bob=playing?Math.sin(phase*2)*.018:0;
+      torso.position.y=bob;
+      torso.rotation.z=playing?Math.sin(phase)*.012:0;
+      head.rotation.z=Math.sin(simTime*1.4)*.018 + bellKick*.08;
+      head.rotation.y=Math.sin(simTime*.65)*.035;
+
+      for(let i=0;i<crankArms.length;i++) {
+        const side=crankArms[i].side, a=phase+(side===1?0:Math.PI);
+        const p=v3(crank.x+Math.cos(a)*.34,crank.y+Math.sin(a)*.34,side*.25);
+        setSegment(crankArms[i].mesh,v3(crank.x,crank.y,side*.22),p);
+        pedals[i].mesh.position.copy(p);
+        const footPos=p.clone(); footPos.y+=.075; footPos.z=side*.28;
+        feet[i].mesh.position.copy(footPos);
+        feet[i].mesh.rotation.z=Math.sin(a)*.045;
+        const hip=v3(-.58,2.055+bob,side*.28);
+        const knee=solveKnee(hip,footPos);
+        const leg=legs[i];
+        setSegment(leg.upper,hip,knee); setSegment(leg.lower,knee,footPos);
+        leg.knee.position.copy(knee);
+      }
+      for(const w of wings) {
+        const s=w.side;
+        const shoulder=v3(-.28,2.91+bob,s*.43);
+        const elbow=v3(.12+Math.sin(phase+s)*.018,2.43+bob,s*.54);
+        const wrist=v3(.65,2.075,s*.53);
+        setSegment(w.upper,shoulder,elbow); setSegment(w.lower,elbow,wrist); w.hand.position.copy(wrist);
+        for(let i=0;i<3;i++) {
+          const a=elbow.clone().lerp(wrist,.2+i*.18);
+          const b=a.clone().add(v3(-.18-i*.035,-.14,s*(.03+i*.015)));
+          setSegment(w.feathers[i],a,b);
+        }
+      }
+      scarfSegments.forEach((s,i)=>{
+        s.position.y=3.12-i*.04+Math.sin(simTime*5-i*.8)*.035*(i+1);
+        s.rotation.z=.12+Math.sin(simTime*4-i*.65)*.12;
+      });
+      bellKick=Math.max(0,bellKick-dt*3.4);
+      bellMesh.rotation.z=Math.sin(bellKick*24)*bellKick*.32;
+      chainLinks.forEach((link,i)=>{
+        const t=((i/chainLinks.length+travel*.07)%1+1)%1;
+        const p=chainData.curve.getPointAt(t), tangent=chainData.curve.getTangentAt(t);
+        link.position.copy(p); link.rotation.z=Math.atan2(tangent.y,tangent.x);
+      });
+      for(let i=bellWaves.length-1;i>=0;i--) {
+        const w=bellWaves[i]; w.age+=dt;
+        if(w.age<0)continue;
+        w.mesh.scale.setScalar(1+w.age*5); w.mesh.material.opacity=Math.max(0,.6-w.age*.8);
+        w.mesh.position.y=2.2+w.age*.25;
+        if(w.age>.8){rider.remove(w.mesh);w.mesh.geometry.dispose();w.mesh.material.dispose();bellWaves.splice(i,1);}
+      }
+    }
+
+    function updateCamera(dt, immediate=false) {
+      const theta=travel/pathRadius;
+      const portrait=camera.aspect<.85;
+      const drift=cameraMode==='cinema'?Math.sin(simTime*.19)*.12:0;
+      if(cameraMode==='cinema') {
+        if(portrait) tempOffset.set(8.4,5.2,12.8);
+        else tempOffset.set(6.4+Math.sin(simTime*.23)*.45,4.35,8.8);
+      } else if(cameraMode==='follow') {
+        if(portrait) tempOffset.set(.6,4,12.2);
+        else tempOffset.set(.3,3.05,8.1);
+      } else tempOffset.set(0,0,0);
+      tempOffset.applyAxisAngle(Y_AXIS,theta+drift);
+      tempRight.crossVectors(Y_AXIS,tempOffset).normalize();
+      desiredTarget.copy(riderPos).add(v3(0,2.05,0));
+      if(innerWidth>850 && cameraMode!=='free') desiredTarget.addScaledVector(tempRight,-.85);
+      if(cameraMode!=='free') {
+        desiredCamera.copy(riderPos).add(tempOffset);
+        const k=immediate?1:1-Math.exp(-dt*2.3);
+        camera.position.lerp(desiredCamera,k); controls.target.lerp(desiredTarget,k);
+      } else {
+        const delta=riderPos.clone().sub(previousRiderPos);
+        camera.position.add(delta); controls.target.add(delta);
+      }
+      controls.update();
+    }
+
+    let firstFrame=true;
+    function animate() {
+      requestAnimationFrame(animate);
+      const dt=Math.min(clock.getDelta(),.05);
+      updateRider(dt);
+      updateCamera(dt,firstFrame); firstFrame=false;
+      previousRiderPos.copy(riderPos);
+      if(waterShader) waterShader.uniforms.uTime.value=simTime*.8;
+      trees.forEach((t,i)=>{t.rotation.z=Math.sin(simTime*.8+i)*.008;});
+      clouds.forEach((c,i)=>{c.position.y+=Math.sin(simTime*.35+i)*.0007;c.rotation.y=Math.sin(simTime*.08+i)*.04;});
+      renderer.render(scene,camera);
+    }
+    updateRider(0); updateCamera(.016,true); animate();
+    requestAnimationFrame(()=>document.querySelector('#loader').classList.add('hidden'));
+
+    window.addEventListener('resize',()=>{
+      camera.aspect=innerWidth/innerHeight;
+      camera.fov=camera.aspect<.85?46:35;
+      camera.updateProjectionMatrix();
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio,2)); renderer.setSize(innerWidth,innerHeight);
+    });
+    renderer.domElement.addEventListener('webglcontextlost',e=>{
+      e.preventDefault(); document.querySelector('#loader').classList.remove('hidden');
+      document.querySelector('#load-text').textContent='WEBGL PAUSED · RELOAD TO RESUME';
+    });
+  </script>
+  <script>
+    window.addEventListener('error', function (event) {
+      const loader = document.getElementById('loader');
+      if (!loader.classList.contains('hidden')) {
+        document.getElementById('load-text').textContent = '加载失败 · 请检查网络后刷新';
+      }
+    });
+  </script>
+</body>
+</html>

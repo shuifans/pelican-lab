@@ -79,3 +79,5 @@
 3D 第六批于 2026-11-24 收录 `glm-5.4 / max` 与 `qaudex-hungerg / max`，参考视口均为 1280 × 800。`glm-5.4` 通过 importmap 从 unpkg 加载 three.js 0.160.0，`qaudex-hungerg` 通过 importmap 从 jsDelivr 加载 three.js 0.170.0，两者都使用 `three/addons` 版 OrbitControls；预览副本把锁定版本的 three.js 与 OrbitControls 打包为单条内联脚本并移除 importmap，原始归档按字节保留。源文件名 `pelican-bicycle-3d-qaudex-HungerG-max.html` 的模型标识按小写规范统一为 `qaudex-hungerg`，HTML 字节不变。在隔离预览中确认了首帧、动画与拖拽旋转交互。
 
 3D 第七批于 2026-11-24 收录 `gemini4-carbon / high`，参考视口为 1280 × 800。原作通过 importmap 从 jsDelivr 加载 three.js 0.170.0、OrbitControls 与 EffectComposer、RenderPass、UnrealBloomPass、OutputPass 四个后处理 addon；预览副本把锁定版本的 three.js 与全部 addon 打包为单条内联脚本并移除 importmap，原始归档按字节保留。在隔离预览中确认了首帧、动画与拖拽旋转交互。
+
+3D 第八批于 2026-11-24 收录 `kimi-k3.1-pro / max`，参考视口为 1280 × 800。原作通过 importmap 从 jsDelivr 加载 three.js 0.170.0 与 `three/addons` 版 OrbitControls；预览副本把锁定版本的 three.js 与 OrbitControls 打包为单条内联脚本并移除 importmap，原始归档按字节保留。在隔离预览中确认了首帧、动画与拖拽旋转交互。

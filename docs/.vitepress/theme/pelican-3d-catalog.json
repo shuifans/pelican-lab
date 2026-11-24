@@ -30,6 +30,10 @@
     {
       "id": "batch-007",
       "label": "第七批 3D"
+    },
+    {
+      "id": "batch-008",
+      "label": "第八批 3D"
     }
   ],
   "results": [
@@ -481,6 +485,41 @@
       },
       "previewKind": "webgl",
       "previewArtifactPath": "/playground/pelican-3d/assets/batch-007/batch-007-gemini4-carbon-high-b940cda9c2.preview.html.txt",
+      "previewDependencies": [
+        "three@0.170.0"
+      ]
+    },
+    {
+      "id": "batch-008-kimi-k3.1-pro-max-7d7ca9b204",
+      "modelId": "kimi-k3.1-pro",
+      "modelLabel": "kimi-k3.1-pro",
+      "reasoningEffort": "max",
+      "challengeId": "pelican-bicycle-3d",
+      "promptVersion": "v1",
+      "effortSource": "manual",
+      "batchId": "batch-008",
+      "runId": "7d7ca9b204",
+      "sourceFilename": "pelican-bicycle-3d-kimi-k3.1-pro-max.html",
+      "artifactPath": "/playground/pelican-3d/assets/batch-008/batch-008-kimi-k3.1-pro-max-7d7ca9b204.html.txt",
+      "thumbnailPath": "/playground/pelican-3d/assets/batch-008/batch-008-kimi-k3.1-pro-max-7d7ca9b204.webp",
+      "sha256": "7d7ca9b204d169ee456f5ae561c03d2de8593bca4001d4436673f145669b9c93",
+      "importedAt": "2026-11-24T14:15:23.043Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "browser": "Chrome headless (ANGLE/SwiftShader)",
+        "timing": "captured after scene initialization with animation running for about 6 s; animation phase varies",
+        "capturedOn": "2026-11-24"
+      },
+      "previewKind": "webgl",
+      "previewArtifactPath": "/playground/pelican-3d/assets/batch-008/batch-008-kimi-k3.1-pro-max-7d7ca9b204.preview.html.txt",
       "previewDependencies": [
         "three@0.170.0"
       ]
