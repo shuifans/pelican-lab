@@ -82,6 +82,10 @@
     {
       "id": "batch-020",
       "label": "第二十批"
+    },
+    {
+      "id": "batch-021",
+      "label": "第二十一批"
     }
   ],
   "results": [
@@ -1827,6 +1831,66 @@
         "browser": "Chromium (Google Chrome)",
         "timing": "captured after load with animation running for about 2.5 s; animation phase varies",
         "capturedOn": "2026-11-23"
+      }
+    },
+    {
+      "id": "batch-021-glm-5.4-max-c51d104a6b",
+      "modelId": "glm-5.4",
+      "reasoningEffort": "max",
+      "modelLabel": "glm-5.4",
+      "challengeId": "pelican-bicycle",
+      "promptVersion": "v1",
+      "effortSource": "filename",
+      "batchId": "batch-021",
+      "runId": "c51d104a6b",
+      "sourceFilename": "pelican-bicycle-glm-5.4-max.html",
+      "artifactPath": "/playground/pelican/assets/batch-021/batch-021-glm-5.4-max-c51d104a6b.html.txt",
+      "thumbnailPath": "/playground/pelican/assets/batch-021/batch-021-glm-5.4-max-c51d104a6b.webp",
+      "sha256": "c51d104a6ba5929461af6ec59cb28470af2352e0f9aed2a6f01edfe23b582ad6",
+      "importedAt": "2026-11-24T01:12:12.794Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "browser": "Chromium (Google Chrome)",
+        "timing": "captured after load with animation running for about 2.5 s; animation phase varies",
+        "capturedOn": "2026-11-24"
+      }
+    },
+    {
+      "id": "batch-021-qaudex-hungerg-max-1231b162b3",
+      "modelId": "qaudex-hungerg",
+      "reasoningEffort": "max",
+      "modelLabel": "qaudex-hungerg",
+      "challengeId": "pelican-bicycle",
+      "promptVersion": "v1",
+      "effortSource": "filename",
+      "batchId": "batch-021",
+      "runId": "1231b162b3",
+      "sourceFilename": "pelican-bicycle-qaudex-hungerg-max.html",
+      "artifactPath": "/playground/pelican/assets/batch-021/batch-021-qaudex-hungerg-max-1231b162b3.html.txt",
+      "thumbnailPath": "/playground/pelican/assets/batch-021/batch-021-qaudex-hungerg-max-1231b162b3.webp",
+      "sha256": "1231b162b38cb8a437c8f907d061c46dee1a9f70e6492d5afbdc89153023a6f5",
+      "importedAt": "2026-11-24T01:12:12.794Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 884
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 884
+        },
+        "browser": "Chromium (Google Chrome)",
+        "timing": "captured after load with animation running for about 2.5 s; animation phase varies",
+        "capturedOn": "2026-11-24"
       }
     }
   ]

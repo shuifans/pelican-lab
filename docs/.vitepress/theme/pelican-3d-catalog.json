@@ -22,6 +22,10 @@
     {
       "id": "batch-005",
       "label": "第五批 3D"
+    },
+    {
+      "id": "batch-006",
+      "label": "第六批 3D"
     }
   ],
   "results": [
@@ -368,6 +372,76 @@
       },
       "previewKind": "webgl",
       "previewArtifactPath": "/playground/pelican-3d/assets/batch-005/batch-005-gemini4-orchestrator-neon-hydrogen-xhigh-2d885ceb9e.preview.html.txt",
+      "previewDependencies": [
+        "three@0.170.0"
+      ]
+    },
+    {
+      "id": "batch-006-glm-5.4-max-465f3e0f90",
+      "modelId": "glm-5.4",
+      "modelLabel": "glm-5.4",
+      "reasoningEffort": "max",
+      "challengeId": "pelican-bicycle-3d",
+      "promptVersion": "v1",
+      "effortSource": "manual",
+      "batchId": "batch-006",
+      "runId": "465f3e0f90",
+      "sourceFilename": "pelican-bicycle-3d-glm-5.4-max.html",
+      "artifactPath": "/playground/pelican-3d/assets/batch-006/batch-006-glm-5.4-max-465f3e0f90.html.txt",
+      "thumbnailPath": "/playground/pelican-3d/assets/batch-006/batch-006-glm-5.4-max-465f3e0f90.webp",
+      "sha256": "465f3e0f90d1aee0accff69fa76d64a2a6c21b41fd7ae38410c0f81a33331bb5",
+      "importedAt": "2026-11-24T01:14:39.404Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "browser": "Chrome headless (ANGLE/SwiftShader)",
+        "timing": "captured after scene initialization with animation running for about 6 s; animation phase varies",
+        "capturedOn": "2026-11-24"
+      },
+      "previewKind": "webgl",
+      "previewArtifactPath": "/playground/pelican-3d/assets/batch-006/batch-006-glm-5.4-max-465f3e0f90.preview.html.txt",
+      "previewDependencies": [
+        "three@0.160.0"
+      ]
+    },
+    {
+      "id": "batch-006-qaudex-hungerg-max-695cc34d03",
+      "modelId": "qaudex-hungerg",
+      "modelLabel": "qaudex-hungerg",
+      "reasoningEffort": "max",
+      "challengeId": "pelican-bicycle-3d",
+      "promptVersion": "v1",
+      "effortSource": "manual",
+      "batchId": "batch-006",
+      "runId": "695cc34d03",
+      "sourceFilename": "pelican-bicycle-3d-qaudex-HungerG-max.html",
+      "artifactPath": "/playground/pelican-3d/assets/batch-006/batch-006-qaudex-hungerg-max-695cc34d03.html.txt",
+      "thumbnailPath": "/playground/pelican-3d/assets/batch-006/batch-006-qaudex-hungerg-max-695cc34d03.webp",
+      "sha256": "695cc34d03402b7b601a74b855e14a8f79d8048cba36ef935b883b99ebfd1723",
+      "importedAt": "2026-11-24T01:14:39.404Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "browser": "Chrome headless (ANGLE/SwiftShader)",
+        "timing": "captured after scene initialization with animation running for about 6 s; animation phase varies",
+        "capturedOn": "2026-11-24"
+      },
+      "previewKind": "webgl",
+      "previewArtifactPath": "/playground/pelican-3d/assets/batch-006/batch-006-qaudex-hungerg-max-695cc34d03.preview.html.txt",
       "previewDependencies": [
         "three@0.170.0"
       ]
