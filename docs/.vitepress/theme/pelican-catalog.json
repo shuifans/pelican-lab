@@ -723,66 +723,6 @@
       }
     },
     {
-      "id": "batch-006-qaudex-efficient-261019-default-8b4ece99e6",
-      "modelId": "qaudex-efficient-261019",
-      "reasoningEffort": "default",
-      "modelLabel": "qaudex-efficient-261019",
-      "challengeId": "pelican-bicycle",
-      "promptVersion": "v1",
-      "effortSource": "filename",
-      "batchId": "batch-006",
-      "runId": "8b4ece99e6",
-      "sourceFilename": "pelican-bicycle-qaudex-efficient-261019-default.html",
-      "artifactPath": "/playground/pelican/assets/batch-006/batch-006-qaudex-efficient-261019-default-8b4ece99e6.html.txt",
-      "thumbnailPath": "/playground/pelican/assets/batch-006/batch-006-qaudex-efficient-261019-default-8b4ece99e6.webp",
-      "sha256": "8b4ece99e6df02f86d95dcb01f01c5fb31f492a6fb50c8a34d2a056aea69e8aa",
-      "importedAt": "2026-10-19T00:54:42.261Z",
-      "testedAt": null,
-      "previewViewport": {
-        "width": 1280,
-        "height": 800
-      },
-      "capture": {
-        "viewport": {
-          "width": 1280,
-          "height": 800
-        },
-        "browser": "Chromium (Google Chrome)",
-        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
-        "capturedOn": "2026-10-19"
-      }
-    },
-    {
-      "id": "batch-006-qaudex-fast-261019-default-f6808fdf49",
-      "modelId": "qaudex-fast-261019",
-      "reasoningEffort": "default",
-      "modelLabel": "qaudex-fast-261019",
-      "challengeId": "pelican-bicycle",
-      "promptVersion": "v1",
-      "effortSource": "filename",
-      "batchId": "batch-006",
-      "runId": "f6808fdf49",
-      "sourceFilename": "pelican-bicycle-qaudex-fast-261019-default.html",
-      "artifactPath": "/playground/pelican/assets/batch-006/batch-006-qaudex-fast-261019-default-f6808fdf49.html.txt",
-      "thumbnailPath": "/playground/pelican/assets/batch-006/batch-006-qaudex-fast-261019-default-f6808fdf49.webp",
-      "sha256": "f6808fdf490a992a4fe4b7a263aec406d1fdca24f0157919da1c360b58acb927",
-      "importedAt": "2026-10-19T00:54:42.261Z",
-      "testedAt": null,
-      "previewViewport": {
-        "width": 1280,
-        "height": 800
-      },
-      "capture": {
-        "viewport": {
-          "width": 1280,
-          "height": 800
-        },
-        "browser": "Chromium (Google Chrome)",
-        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
-        "capturedOn": "2026-10-19"
-      }
-    },
-    {
       "id": "batch-006-qaudex-ultimate-261019-xhigh-ef8605638a",
       "modelId": "qaudex-ultimate-261019",
       "reasoningEffort": "xhigh",
@@ -977,36 +917,6 @@
       "thumbnailPath": "/playground/pelican/assets/batch-008/batch-008-kimi-k3.1-pro-max-a3f1e2b3b3.webp",
       "sha256": "a3f1e2b3b3532e9b7071b153b6bc000a5a4a1b96ec27342b8df572324c10d0f3",
       "importedAt": "2026-10-24T02:46:05.248Z",
-      "testedAt": null,
-      "previewViewport": {
-        "width": 1280,
-        "height": 800
-      },
-      "capture": {
-        "viewport": {
-          "width": 1280,
-          "height": 800
-        },
-        "browser": "Chromium (Google Chrome)",
-        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
-        "capturedOn": "2026-10-24"
-      }
-    },
-    {
-      "id": "batch-009-qaudex-cantus-261019-xhigh-8467b2b3fb",
-      "modelId": "qaudex-cantus-261019",
-      "reasoningEffort": "xhigh",
-      "modelLabel": "qaudex-cantus-261019",
-      "challengeId": "pelican-bicycle",
-      "promptVersion": "v1",
-      "effortSource": "filename",
-      "batchId": "batch-009",
-      "runId": "8467b2b3fb",
-      "sourceFilename": "pelican-bicycle-qaudex-cantus-261019-xhigh.html",
-      "artifactPath": "/playground/pelican/assets/batch-009/batch-009-qaudex-cantus-261019-xhigh-8467b2b3fb.html.txt",
-      "thumbnailPath": "/playground/pelican/assets/batch-009/batch-009-qaudex-cantus-261019-xhigh-8467b2b3fb.webp",
-      "sha256": "8467b2b3fb9360c59809565fb9bc3d2fbe119effe36a6b3dbcc7c306d1ad7f23",
-      "importedAt": "2026-10-24T10:09:32.727Z",
       "testedAt": null,
       "previewViewport": {
         "width": 1280,
@@ -1737,36 +1647,6 @@
         "viewport": {
           "width": 1280,
           "height": 800
-        },
-        "browser": "Chromium (Google Chrome)",
-        "timing": "captured after load with animation running for about 2.5 s; animation phase varies",
-        "capturedOn": "2026-11-24"
-      }
-    },
-    {
-      "id": "batch-021-qaudex-hungerg-max-1231b162b3",
-      "modelId": "qaudex-hungerg",
-      "reasoningEffort": "max",
-      "modelLabel": "qaudex-hungerg",
-      "challengeId": "pelican-bicycle",
-      "promptVersion": "v1",
-      "effortSource": "filename",
-      "batchId": "batch-021",
-      "runId": "1231b162b3",
-      "sourceFilename": "pelican-bicycle-qaudex-hungerg-max.html",
-      "artifactPath": "/playground/pelican/assets/batch-021/batch-021-qaudex-hungerg-max-1231b162b3.html.txt",
-      "thumbnailPath": "/playground/pelican/assets/batch-021/batch-021-qaudex-hungerg-max-1231b162b3.webp",
-      "sha256": "1231b162b38cb8a437c8f907d061c46dee1a9f70e6492d5afbdc89153023a6f5",
-      "importedAt": "2026-11-24T01:12:12.794Z",
-      "testedAt": null,
-      "previewViewport": {
-        "width": 1280,
-        "height": 884
-      },
-      "capture": {
-        "viewport": {
-          "width": 1280,
-          "height": 884
         },
         "browser": "Chromium (Google Chrome)",
         "timing": "captured after load with animation running for about 2.5 s; animation phase varies",

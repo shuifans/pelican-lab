@@ -420,41 +420,6 @@
       ]
     },
     {
-      "id": "batch-006-qaudex-hungerg-max-695cc34d03",
-      "modelId": "qaudex-hungerg",
-      "modelLabel": "qaudex-hungerg",
-      "reasoningEffort": "max",
-      "challengeId": "pelican-bicycle-3d",
-      "promptVersion": "v1",
-      "effortSource": "manual",
-      "batchId": "batch-006",
-      "runId": "695cc34d03",
-      "sourceFilename": "pelican-bicycle-3d-qaudex-HungerG-max.html",
-      "artifactPath": "/playground/pelican-3d/assets/batch-006/batch-006-qaudex-hungerg-max-695cc34d03.html.txt",
-      "thumbnailPath": "/playground/pelican-3d/assets/batch-006/batch-006-qaudex-hungerg-max-695cc34d03.webp",
-      "sha256": "695cc34d03402b7b601a74b855e14a8f79d8048cba36ef935b883b99ebfd1723",
-      "importedAt": "2026-11-24T01:14:39.404Z",
-      "testedAt": null,
-      "previewViewport": {
-        "width": 1280,
-        "height": 800
-      },
-      "capture": {
-        "viewport": {
-          "width": 1280,
-          "height": 800
-        },
-        "browser": "Chrome headless (ANGLE/SwiftShader)",
-        "timing": "captured after scene initialization with animation running for about 6 s; animation phase varies",
-        "capturedOn": "2026-11-24"
-      },
-      "previewKind": "webgl",
-      "previewArtifactPath": "/playground/pelican-3d/assets/batch-006/batch-006-qaudex-hungerg-max-695cc34d03.preview.html.txt",
-      "previewDependencies": [
-        "three@0.170.0"
-      ]
-    },
-    {
       "id": "batch-007-gemini4-carbon-high-b940cda9c2",
       "modelId": "gemini4-carbon",
       "modelLabel": "gemini4-carbon",

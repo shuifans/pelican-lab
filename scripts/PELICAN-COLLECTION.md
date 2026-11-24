@@ -34,13 +34,13 @@
 
 第五批于 2026-10-17 收录 `deepseek-v4.1-flash-1017 / max`，参考视口为 1280 × 800。原作没有外链脚本或样式，页面在该视口内完整展示，直接使用原始归档预览。
 
-第六批于 2026-10-19 收录 `qaudex-fast-261019 / default`、`qaudex-efficient-261019 / default` 与 `qaudex-ultimate-261019 / xhigh`。fast 与 efficient 的参考视口为 1280 × 800，ultimate 为 1280 × 1029，以便页脚完整显示。三份原作没有外链脚本或样式，直接使用原始归档预览。`default` 不表示推理强度。三个模型标识的版本后缀补充年份前缀，由 `-1019` 改为 `-261019`，HTML 字节不变；`261019` 是 2026-10-19 的模型版本标识，不表示测试时间。
+第六批于 2026-10-19 收录 `qaudex-fast-261019 / default`、`qaudex-efficient-261019 / default` 与 `qaudex-ultimate-261019 / xhigh`。fast 与 efficient 的参考视口为 1280 × 800，ultimate 为 1280 × 1029，以便页脚完整显示。三份原作没有外链脚本或样式，直接使用原始归档预览。`default` 不表示推理强度。三个模型标识的版本后缀补充年份前缀，由 `-1019` 改为 `-261019`，HTML 字节不变；`261019` 是 2026-10-19 的模型版本标识，不表示测试时间。`qaudex-fast-261019` 与 `qaudex-efficient-261019` 已于 2026-11-24 按要求撤回，仅保留 `qaudex-ultimate-261019`。
 
 第七批于 2026-10-20 收录 `mimo-v2.6-pro / default`、`step5-preview / high` 与 `minimax-m3.1-flash / default`，参考视口均为 1280 × 800。三份原作没有外链脚本或样式，页面在该视口内完整展示，直接使用原始归档预览。`mimo-v2.6-pro` 与 `minimax-m3.1-flash` 的源文件名末段属于模型名，导入副本补上 `default`，HTML 字节不变。源文件 `pelican-bicycle-mimimax-m3.1-flash.html` 按模型名 `minimax-m3.1-flash` 收录。`default` 不表示推理强度。
 
 第八批于 2026-10-24 收录 `deepseek-v4-pro-0813 / max`、`kimi-k2.8-preview / max` 与 `kimi-k3.1-pro / max`，参考视口均为 1280 × 800。三份原作没有外链脚本或样式，直接使用原始归档预览。
 
-第九批于 2026-10-24 收录 `qaudex-cantus-261019 / xhigh` 与 `qaudex-sonus-261019 / xhigh`。`qaudex-cantus-261019` 的参考视口为 1280 × 800；`qaudex-sonus-261019` 为 1280 × 1068，用于完整展示包含页头、控制栏与页脚的整页内容。两份原作没有外链脚本或样式，直接使用原始归档预览。两个模型标识的版本后缀补充年份前缀，由 `-1019` 改为 `-261019`，HTML 字节不变；`261019` 是 2026-10-19 的模型版本标识，不表示测试时间。
+第九批于 2026-10-24 收录 `qaudex-cantus-261019 / xhigh` 与 `qaudex-sonus-261019 / xhigh`。`qaudex-cantus-261019` 的参考视口为 1280 × 800；`qaudex-sonus-261019` 为 1280 × 1068，用于完整展示包含页头、控制栏与页脚的整页内容。两份原作没有外链脚本或样式，直接使用原始归档预览。两个模型标识的版本后缀补充年份前缀，由 `-1019` 改为 `-261019`，HTML 字节不变；`261019` 是 2026-10-19 的模型版本标识，不表示测试时间。`qaudex-cantus-261019` 已于 2026-11-24 撤回：cantus 同模型只保留最新版本 `qaudex-cantus-261117`；`qaudex-sonus-261019` 保留。
 
 第十批于 2026-10-27 收录 `gpt6.1-terra / max`，参考视口为 1280 × 889，用于完整展示页面自身的内容区域。原作没有外链脚本或样式，直接使用原始归档预览。
 
@@ -64,7 +64,7 @@
 
 第二十批于 2026-11-23 收录 `gemini4-argon / high`、`gemini4-hydrogen / xhigh` 与 `gemini4-neon / xhigh`。`gemini4-hydrogen-xhigh` 的参考视口为 1280 × 807，用于完整展示页面底部的控制栏；其余两份为 1280 × 800。三份原作没有外链脚本或样式，直接使用原始归档预览。
 
-第二十一批于 2026-11-24 收录 `glm-5.4 / max` 与 `qaudex-hungerg / max`。`qaudex-hungerg-max` 的参考视口为 1280 × 884，用于完整展示页面底部的控制栏；`glm-5.4-max` 为 1280 × 800。两份原作没有外链脚本或样式，直接使用原始归档预览。源文件名 `pelican-bicycle-qaudex-HungerG-max.html` 的模型标识按小写规范统一为 `qaudex-hungerg`，HTML 字节不变。
+第二十一批于 2026-11-24 收录 `glm-5.4 / max` 与 `qaudex-hungerg / max`。`qaudex-hungerg-max` 的参考视口为 1280 × 884，用于完整展示页面底部的控制栏；`glm-5.4-max` 为 1280 × 800。两份原作没有外链脚本或样式，直接使用原始归档预览。源文件名 `pelican-bicycle-qaudex-HungerG-max.html` 的模型标识按小写规范统一为 `qaudex-hungerg`，HTML 字节不变。`qaudex-hungerg-max` 已于 2026-11-24 按要求撤回（qaudex 仅保留 ultimate、sonus 与 cantus）。
 
 第二十二批于 2026-11-24 收录 `gemini4-carbon / high`，参考视口为 1280 × 800。原作没有外链脚本或样式，页面在该视口内完整展示，直接使用原始归档预览。
 
@@ -76,7 +76,7 @@
 
 3D 第五批于 2026-11-21 收录 agy 编排的 `gemini4-orchestrator`：Orchestrator Model 为 `gemini4-neon / xhigh`，Executor Model 为 `gemini4-hydrogen / xhigh`，按组合记为 `gemini4-orchestrator-neon-hydrogen / xhigh`，展示名 `gemini4-orchestrator [neon+hydrogen]`，参考视口为 1280 × 800。原作源文件名为 `pelican-bicycle-3d-gemini4-orchestrator-[neon+hydrogen]-xhigh.html`。原作通过 importmap 从 jsDelivr 加载 three.js 0.170.0、OrbitControls 与 RoomEnvironment addon，预览副本把锁定版本的 three.js 与两个 addon 打包为单条内联脚本，原始归档按字节保留；在隔离预览中确认了首帧、跨时刻运动与拖拽旋转交互。
 
-3D 第六批于 2026-11-24 收录 `glm-5.4 / max` 与 `qaudex-hungerg / max`，参考视口均为 1280 × 800。`glm-5.4` 通过 importmap 从 unpkg 加载 three.js 0.160.0，`qaudex-hungerg` 通过 importmap 从 jsDelivr 加载 three.js 0.170.0，两者都使用 `three/addons` 版 OrbitControls；预览副本把锁定版本的 three.js 与 OrbitControls 打包为单条内联脚本并移除 importmap，原始归档按字节保留。源文件名 `pelican-bicycle-3d-qaudex-HungerG-max.html` 的模型标识按小写规范统一为 `qaudex-hungerg`，HTML 字节不变。在隔离预览中确认了首帧、动画与拖拽旋转交互。
+3D 第六批于 2026-11-24 收录 `glm-5.4 / max` 与 `qaudex-hungerg / max`，参考视口均为 1280 × 800。`glm-5.4` 通过 importmap 从 unpkg 加载 three.js 0.160.0，`qaudex-hungerg` 通过 importmap 从 jsDelivr 加载 three.js 0.170.0，两者都使用 `three/addons` 版 OrbitControls；预览副本把锁定版本的 three.js 与 OrbitControls 打包为单条内联脚本并移除 importmap，原始归档按字节保留。源文件名 `pelican-bicycle-3d-qaudex-HungerG-max.html` 的模型标识按小写规范统一为 `qaudex-hungerg`，HTML 字节不变。在隔离预览中确认了首帧、动画与拖拽旋转交互。`qaudex-hungerg-max` 已于 2026-11-24 按要求撤回，本批仅保留 `glm-5.4-max`。
 
 3D 第七批于 2026-11-24 收录 `gemini4-carbon / high`，参考视口为 1280 × 800。原作通过 importmap 从 jsDelivr 加载 three.js 0.170.0、OrbitControls 与 EffectComposer、RenderPass、UnrealBloomPass、OutputPass 四个后处理 addon；预览副本把锁定版本的 three.js 与全部 addon 打包为单条内联脚本并移除 importmap，原始归档按字节保留。在隔离预览中确认了首帧、动画与拖拽旋转交互。
 
