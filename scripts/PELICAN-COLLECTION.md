@@ -66,6 +66,8 @@
 
 第二十一批于 2026-11-24 收录 `glm-5.4 / max` 与 `qaudex-hungerg / max`。`qaudex-hungerg-max` 的参考视口为 1280 × 884，用于完整展示页面底部的控制栏；`glm-5.4-max` 为 1280 × 800。两份原作没有外链脚本或样式，直接使用原始归档预览。源文件名 `pelican-bicycle-qaudex-HungerG-max.html` 的模型标识按小写规范统一为 `qaudex-hungerg`，HTML 字节不变。
 
+第二十二批于 2026-11-24 收录 `gemini4-carbon / high`，参考视口为 1280 × 800。原作没有外链脚本或样式，页面在该视口内完整展示，直接使用原始归档预览。
+
 3D 第二批于 2026-11-18 收录 `hy4-flash / high`、`hy4 / high`、`qwen4-max / high` 与 `qwen4-max / xhigh`，参考视口均为 1280 × 800。四份原作都从 CDN 加载 three.js：前三份为 0.160.0，`qwen4-max / xhigh` 为 0.161.0 并引用 Google Fonts。预览副本把锁定版本的内联实现写入 `<id>.preview.html.txt`，原始归档按字节保留。`qwen4-max / high` 已于 2026-11-23 按要求移除，仅保留 `qwen4-max / xhigh`。
 
 3D 第三批于 2026-11-20 收录 `qaudex-cantus-261120 / xhigh`，参考视口为 1280 × 800。原作源文件名为 `pelican-bike-qaudex-cantus-261120.html`，不含 effort 段；清单按测试记录补全 `qaudex-cantus-261120 / xhigh`，HTML 字节不变。原作从 CDN 动态加载 three.js 0.160.0（jsDelivr，失败回退 unpkg），预览副本把锁定版本的内联实现写入 `<id>.preview.html.txt`，并在初始化时同步渲染一次首帧，保证隔离预览在没有动画帧回调的场景下也能显示画面；原始归档按字节保留。

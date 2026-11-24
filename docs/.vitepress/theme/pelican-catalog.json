@@ -86,6 +86,10 @@
     {
       "id": "batch-021",
       "label": "第二十一批"
+    },
+    {
+      "id": "batch-022",
+      "label": "第二十二批"
     }
   ],
   "results": [
@@ -1887,6 +1891,36 @@
         "viewport": {
           "width": 1280,
           "height": 884
+        },
+        "browser": "Chromium (Google Chrome)",
+        "timing": "captured after load with animation running for about 2.5 s; animation phase varies",
+        "capturedOn": "2026-11-24"
+      }
+    },
+    {
+      "id": "batch-022-gemini4-carbon-high-496ef0b7f8",
+      "modelId": "gemini4-carbon",
+      "reasoningEffort": "high",
+      "modelLabel": "gemini4-carbon",
+      "challengeId": "pelican-bicycle",
+      "promptVersion": "v1",
+      "effortSource": "filename",
+      "batchId": "batch-022",
+      "runId": "496ef0b7f8",
+      "sourceFilename": "pelican-bicycle-gemini4-carbon-high.html",
+      "artifactPath": "/playground/pelican/assets/batch-022/batch-022-gemini4-carbon-high-496ef0b7f8.html.txt",
+      "thumbnailPath": "/playground/pelican/assets/batch-022/batch-022-gemini4-carbon-high-496ef0b7f8.webp",
+      "sha256": "496ef0b7f8b8867ce073b53056abc7916296f168d2a25f00709b9210e1e47600",
+      "importedAt": "2026-11-24T12:37:04.872Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
         },
         "browser": "Chromium (Google Chrome)",
         "timing": "captured after load with animation running for about 2.5 s; animation phase varies",
