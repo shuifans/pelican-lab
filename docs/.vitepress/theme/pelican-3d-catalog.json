@@ -26,6 +26,10 @@
     {
       "id": "batch-006",
       "label": "第六批 3D"
+    },
+    {
+      "id": "batch-007",
+      "label": "第七批 3D"
     }
   ],
   "results": [
@@ -442,6 +446,41 @@
       },
       "previewKind": "webgl",
       "previewArtifactPath": "/playground/pelican-3d/assets/batch-006/batch-006-qaudex-hungerg-max-695cc34d03.preview.html.txt",
+      "previewDependencies": [
+        "three@0.170.0"
+      ]
+    },
+    {
+      "id": "batch-007-gemini4-carbon-high-b940cda9c2",
+      "modelId": "gemini4-carbon",
+      "modelLabel": "gemini4-carbon",
+      "reasoningEffort": "high",
+      "challengeId": "pelican-bicycle-3d",
+      "promptVersion": "v1",
+      "effortSource": "manual",
+      "batchId": "batch-007",
+      "runId": "b940cda9c2",
+      "sourceFilename": "pelican-bicycle-3d-gemini4-carbon-high.html",
+      "artifactPath": "/playground/pelican-3d/assets/batch-007/batch-007-gemini4-carbon-high-b940cda9c2.html.txt",
+      "thumbnailPath": "/playground/pelican-3d/assets/batch-007/batch-007-gemini4-carbon-high-b940cda9c2.webp",
+      "sha256": "b940cda9c213db0052908e49803f8d92f42667d900ed161a04e0641b1730560e",
+      "importedAt": "2026-11-24T12:34:43.556Z",
+      "testedAt": null,
+      "previewViewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "capture": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "browser": "Chrome headless (ANGLE/SwiftShader)",
+        "timing": "captured after scene initialization with animation running for about 6 s; animation phase varies",
+        "capturedOn": "2026-11-24"
+      },
+      "previewKind": "webgl",
+      "previewArtifactPath": "/playground/pelican-3d/assets/batch-007/batch-007-gemini4-carbon-high-b940cda9c2.preview.html.txt",
       "previewDependencies": [
         "three@0.170.0"
       ]
