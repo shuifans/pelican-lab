@@ -52,10 +52,6 @@
       "label": "第十二批"
     },
     {
-      "id": "batch-013",
-      "label": "第十三批"
-    },
-    {
       "id": "batch-014",
       "label": "第十四批"
     },
@@ -1205,126 +1201,6 @@
         "browser": "Chromium (Google Chrome)",
         "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
         "capturedOn": "2026-11-04"
-      }
-    },
-    {
-      "id": "batch-013-qwenwork-deepseek-v4.1-flash-default-6334e7f801",
-      "modelId": "qwenwork-deepseek-v4.1-flash",
-      "reasoningEffort": "default",
-      "modelLabel": "qwenwork-deepseek-v4.1-flash",
-      "challengeId": "pelican-bicycle",
-      "promptVersion": "v1",
-      "effortSource": "filename",
-      "batchId": "batch-013",
-      "runId": "6334e7f801",
-      "sourceFilename": "pelican-bicycle-qwenwork-deepseek-v4.1-flash-default.html",
-      "artifactPath": "/playground/pelican/assets/batch-013/batch-013-qwenwork-deepseek-v4.1-flash-default-6334e7f801.html.txt",
-      "thumbnailPath": "/playground/pelican/assets/batch-013/batch-013-qwenwork-deepseek-v4.1-flash-default-6334e7f801.webp",
-      "sha256": "6334e7f80188fbfe52dae321bab82d1cae86804f0ac9dde7784c2e84ca0550ef",
-      "importedAt": "2026-11-05T00:46:23.363Z",
-      "testedAt": null,
-      "previewViewport": {
-        "width": 1280,
-        "height": 800
-      },
-      "capture": {
-        "viewport": {
-          "width": 1280,
-          "height": 800
-        },
-        "browser": "Chromium (Google Chrome)",
-        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
-        "capturedOn": "2026-11-05"
-      }
-    },
-    {
-      "id": "batch-013-qwenwork-pro-20261105-default-edec7b6b6a",
-      "modelId": "qwenwork-pro-20261105",
-      "reasoningEffort": "default",
-      "modelLabel": "qwenwork-pro-20261105",
-      "challengeId": "pelican-bicycle",
-      "promptVersion": "v1",
-      "effortSource": "filename",
-      "batchId": "batch-013",
-      "runId": "edec7b6b6a",
-      "sourceFilename": "pelican-bicycle-qwenwork-pro-20261105-default.html",
-      "artifactPath": "/playground/pelican/assets/batch-013/batch-013-qwenwork-pro-20261105-default-edec7b6b6a.html.txt",
-      "thumbnailPath": "/playground/pelican/assets/batch-013/batch-013-qwenwork-pro-20261105-default-edec7b6b6a.webp",
-      "sha256": "edec7b6b6abab7a586ed849bc7442adc56d58a02d08a717dd0763034fcf5c5cc",
-      "importedAt": "2026-11-05T00:46:23.363Z",
-      "testedAt": null,
-      "previewViewport": {
-        "width": 1280,
-        "height": 800
-      },
-      "capture": {
-        "viewport": {
-          "width": 1280,
-          "height": 800
-        },
-        "browser": "Chromium (Google Chrome)",
-        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
-        "capturedOn": "2026-11-05"
-      }
-    },
-    {
-      "id": "batch-013-qwenwork-standard-20261105-default-d7c625ec3a",
-      "modelId": "qwenwork-standard-20261105",
-      "reasoningEffort": "default",
-      "modelLabel": "qwenwork-standard-20261105",
-      "challengeId": "pelican-bicycle",
-      "promptVersion": "v1",
-      "effortSource": "filename",
-      "batchId": "batch-013",
-      "runId": "d7c625ec3a",
-      "sourceFilename": "pelican-bicycle-qwenwork-standard-20261105-default.html",
-      "artifactPath": "/playground/pelican/assets/batch-013/batch-013-qwenwork-standard-20261105-default-d7c625ec3a.html.txt",
-      "thumbnailPath": "/playground/pelican/assets/batch-013/batch-013-qwenwork-standard-20261105-default-d7c625ec3a.webp",
-      "sha256": "d7c625ec3a3a74bca69216d02e10fa80fc41a2820ed73d6757e56190bfb9d668",
-      "importedAt": "2026-11-05T00:46:23.363Z",
-      "testedAt": null,
-      "previewViewport": {
-        "width": 1280,
-        "height": 800
-      },
-      "capture": {
-        "viewport": {
-          "width": 1280,
-          "height": 800
-        },
-        "browser": "Chromium (Google Chrome)",
-        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
-        "capturedOn": "2026-11-05"
-      }
-    },
-    {
-      "id": "batch-013-qwenwork-ultra-20261105-default-b68d7e9905",
-      "modelId": "qwenwork-ultra-20261105",
-      "reasoningEffort": "default",
-      "modelLabel": "qwenwork-ultra-20261105",
-      "challengeId": "pelican-bicycle",
-      "promptVersion": "v1",
-      "effortSource": "filename",
-      "batchId": "batch-013",
-      "runId": "b68d7e9905",
-      "sourceFilename": "pelican-bicycle-qwenwork-ultra-20261105-default.html",
-      "artifactPath": "/playground/pelican/assets/batch-013/batch-013-qwenwork-ultra-20261105-default-b68d7e9905.html.txt",
-      "thumbnailPath": "/playground/pelican/assets/batch-013/batch-013-qwenwork-ultra-20261105-default-b68d7e9905.webp",
-      "sha256": "b68d7e99050ad0ae7b889c712e0532aa00612648c1f5d614a8e5011011d005cc",
-      "importedAt": "2026-11-05T00:46:23.363Z",
-      "testedAt": null,
-      "previewViewport": {
-        "width": 1280,
-        "height": 1042
-      },
-      "capture": {
-        "viewport": {
-          "width": 1280,
-          "height": 1042
-        },
-        "browser": "Chromium (Google Chrome)",
-        "timing": "first rendered frame after navigation and DOM snapshot; animation phase varies",
-        "capturedOn": "2026-11-05"
       }
     },
     {
