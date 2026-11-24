@@ -52,6 +52,7 @@ const allModels = [...new Set(catalog.results.map(result => result.modelId))].so
 const availableEfforts = EFFORT_ORDER.filter(effort => catalog.results.some(result => result.reasoningEffort === effort))
 const shown = computed<Result[]>(() => filterResults(catalog.results, { models: models.value, efforts: efforts.value, sort: sort.value }))
 const modelOptions = computed(() => allModels.filter(model => model.toLowerCase().includes(modelSearch.value.trim().toLowerCase())))
+const filteredAllSelected = computed(() => modelOptions.value.length > 0 && modelOptions.value.every(model => models.value.includes(model)))
 const hasFilters = computed(() => models.value.length > 0 || efforts.value.length > 0)
 const modelLabel = computed(() => models.value.length === 1 ? models.value[0] : models.value.length ? `已选 ${models.value.length} 个模型` : '全部模型')
 const detailIndex = computed(() => detail.value ? shown.value.findIndex(result => result.id === detail.value!.id) : -1)
@@ -80,6 +81,7 @@ function restoreFilters() {
   nextTick(observeCards)
 }
 function clearFilters() { applyFilters({ models: [], efforts: [], sort: 'model' }); modelSearch.value = ''; if (modelMenu.value?.open) modelMenu.value.open = false }
+function selectFilteredModels() { applyFilters({ models: [...new Set([...models.value, ...modelOptions.value])] }) }
 function observeCards() {
   visibility?.disconnect()
   visibleIds.value = new Set()
@@ -206,6 +208,7 @@ onBeforeUnmount(() => {
           <div class="model-options">
             <label class="model-search"><span class="vpi-search" aria-hidden="true"></span><input v-model="modelSearch" type="search" placeholder="搜索模型名称" aria-label="搜索模型名称" /></label>
             <button type="button" class="all-models" @click="applyFilters({ models: [] })">全部模型<span>{{ catalog.results.length }}</span></button>
+            <button v-if="modelSearch.trim() && modelOptions.length" type="button" class="select-filtered" :disabled="filteredAllSelected" :aria-label="`全选当前筛选出的 ${modelOptions.length} 个模型`" @click="selectFilteredModels"><span>{{ filteredAllSelected ? '筛选结果已全选' : '全选筛选结果' }}</span><span>{{ modelOptions.length }}</span></button>
             <div class="model-list">
               <label v-for="model in modelOptions" :key="model"><input type="checkbox" :checked="models.includes(model)" @change="applyFilters({ models: toggle(models, model) })" /><span>{{ model }}</span><small>{{ modelCount(model) }}</small></label>
               <p v-if="!modelOptions.length" class="no-models">没有找到这个模型</p>
@@ -290,6 +293,8 @@ summary::-webkit-details-marker { display: none; }
 .model-list input { accent-color: var(--coast-accent); width: 15px; height: 15px; }
 .model-list small { margin-left: auto; color: var(--coast-muted); }
 .all-models { display: flex; justify-content: space-between; width: 100%; font-size: 13px; padding: 10px 6px; margin-top: 6px; color: var(--coast-accent); }
+.select-filtered { display: flex; justify-content: space-between; align-items: center; gap: 10px; width: 100%; margin-top: 6px; padding: 9px 8px; border: 1px solid var(--coast-line); border-radius: 8px; background: var(--coast-wash); font-size: 13px; color: var(--coast-accent); }
+.select-filtered:hover:not(:disabled) { border-color: var(--coast-accent); }
 .model-footer { display: flex; margin-top: 8px; border-top: 1px solid var(--coast-line); }
 .model-footer button { flex: 1; min-height: 38px; padding: 8px; font-size: 13px; color: var(--coast-accent); }
 .model-footer button + button { border-left: 1px solid var(--coast-line); }
